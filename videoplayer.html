@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Video Player</title>
+	<style type="text/css">
+		
+		* {margin:0; padding:0;}
+		body {margin:50px 0 25px 50px; background-color:#fff;}
+		
+	</style>
+	<script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	
+		var flashVars = {
+			url:'media/video.mp4', 
+			poster:'media/poster.jpg', // default: null
+			autoplay:'false', // default: false
+			buffertime:'10', // default: 10
+			border:'true'// default: false
+		};
+		
+		var params = {
+			allowFullScreen:'true', 
+			menu:'false'
+		};
+		
+		var attributes = {
+			id:'videoplayer', 
+			name:'videoplayer'
+		};
+		
+		swfobject.embedSWF('videoplayer.swf', 'videoplayer', '720', '480', '10.0.0', null, flashVars, params, attributes);
+		
+	</script>
+</head>
+<body>
+	<div id="videoplayer">
+		<video width="720" height="480" controls="controls">
+			<source src="media/video.mp4" type="video/mp4"></source>
+		</video>
+	</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Audio Player</title>
+	<style type="text/css">
+		
+		* {margin:0; padding:0;}
+		body {margin:50px 0 25px 50px; background-color:#fff;}
+		
+	</style>
+	<script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	
+		var flashVars = {
+			url:'media/audio.mp3', 
+			autoplay:'false', // default: false
+			bgcolor:'#666666' // default: null
+		};
+		
+		var params = { 
+			menu:'false',
+			bgcolor:'#ffffff'
+		};
+		
+		var attributes = {
+			id:'audioplayer', 
+			name:'audioplayer'
+		};
+		
+		swfobject.embedSWF('audioplayer.swf', 'audioplayer', '320', '70', '10.0.0', null, flashVars, params, attributes);
+		
+	</script>
+</head>
+<body>
+	<div id="audioplayer"></div>
+</body>
+</html>
