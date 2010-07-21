@@ -18,7 +18,8 @@
 			poster:'media/poster.jpg', // default: null
 			autoplay:'false', // default: false
 			buffertime:'10', // default: 10
-			border:'true'// default: false
+			border:'#000000',// default: null
+			logo:'media/logo.png'// default: null
 		};
 		
 		var params = {
@@ -37,8 +38,8 @@
 </head>
 <body>
 	<div id="videoplayer">
-		<video width="720" height="480" controls="controls">
-			<source src="media/video.mp4" type="video/mp4"></source>
+		<video src="media/video.mp4" width="720" height="480" controls="controls">
+			Your browser does not support video.
 		</video>
 	</div>
 </body>

@@ -1,7 +1,7 @@
 /**
  * AudioPlayer
- * Version: 1.1
- * Last modified on July 20, 2010
+ * Version: 1.2
+ * Last modified on July 21, 2010
  **/
 
 package com.squidfingers.widgets {
@@ -27,7 +27,7 @@ package com.squidfingers.widgets {
 		
 		protected var _audioURL:String;
 		protected var _autoPlay:Boolean;
-		protected var _bgColor:Number;
+		protected var _borderColor:Number;
 		
 		protected var _audio:AudioPlayback;
 		protected var _volume:Number;
@@ -38,7 +38,7 @@ package com.squidfingers.widgets {
 		// -------------------------------------------------------------------
 		
 		public var controller_mc:MovieClip;
-		public var bgColor_mc:MovieClip;
+		public var border_mc:MovieClip;
 		
 		// ===================================================================
 		// Constructor
@@ -52,24 +52,27 @@ package com.squidfingers.widgets {
 		// Public Methods
 		// -------------------------------------------------------------------
 		
-		public function load (p_audioURL:String, p_autoPlay:Boolean = false, p_bgColor:Number = NaN):void {
+		public function load (p_audioURL:String, p_autoPlay:Boolean = false, p_borderColor:Number = NaN):void {
 			
 			if (_initialized) dispose();
 			
 			// Save parameters
 			_audioURL = p_audioURL;
 			_autoPlay = p_autoPlay;
-			_bgColor = p_bgColor;
+			_borderColor = p_borderColor;
 			
 			// Initialize volume properties
 			_volume = 0.9;
 			_volumeRestore = _volume;
 			
-			// Setup background color
-			if (_bgColor) {
+			// Setup border
+			if (isNaN(_borderColor)) {
+				border_mc.visible = false;
+			} else {
+				border_mc.visible = true;
 				var c = new Color();
-				c.setTint(_bgColor, 1);
-				bgColor_mc.transform.colorTransform = c;
+				c.setTint(_borderColor, 1);
+				border_mc.transform.colorTransform = c;
 			}
 			
 			// Check for errors

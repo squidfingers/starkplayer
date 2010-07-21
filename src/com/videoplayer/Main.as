@@ -1,7 +1,7 @@
 /**
  * Main
- * Version: 1.0
- * Last modified on July 20, 2010
+ * Version: 1.1
+ * Last modified on July 21, 2010
  **/
 
 package com.videoplayer {
@@ -43,10 +43,25 @@ package com.videoplayer {
 			var autoPlay = root.loaderInfo.parameters.autoplay == 'true';
 			var bufferTime = root.loaderInfo.parameters.buffertime;
 			bufferTime = bufferTime ? parseInt(bufferTime) : null;
-			var border = root.loaderInfo.parameters.border == 'true';
+			var border = root.loaderInfo.parameters.border;
+			var logoURL = root.loaderInfo.parameters.logo;
+			
+			// Validate border
+			var borderColor = NaN;
+			if (border && border != 'false') {
+				trace('hasBorder');
+				if (border.charAt(0) == '#') {
+					border = border.substr(1, border.length);
+				}
+				if (border.length == 6) {
+					borderColor = parseInt(border, 16);
+				} else {
+					borderColor = 0x000000;
+				}
+			}
 			
 			// Load video
-			videoPlayer_mc.load(videoURL, stage.stageWidth, stage.stageHeight, posterURL, autoPlay, bufferTime, border);
+			videoPlayer_mc.load(videoURL, stage.stageWidth, stage.stageHeight, posterURL, autoPlay, bufferTime, borderColor, logoURL);
 		}
 		
 		// -------------------------------------------------------------------

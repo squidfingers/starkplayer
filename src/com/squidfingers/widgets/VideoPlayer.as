@@ -1,7 +1,7 @@
 /**
  * VideoPlayer
- * Version: 1.1
- * Last modified on July 19, 2010
+ * Version: 1.2
+ * Last modified on July 21, 2010
  **/
 
 package com.squidfingers.widgets {
@@ -25,6 +25,7 @@ package com.squidfingers.widgets {
 	import flash.net.URLRequest;
 	import flash.text.TextField;
 	import flash.ui.Mouse;
+	import fl.motion.Color;
 		
 	public class VideoPlayer extends MovieClip {
 		// ===================================================================
@@ -37,7 +38,8 @@ package com.squidfingers.widgets {
 		protected var _posterURL:String;
 		protected var _autoPlay:Boolean;
 		protected var _bufferTime:Number;
-		protected var _border:Boolean;
+		protected var _borderColor:Number;
+		protected var _logoURL:String;
 		
 		protected var _stageScaleMode:String;
 		protected var _stageAlign:String;
@@ -46,6 +48,8 @@ package com.squidfingers.widgets {
 		protected var _volume:Number;
 		protected var _volumeRestore:Number;
 		protected var _posterLoader:Loader;
+		protected var _logoLoader:Loader;
+		protected var _hasBorder:Boolean;
 		
 		protected var _screenWidth:Number;
 		protected var _screenHeight:Number;
@@ -59,6 +63,7 @@ package com.squidfingers.widgets {
 		// -------------------------------------------------------------------
 		
 		public var border_mc:MovieClip;
+		public var logo_mc:MovieClip;
 		public var error_mc:MovieClip;
 		public var start_mc:MovieClip;
 		public var spinner_mc:MovieClip;
@@ -78,7 +83,7 @@ package com.squidfingers.widgets {
 		// Public Methods
 		// -------------------------------------------------------------------
 		
-		public function load (p_videoURL:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_posterURL:String = null, p_autoPlay:Boolean = false, p_bufferTime:Number = 10, p_border:Boolean = true):void {
+		public function load (p_videoURL:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_posterURL:String = null, p_autoPlay:Boolean = false, p_bufferTime:Number = 10, p_borderColor:Number = NaN, p_logoURL:String = null):void {
 			
 			if (_initialized) dispose();
 			
@@ -89,7 +94,8 @@ package com.squidfingers.widgets {
 			_posterURL = p_posterURL;
 			_autoPlay = p_autoPlay;
 			_bufferTime = p_bufferTime;
-			_border = p_border;
+			_borderColor = p_borderColor;
+			_logoURL = p_logoURL;
 			
 			// Validate video dimensions
 			if (_screenWidth < 320) _screenWidth = 320;
@@ -128,10 +134,19 @@ package com.squidfingers.widgets {
 			spinner_mc.x = start_mc.x = error_mc.x = _screenCenterX;
 			spinner_mc.y = start_mc.y = error_mc.y = _screenCenterY;
 			spinner_mc.visible = start_mc.visible = error_mc.visible = false;
+			logo_mc.visible = screen_mc.poster_mc.visible = false;
 			spinner_mc.stop();
 			
 			// Setup border
-			border_mc.visible = _border;
+			_hasBorder = false;
+			if ( ! isNaN(_borderColor)) {
+				_hasBorder = true;
+				border_mc.visible = true;
+				var c = new Color();
+				c.setTint(_borderColor, 1);
+				border_mc.transform.colorTransform = c;
+			}
+			border_mc.visible = _hasBorder;
 			
 			// Position top border
 			border_mc.top_mc.x = 0;
@@ -217,6 +232,14 @@ package com.squidfingers.widgets {
 				_posterLoader.load(new URLRequest(_posterURL));
 			}
 			
+			// Load logo image
+			if (_logoURL) {
+				_logoLoader = new Loader();
+				_logoLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, logoLoaderCompleteHandler, false, 0, true);
+				_logoLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, logoLoaderErrorHandler, false, 0, true);
+				_logoLoader.load(new URLRequest(_logoURL));
+			}
+			
 			// Attach event handlers to controller buttons
 			controller_mc.addEventListener(Event.ENTER_FRAME, timeEnterFrameHandler, false, 0, true);
 			controller_mc.play_mc.addEventListener(MouseEvent.CLICK, playClickHandler, false, 0, true);
@@ -275,6 +298,16 @@ package com.squidfingers.widgets {
 				}
 				_posterLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE, posterLoaderCompleteHandler, false);
 				_posterLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, posterLoaderErrorHandler, false);
+			}
+			
+			// Remove logo image
+			if (_logoLoader) {
+				_logoLoader.unload();
+				if (logo_mc.contains(_logoLoader)) {
+					logo_mc.removeChild(_logoLoader);
+				}
+				_logoLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE, logoLoaderCompleteHandler, false);
+				_logoLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, logoLoaderErrorHandler, false);
 			}
 			
 			// Remove event handlers on controller buttons
@@ -460,7 +493,9 @@ package com.squidfingers.widgets {
 				var h = stage.fullScreenHeight;
 				
 				// Hide border
-				border_mc.visible = false;
+				if (_hasBorder) {
+					border_mc.visible = false;
+				}
 				
 				// Position backdrop
 				backdrop_mc.visible = true;
@@ -475,6 +510,11 @@ package com.squidfingers.widgets {
 				screen_mc.scaleX = screen_mc.scaleY = Math.min(sx, sy);
 				screen_mc.x = Math.round((w - screen_mc.width) / 2);
 				screen_mc.y = Math.round((h - screen_mc.height) / 2);
+				
+				// Position logo
+				if (logo_mc.visible) {
+					logo_mc.x = screen_mc.x + screen_mc.width - logo_mc.width - 10;
+				}
 				
 				// Position controller
 				controller_mc.x = Math.round(w / 2);
@@ -502,7 +542,9 @@ package com.squidfingers.widgets {
 				stage.align = _stageAlign;
 				
 				// Show border
-				border_mc.visible = true;
+				if (_hasBorder) {
+					border_mc.visible = true;
+				}
 				
 				// Reset backdrop
 				backdrop_mc.visible = false;
@@ -512,6 +554,11 @@ package com.squidfingers.widgets {
 				screen_mc.scaleX = screen_mc.scaleY = 1;
 				screen_mc.x = 0;
 				screen_mc.y = 0;
+				
+				// Reset logo
+				if (logo_mc.visible) {
+					logo_mc.x = _screenWidth - logo_mc.width - 10;
+				}
 				
 				// Reset controller
 				controller_mc.x = _screenCenterX;
@@ -534,6 +581,7 @@ package com.squidfingers.widgets {
 		// Poster
 		
 		private function posterLoaderCompleteHandler (p_event:Event):void {
+			screen_mc.poster_mc.visible = true;
 			screen_mc.poster_mc.addChild(_posterLoader);
 			screen_mc.poster_mc.x = 0;
 			screen_mc.poster_mc.y = 0;
@@ -542,6 +590,18 @@ package com.squidfingers.widgets {
 		}
 		private function posterLoaderErrorHandler (p_event:IOErrorEvent):void {
 			trace('ERROR: Unable to load poster image.');
+		}
+		
+		// Logo
+		
+		private function logoLoaderCompleteHandler (p_event:Event):void {
+			logo_mc.visible = true;
+			logo_mc.addChild(_logoLoader);
+			logo_mc.x = _screenWidth - logo_mc.width - 10;
+			logo_mc.y = 10;
+		}
+		private function logoLoaderErrorHandler (p_event:IOErrorEvent):void {
+			trace('ERROR: Unable to load logo image.');
 		}
 		
 		// Video Playback
