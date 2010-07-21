@@ -2,12 +2,12 @@ Travis Beckham
 squidfingers.com
 
 Audio Player
-Version: 1.1
+Version: 1.2
 LangVersion: ActionScript 3.0 			
 PlayerVersion: Flash 10
 Notes: The mp3 should be higher than 96 kbps to avoid a Flash bug where seeking causes Event.SOUND_COMPLETE to fire too early.
 
 Video Player
-Version: 1.1
+Version: 1.2
 LangVersion: ActionScript 3.0 			
 PlayerVersion: Flash 10

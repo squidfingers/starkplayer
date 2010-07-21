@@ -1,7 +1,7 @@
 /**
  * Main
- * Version: 1.0
- * Last modified on July 20, 2010
+ * Version: 1.1
+ * Last modified on July 21, 2010
  **/
 
 package com.audioplayer {
@@ -40,24 +40,23 @@ package com.audioplayer {
 			// Get FlashVars
 			var audioURL = root.loaderInfo.parameters.url;
 			var autoPlay = root.loaderInfo.parameters.autoplay == 'true';
-			var bgColor = root.loaderInfo.parameters.bgcolor;
+			var border = root.loaderInfo.parameters.border;
 			
-			// Validate bgColor
-			if (bgColor) {
-				if (bgColor.charAt(0) == '#') {
-					bgColor = bgColor.substr(1, bgColor.length);
+			// Validate border
+			var borderColor = NaN;
+			if (border && border != 'false') {
+				if (border.charAt(0) == '#') {
+					border = border.substr(1, border.length);
 				}
-				if (bgColor.length == 6) {
-					bgColor = parseInt(bgColor, 16);
+				if (border.length == 6) {
+					borderColor = parseInt(border, 16);
 				} else {
-					bgColor = NaN;
+					borderColor = 0x666666;
 				}
-			} else {
-				bgColor = NaN;
 			}
 			
 			// Load audio
-			audioPlayer_mc.load(audioURL, autoPlay, bgColor);
+			audioPlayer_mc.load(audioURL, autoPlay, borderColor);
 		}
 		
 		// -------------------------------------------------------------------
