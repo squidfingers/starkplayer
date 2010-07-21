@@ -251,6 +251,9 @@ package com.squidfingers.widgets {
 			controller_mc.volume_mc.track_mc.addEventListener(MouseEvent.MOUSE_DOWN, volumeTrackMouseDownHandler, false, 0, true);
 			controller_mc.fullScreen_mc.addEventListener(MouseEvent.CLICK, fullScreenClickHandler, false, 0, true);
 			
+			// Attach event handler to screen
+			screen_mc.addEventListener(MouseEvent.CLICK, playClickHandler, false, 0, true);
+			
 			// Attach event handler to start button
 			start_mc.addEventListener(MouseEvent.CLICK, startClickHandler, false, 0, true);
 			
@@ -321,6 +324,11 @@ package com.squidfingers.widgets {
 				controller_mc.progress_mc.removeEventListener(Event.ENTER_FRAME, progressEnterFrameHandler, false);
 				controller_mc.volume_mc.toggle_mc.removeEventListener(MouseEvent.CLICK, volumeToggleClickHandler, false);
 				controller_mc.volume_mc.track_mc.removeEventListener(MouseEvent.MOUSE_DOWN, volumeTrackMouseDownHandler, false);	
+			}
+			
+			// Remove event handler on screen
+			if (screen_mc.hasEventListener(MouseEvent.CLICK)) {
+				screen_mc.removeEventListener(MouseEvent.CLICK, playClickHandler, false);
 			}
 			
 			// Remove event handler on start button
