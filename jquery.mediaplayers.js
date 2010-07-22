@@ -21,6 +21,10 @@
         mediaplayer: function(options) {
             // Define the plugin
 
+            // Do nothing if there's no Flash support
+            if (parseInt(swfobject.getFlashPlayerVersion()['major']) < 10)
+                return;
+
             // Set some reasonable defaults
             var defaults = {
                 type: 'video',
@@ -45,7 +49,7 @@
                 var o = $.extend({}, options);
                 var obj = $(this);
 
-                // Put children inside of a wrapper div
+                // Put children inside of a wrapper div if Flash is supported
                 var wrapper = $('<div></div>').attr('id', 'mediaplayer-' +
                     $.mediaplayer_id_counter);
                 obj.children().each(function() {

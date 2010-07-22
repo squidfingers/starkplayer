@@ -42,8 +42,6 @@ FlashVars:
 jQuery Plugin
 =============
 
-__Note:__ The jQuery plugin is still under development. Use for testing purposes only. It is not presently intended to be used in a production environment.
-
 Depends on SWFObject ([http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js](http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js))
 
 The jQuery plugin converts your alternate content (either HTML5 tags or links) to Flash media players. When Flash is unsupported, your alternate content will be displayed instead (degrading gracefully to HTML5-only platforms).
