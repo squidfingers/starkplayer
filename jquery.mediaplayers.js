@@ -49,7 +49,7 @@
                 var o = $.extend({}, options);
                 var obj = $(this);
 
-                // Put children inside of a wrapper div if Flash is supported
+                // Put children inside of a wrapper div
                 var wrapper = $('<div></div>').attr('id', 'mediaplayer-' +
                     $.mediaplayer_id_counter);
                 obj.children().each(function() {
