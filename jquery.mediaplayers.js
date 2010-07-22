@@ -54,17 +54,17 @@
                     // Check for video tag with src and poster
                     var videos = obj.find('video');
                     if (videos.length > 0) {
-                        var video = videos[0];
-                        if ($(video).attr('poster') !== '')
-                            o.poster = $(video).attr('poster');
-                        if ($(video).attr('src') !== '')
-                            o.url = $(video).attr('src');
+                        var video = videos.first();
+                        if (video.attr('poster'))
+                            o.poster = video.attr('poster');
+                        if (video.attr('src'))
+                            o.url = video.attr('src');
                         else {
-                            var sources = $(video).find('source');
+                            var sources = video.find('source');
                             if (sources.length > 0) {
-                                var source = sources[0];
-                                if ($(source).attr('src') !== '')
-                                    o.url = $(source).attr('src');
+                                var source = sources.first();
+                                if (source.attr('src'))
+                                    o.url = source.attr('src');
                             }
                         }
                     }
@@ -74,15 +74,15 @@
                     // Check for audio tag with src
                     var audios = obj.find('audio');
                     if (audios.length > 0) {
-                        var audio = audios[0];
-                        if ($(audio).attr('src') !== '')
-                            o.url = $(audio).attr('src');
+                        var audio = audios.first();
+                        if (audio.attr('src'))
+                            o.url = audio.attr('src');
                         else {
-                            var sources = $(audio).find('source');
+                            var sources = audio.find('source');
                             if (sources.length > 0) {
-                                var source = sources[0];
-                                if ($(source).attr('src') !== '')
-                                    o.url = $(source).attr('src');
+                                var source = sources.first();
+                                if (source.attr('src'))
+                                    o.url = source.attr('src');
                             }
                         }
                     }
@@ -92,15 +92,15 @@
                     // Check for 'a' tag with href and poster image
                     var as = obj.find('a');
                     if (as.length > 0) {
-                        var a = as[0];
-                        if ($(a).attr('href') !== '')
-                            o.url = $(a).attr('href');
+                        var a = as.first();
+                        if (a.attr('href'))
+                            o.url = a.attr('href');
                         if (o.type == 'video') {
-                            var imgs = $(a).find('img');
+                            var imgs = a.find('img');
                             if (imgs.length > 0) {
-                                var img = imgs[0];
-                                if ($(img).attr('src') !== '')
-                                    o.poster = $(img).attr('src');
+                                var img = imgs.first();
+                                if (img.attr('src'))
+                                    o.poster = img.attr('src');
                             }
                         }
                     }
@@ -145,9 +145,9 @@
                 }
 
                 // Embed the player
-                swfobject.embedSWF(player, $(wrapper).attr('id'),
+                swfobject.embedSWF(player, wrapper.attr('id'),
                     o.width, o.height, '10.0.0', null, flash_vars, params,
-                    {id: $(wrapper).attr('id'), name: $(wrapper).attr('id')});
+                    {id: wrapper.attr('id'), name: wrapper.attr('id')});
             });
         }
     });
