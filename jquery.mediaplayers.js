@@ -28,9 +28,9 @@
                 height: '',
                 autoplay: 'false',
                 buffertime: '10',
-                border: 'false',
-                bordercolor: '#666666',
+                border: '',
                 bgcolor: '#ffffff',
+                logo: '',
                 videoplayer: 'videoplayer.swf',
                 audioplayer: 'audioplayer.swf'
             }
@@ -124,7 +124,8 @@
                         poster: o.poster,
                         autoplay: o.autoplay,
                         buffertime: o.buffertime,
-                        border: o.border
+                        border: o.border,
+                        logo: o.logo
                     }
                     var params =  {
                         allowFullScreen: 'true',
@@ -136,7 +137,7 @@
                     var flash_vars = {
                         url: o.url,
                         autoplay: o.autoplay,
-                        bgcolor: o.bordercolor
+                        border: o.border
                     }
                     var params = {
                         menu: 'false',
