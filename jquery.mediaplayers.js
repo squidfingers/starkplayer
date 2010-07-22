@@ -42,8 +42,7 @@
 
             return this.each(function() {
                 // Apply plugin to each element
-                var o = {};
-                o = $.extend(o, options);
+                var o = $.extend({}, options);
                 var obj = $(this);
 
                 // Put children inside of a wrapper div
