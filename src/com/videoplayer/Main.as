@@ -49,7 +49,6 @@ package com.videoplayer {
 			// Validate border
 			var borderColor = NaN;
 			if (border && border != 'false') {
-				trace('hasBorder');
 				if (border.charAt(0) == '#') {
 					border = border.substr(1, border.length);
 				}

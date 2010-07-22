@@ -20,7 +20,6 @@ package com.squidfingers.widgets {
 	import flash.events.FullScreenEvent;
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
-	import flash.geom.Point;
 	import flash.media.Video;
 	import flash.net.URLRequest;
 	import flash.text.TextField;

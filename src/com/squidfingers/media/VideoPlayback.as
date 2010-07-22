@@ -224,7 +224,7 @@ package com.squidfingers.media {
 		// -------------------------------------------------------------------
 		
 		private function netStatusHandler (p_event:NetStatusEvent):void {
-			trace('VideoPlayback.netStatusHandler(' + p_event.info.code + ')');
+			//trace('VideoPlayback.netStatusHandler(' + p_event.info.code + ')');
 			switch (p_event.info.code) {
 				case 'NetConnection.Connect.Success':
 					openNetStream();
