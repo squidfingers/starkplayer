@@ -1,5 +1,10 @@
+Flash Media Players:
 Travis Beckham  
 squidfingers.com
+
+jQuery Plugin:
+Alan Christopher Thomas
+alanchristopherthomas.com
 
 Audio Player
 ============
