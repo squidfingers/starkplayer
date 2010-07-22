@@ -13,6 +13,8 @@
 \*****************************************************************************/
 
 (function($) {
+    // Set a global counter for mediaplayer ids
+    $.mediaplayer_id_counter = 0;
 
     // Extend jQuery with videoplayer plugin
     $.fn.extend({
@@ -38,17 +40,20 @@
             // Override the defaults with user settings
             var options = $.extend(defaults, options);
 
-            return this.each(function(i) {
+            return this.each(function() {
                 // Apply plugin to each element
-                var o = options;
+                var o = {};
+                o = $.extend(o, options);
                 var obj = $(this);
 
                 // Put children inside of a wrapper div
-                var wrapper = $('<div></div>').attr('id', 'mediaplayer-' + i);
+                var wrapper = $('<div></div>').attr('id', 'mediaplayer-' +
+                    $.mediaplayer_id_counter);
                 obj.children().each(function() {
                     wrapper.append(this);
                 })
                 obj.append(wrapper);
+                $.mediaplayer_id_counter ++;
 
                 if (o.type == 'video' && o.url == '') {
                     // Check for video tag with src and poster
