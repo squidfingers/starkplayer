@@ -102,8 +102,8 @@ Use jQuery selectors to convert your content to media players:
 Parameters:
 
 * __type:__ The type of media player to use (either 'audio' or 'video'). Defaults to 'video'.
-* __url:__ The url to an mp4 or flv. Defaults to media sniffed out from alternate content.
-* __autoplay:__ Automatically start to play the video. Defaults to false.
+* __url:__ The url to an mp3. Defaults to media sniffed out from alternate content.
+* __autoplay:__ Automatically start to play the audio. Defaults to false.
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed. Optional.
 * __audioplayer:__ The url to audioplayer.swf. Defaults to the same directory as the HTML file.
 
