@@ -27,7 +27,7 @@
 
             // Set some reasonable defaults
             var defaults = {
-                type: 'video',
+                type: '',
                 url: '',
                 poster: '',
                 width: '',
@@ -40,6 +40,14 @@
                 videoplayer: 'videoplayer.swf',
                 audioplayer: 'audioplayer.swf'
             }
+
+            /*
+             * Future youtube params:
+             * - id
+             * - autoplay false
+             * - border #000000
+             * - quality medium
+            */
 
             // Override the defaults with user settings
             var options = $.extend(defaults, options);
@@ -58,42 +66,42 @@
                 obj.append(wrapper);
                 $.mediaplayer_id_counter ++;
 
-                if (o.type == 'video' && o.url == '') {
-                    // Check for video tag with src and poster
-                    var videos = obj.find('video');
-                    if (videos.length > 0) {
-                        var video = videos.first();
-                        if (video.attr('poster'))
-                            o.poster = video.attr('poster');
-                        if (video.attr('src'))
-                            o.url = video.attr('src');
-                        else {
-                            var sources = video.find('source');
-                            if (sources.length > 0) {
-                                var source = sources.first();
-                                if (source.attr('src'))
-                                    o.url = source.attr('src');
-                            }
+                // Check for video tag with src and poster
+                var videos = obj.find('video');
+                if (o.url == '' && videos.length > 0) {
+                    var video = videos.first();
+                    if (video.attr('poster'))
+                        o.poster = video.attr('poster');
+                    if (video.attr('src'))
+                        o.url = video.attr('src');
+                    else {
+                        var sources = video.find('source');
+                        if (sources.length > 0) {
+                            var source = sources.first();
+                            if (source.attr('src'))
+                                o.url = source.attr('src');
                         }
                     }
+                    if (o.type == '')
+                        o.type = 'video';
                 }
 
-                if (o.type == 'audio' && o.url == '') {
-                    // Check for audio tag with src
-                    var audios = obj.find('audio');
-                    if (audios.length > 0) {
-                        var audio = audios.first();
-                        if (audio.attr('src'))
-                            o.url = audio.attr('src');
-                        else {
-                            var sources = audio.find('source');
-                            if (sources.length > 0) {
-                                var source = sources.first();
-                                if (source.attr('src'))
-                                    o.url = source.attr('src');
-                            }
+                // Check for audio tag with src
+                var audios = obj.find('audio');
+                if (o.url == '' && audios.length > 0) {
+                    var audio = audios.first();
+                    if (audio.attr('src'))
+                        o.url = audio.attr('src');
+                    else {
+                        var sources = audio.find('source');
+                        if (sources.length > 0) {
+                            var source = sources.first();
+                            if (source.attr('src'))
+                                o.url = source.attr('src');
                         }
                     }
+                    if (o.type == '')
+                        o.type = 'audio';
                 }
 
                 if (o.url == '') {
@@ -103,22 +111,33 @@
                         var a = as.first();
                         if (a.attr('href'))
                             o.url = a.attr('href');
-                        if (o.type == 'video') {
-                            var imgs = a.find('img');
-                            if (imgs.length > 0) {
-                                var img = imgs.first();
-                                if (img.attr('src'))
-                                    o.poster = img.attr('src');
-                            }
+                        var imgs = a.find('img');
+                        if (imgs.length > 0) {
+                            var img = imgs.first();
+                            if (img.attr('src'))
+                                o.poster = img.attr('src');
                         }
                     }
+
+                    if (o.type == '') {
+                        // Sniff out media type based on url file extension
+                        var ext = /[^\?\#]*\.(.*?)((\?|\#)+?.*)*$/i.exec(o.url)[1];
+                        if (ext == 'mp4' || ext == 'm4v' || ext == 'flv' ||
+                                ext == 'mpg' || ext == 'mpeg')
+                            o.type = 'video';
+                        else if (ext == 'mp3')
+                            o.type = 'audio';
+                    }
                 }
+
 
                 // If no width/height are specified, set them to match current
                 if (o.width == '')
                     o.width = obj.width();
                 if (o.height == '')
                     o.height = obj.height();
+
+                // Set audio player dimensions
                 if (o.type == 'audio') {
                     o.width = '320';
                     o.height = '70';
@@ -154,9 +173,10 @@
                 }
 
                 // Embed the player
-                swfobject.embedSWF(player, wrapper.attr('id'),
-                    o.width, o.height, '10.0.0', null, flash_vars, params,
-                    {id: wrapper.attr('id'), name: wrapper.attr('id')});
+                if (o.type !== '')
+                    swfobject.embedSWF(player, wrapper.attr('id'),
+                        o.width, o.height, '10.0.0', null, flash_vars, params,
+                        {id: wrapper.attr('id'), name: wrapper.attr('id')});
             });
         }
     });
