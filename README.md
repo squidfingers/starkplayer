@@ -94,7 +94,6 @@ Use jQuery selectors to convert your content to media players:
     <script type="text/javascript">
         $(document).ready(function() {
             $('.audio').mediaplayer({
-                type: 'audio',
                 border: '#666666',
                 bgcolor: '#ffffff',
                 audioplayer: 'media-players/audioplayer.swf'
@@ -104,10 +103,10 @@ Use jQuery selectors to convert your content to media players:
 
 Parameters:
 
-* __type:__ The type of media player to use (either 'audio' or 'video'). Defaults to 'video'.
+* __type:__ The type of media player to use (either 'audio' or 'video'). By default, type will be set to 'audio' for HTML5 audio or links to urls that have audio file extensions.
 * __url:__ The url to an mp3. Defaults to media sniffed out from alternate content.
 * __autoplay:__ Automatically start to play the audio. Defaults to false.
-* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed. Optional.
+* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
 * __audioplayer:__ The url to audioplayer.swf. Defaults to the same directory as the HTML file.
 
 Embedding Video
@@ -151,7 +150,6 @@ Use jQuery selectors to convert your content to media players:
     <script type="text/javascript">
         $(document).ready(function() {
             $('.video').mediaplayer({
-                type: 'video',
                 border: '#000000',
                 logo: 'graphics/logo.png',
                 videoplayer: 'media-players/videoplayer.swf'
@@ -161,13 +159,13 @@ Use jQuery selectors to convert your content to media players:
 
 Parameters:
 
-* __type:__ The type of media player to use (either 'audio' or 'video'). Defaults to 'video'.
+* __type:__ The type of media player to use (either 'audio' or 'video'). By default, type will be set to 'video' for HTML5 video or links to urls that have video file extensions.
 * __url:__ The url to an mp4 or flv. Defaults to media sniffed out from alternate content.
 * __poster:__ The url to a jpg or png poster image. Defaults to poster image sniffed out from alternate content.
 * __width:__ The width of the media player. Defaults to the width of the content it replaces.
 * __height:__ The height of the media player. Defaults to the height of the content it replaces.
 * __autoplay:__ Automatically start to play the video. Defaults to false.
 * __buffertime:__ The number of seconds to buffer before the video will start to play. Defaults to 10.
-* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed. Optional.
+* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 * __videoplayer:__ The url to videoplayer.swf. Defaults to the same directory as the HTML file.
