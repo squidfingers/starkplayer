@@ -71,15 +71,17 @@
                 if (o.url == '' && videos.length > 0) {
                     var video = videos.first();
                     if (video.attr('poster'))
+                        o.poster = video.get(0).poster;
+                    if (o.poster == '' && video.attr('poster'))
                         o.poster = video.attr('poster');
                     if (video.attr('src'))
-                        o.url = video.attr('src');
+                        o.url = video.get(0).src;
                     else {
                         var sources = video.find('source');
                         if (sources.length > 0) {
                             var source = sources.first();
                             if (source.attr('src'))
-                                o.url = source.attr('src');
+                                o.url = source.get(0).src;
                         }
                     }
                     if (o.type == '')
@@ -91,13 +93,13 @@
                 if (o.url == '' && audios.length > 0) {
                     var audio = audios.first();
                     if (audio.attr('src'))
-                        o.url = audio.attr('src');
+                        o.url = audio.get(0).src;
                     else {
                         var sources = audio.find('source');
                         if (sources.length > 0) {
                             var source = sources.first();
                             if (source.attr('src'))
-                                o.url = source.attr('src');
+                                o.url = source.get(0).src;
                         }
                     }
                     if (o.type == '')
@@ -110,12 +112,14 @@
                     if (as.length > 0) {
                         var a = as.first();
                         if (a.attr('href'))
-                            o.url = a.attr('href');
+                            o.url = a.get(0).href;
                         var imgs = a.find('img');
                         if (imgs.length > 0) {
                             var img = imgs.first();
                             if (img.attr('src'))
                                 o.poster = img.attr('src');
+                            if (o.poster == '' && img.attr('src'))
+                                o.poster = img.get(0).src;
                         }
                     }
 
@@ -129,7 +133,6 @@
                             o.type = 'audio';
                     }
                 }
-
 
                 // If no width/height are specified, set them to match current
                 if (o.width == '')
