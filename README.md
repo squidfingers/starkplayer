@@ -52,7 +52,7 @@ Installation
 Include SWFObject and the jQuery plugin in the `<head>` section of your HTML document:
 
     <script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js" type="text/javascript"></script>
-    <script src="media-players/jquery.mediaplayers.js" type="text/javascript"></script>
+    <script src="media-players/jquery.mediaplayers.min.js" type="text/javascript"></script>
 
 Embedding Audio
 ---------------
