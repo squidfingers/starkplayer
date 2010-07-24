@@ -59,7 +59,9 @@ jQuery Plugin
 
 Depends on SWFObject ([http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js](http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js))
 
-The jQuery plugin converts your alternate content (either HTML5 tags or links) to Flash media players. When Flash is unsupported, your alternate content will be displayed instead (degrading gracefully to HTML5-only platforms).
+The jQuery plugin converts HTML alternate content to Flash media players. When Flash is unsupported, the alternate content will be displayed instead (degrading gracefully to HTML5-only platforms).
+
+The plugin is able to convert any element to a media player, but certain structures, when used, do not require all media player parameters to be explicitly declared. The plugin will automatically sniff out media types and content for these structures, as documented below.
 
 Installation
 ------------
