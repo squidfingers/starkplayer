@@ -1,9 +1,3 @@
-/**
-* TimeUtil
-* Version: 1.0
-* Last modified on November 27, 2009
-**/
-
 package com.squidfingers.utils {
 	
 	public class TimeUtil {

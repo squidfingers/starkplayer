@@ -1,15 +1,12 @@
-/**
- * Main
- * Version: 1.2
- * Last modified on July 24, 2010
- **/
-
 package com.audioplayer {
 	
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	
+	import flash.ui.ContextMenu;
+	import flash.ui.ContextMenuItem;
 	
 	public class Main extends MovieClip {
 		// ===================================================================
@@ -23,6 +20,13 @@ package com.audioplayer {
 		// -------------------------------------------------------------------
 		
 		public function Main():void {
+			
+			var cm = new ContextMenu();
+			cm.hideBuiltInItems();
+			cm.customItems.push(new ContextMenuItem('Squidfingers Video Player'));
+			cm.customItems.push(new ContextMenuItem('Version: 1.3'));
+			contextMenu = cm;
+			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false, 0, true);
 		}
 		

@@ -1,10 +1,4 @@
-/**
- * YouTubePlayer
- * Version: 1.0
- * Last modified on July 24, 2010
- *
- * http://code.google.com/apis/youtube/flash_api_reference.html
- **/
+// http://code.google.com/apis/youtube/flash_api_reference.html
 
 package com.squidfingers.widgets {
 	

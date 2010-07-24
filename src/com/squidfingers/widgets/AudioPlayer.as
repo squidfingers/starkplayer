@@ -1,9 +1,3 @@
-/**
- * AudioPlayer
- * Version: 1.2
- * Last modified on July 21, 2010
- **/
-
 package com.squidfingers.widgets {
 	
 	import com.squidfingers.media.AudioPlayback;
