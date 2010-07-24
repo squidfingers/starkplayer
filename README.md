@@ -9,7 +9,7 @@ Alan Christopher Thomas
 Audio Player
 ============
 
-Version: 1.2  
+Version: 1.3  
 LangVersion: ActionScript 3.0  
 AppVersion CS4  
 PlayerVersion: Flash 10  

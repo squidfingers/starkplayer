@@ -1,7 +1,7 @@
 /**
  * Main
- * Version: 1.1
- * Last modified on July 21, 2010
+ * Version: 1.2
+ * Last modified on July 24, 2010
  **/
 
 package com.audioplayer {
