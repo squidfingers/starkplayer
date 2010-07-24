@@ -1,10 +1,10 @@
-Flash Media Players:  
+__Flash Media Players:__  
 Travis Beckham  
-squidfingers.com
+[squidfingers.com](http://squidfingers.com/)
 
-jQuery Plugin:  
+__jQuery Plugin:__  
 Alan Christopher Thomas  
-alanchristopherthomas.com
+[alanchristopherthomas.com](http://alanchristopherthomas.com/)
 
 Audio Player
 ============
@@ -28,7 +28,7 @@ Skin Sizes:
 
 Notes:
 
-* The mp3 should be higher than __96 kbps__ to avoid a Flash bug where seeking causes Event.SOUND_COMPLETE to fire too early.
+* The mp3 should be __higher than 96 kbps__ to avoid a Flash bug where seeking causes Event.SOUND_COMPLETE to fire too early.
 
 Video Player
 ============
