@@ -76,31 +76,25 @@ Embedding Audio
 
 With one source:
 
-    <div class="audio">
-        <audio src="audio/song.mp3" controls>
-            No sound for you.
-        </audio>
-    </div>
+    <audio class="audio" src="audio/song.mp3" controls>
+        No sound for you.
+    </audio>
 
 With multiple sources (the first source found will be used in the Flash media player):
 
-    <div class="audio">
-        <audio controls>
-            <source src="audio/song.mp3">
-            <source src="audio/song.ogg">
-            No sound for you.
-        </audio>
-    </div>
+    <audio class="audio" controls>
+        <source src="audio/song.mp3">
+        <source src="audio/song.ogg">
+        No sound for you.
+    </audio>
 
 ### Using Links ###
 
-The href of the first link found will be used as the audio source.
+The href of the link will be used as the audio source.
 
-    <div class="audio">
-        <a href="audio/song.mp3">
-            Download MP3
-        </a>
-    </div>
+    <a class="audio" href="audio/song.mp3">
+        Download MP3
+    </a>
 
 ### Converting To Media Players ###
 
@@ -131,32 +125,29 @@ Embedding Video
 
 With one source:
 
-    <div class="video">
-        <video src="videos/video.mp4" poster="images/poster.jpg" controls>
-            No video for you.
-        </video>
-    </div>
+    <video class="video" src="videos/video.mp4" poster="images/poster.jpg"
+            width="640" height="480" controls>
+        No video for you.
+    </video>
 
 With multiple sources (the first source found will be used in the Flash media player):
 
-    <div class="video">
-        <video poster="images/poster.jpg" controls>
-            <source src="videos/video.mp4">
-            <source src="videos/video.ogg">
-            <source src="videos/video.webm">
-            No video for you.
-        </video>
-    </div>
+    <video class="video" poster="images/poster.jpg" width="640" height="480"
+            controls>
+        <source src="videos/video.mp4">
+        <source src="videos/video.ogg">
+        <source src="videos/video.webm">
+        No video for you.
+    </video>
 
 ### Using Links ###
 
-The href of the first link found will be used as the video source. If it contains a nested image, this will be the video poster image.
+The href of the link will be used as the video source. If it contains a nested image, this will be the video poster image.
 
-    <div class="video">
-        <a href="videos/video.mp4">
-            <img src="images/poster.jpg" alt="No video for you">
-        </a>
-    </div>
+    <a class="video" href="videos/video.mp4"
+            style="display: block; width: 640px; height: 480px;">
+        <img src="images/poster.jpg" alt="No video for you.">
+    </a>
 
 ### Converting To Media Players ###
 
