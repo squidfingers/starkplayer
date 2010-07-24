@@ -23,7 +23,7 @@ package com.audioplayer {
 			
 			var cm = new ContextMenu();
 			cm.hideBuiltInItems();
-			cm.customItems.push(new ContextMenuItem('Squidfingers Video Player'));
+			cm.customItems.push(new ContextMenuItem('Squidfingers Audio Player'));
 			cm.customItems.push(new ContextMenuItem('Version: 1.3'));
 			contextMenu = cm;
 			
