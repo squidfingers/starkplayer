@@ -91,7 +91,7 @@ package com.squidfingers.widgets {
 		// Public Methods
 		// -------------------------------------------------------------------
 		
-		public function load (p_youTubeId:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_autoPlay:Boolean = true, p_borderColor:Number = NaN, p_suggestedQuality:String = 'medium'):void {
+		public function load (p_youTubeId:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_autoPlay:Boolean = true, p_borderColor:Number = NaN, p_suggestedQuality:String = 'default'):void {
 			
 			dispose();
 			

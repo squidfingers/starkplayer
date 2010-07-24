@@ -43,6 +43,11 @@ package com.youtubeplayer {
 			var border = root.loaderInfo.parameters.border;
 			var suggestedQuality = root.loaderInfo.parameters.quality;
 			
+			// Process parameters
+			autoPlay = (autoPlay) ? autoPlay.toLowerCase() == 'true' : false;
+			border = (border) ? border.toLowerCase() : null;
+			suggestedQuality = (suggestedQuality) ? suggestedQuality.toLowerCase() : null;
+			
 			// Validate border
 			var borderColor = NaN;
 			if (border && border != 'false') {

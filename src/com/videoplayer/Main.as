@@ -40,11 +40,15 @@ package com.videoplayer {
 			// Get FlashVars
 			var videoURL = root.loaderInfo.parameters.url;
 			var posterURL = root.loaderInfo.parameters.poster;
-			var autoPlay = root.loaderInfo.parameters.autoplay == 'true';
+			var autoPlay = root.loaderInfo.parameters.autoplay;
 			var bufferTime = root.loaderInfo.parameters.buffertime;
-			bufferTime = bufferTime ? parseInt(bufferTime) : null;
 			var border = root.loaderInfo.parameters.border;
 			var logoURL = root.loaderInfo.parameters.logo;
+			
+			// Process parameters
+			autoPlay = (autoPlay) ? autoPlay.toLowerCase() == 'true' : false;
+			border = (border) ? border.toLowerCase() : null;
+			bufferTime = (bufferTime) ? parseInt(bufferTime) : null;
 			
 			// Validate border
 			var borderColor = NaN;
