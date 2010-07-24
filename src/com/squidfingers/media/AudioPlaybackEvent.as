@@ -1,9 +1,3 @@
-/**
- * AudioPlaybackEvent
- * Version: 1.0
- * Last modified on July 19, 2010
- **/
-
 package com.squidfingers.media {
 	
 	import flash.events.Event;

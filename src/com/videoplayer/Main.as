@@ -1,15 +1,12 @@
-/**
- * Main
- * Version: 1.1
- * Last modified on July 21, 2010
- **/
-
 package com.videoplayer {
 	
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	
+	import flash.ui.ContextMenu;
+	import flash.ui.ContextMenuItem;
 	
 	public class Main extends MovieClip {
 		// ===================================================================
@@ -23,6 +20,13 @@ package com.videoplayer {
 		// -------------------------------------------------------------------
 		
 		public function Main():void {
+			
+			var cm = new ContextMenu();
+			cm.hideBuiltInItems();
+			cm.customItems.push(new ContextMenuItem('Squidfingers Video Player'));
+			cm.customItems.push(new ContextMenuItem('Version: 1.2'));
+			contextMenu = cm;
+			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false, 0, true);
 		}
 		
@@ -40,11 +44,15 @@ package com.videoplayer {
 			// Get FlashVars
 			var videoURL = root.loaderInfo.parameters.url;
 			var posterURL = root.loaderInfo.parameters.poster;
-			var autoPlay = root.loaderInfo.parameters.autoplay == 'true';
+			var autoPlay = root.loaderInfo.parameters.autoplay;
 			var bufferTime = root.loaderInfo.parameters.buffertime;
-			bufferTime = bufferTime ? parseInt(bufferTime) : null;
 			var border = root.loaderInfo.parameters.border;
 			var logoURL = root.loaderInfo.parameters.logo;
+			
+			// Process parameters
+			autoPlay = (autoPlay) ? autoPlay.toLowerCase() == 'true' : false;
+			border = (border) ? border.toLowerCase() : null;
+			bufferTime = (bufferTime) ? parseInt(bufferTime) : null;
 			
 			// Validate border
 			var borderColor = NaN;

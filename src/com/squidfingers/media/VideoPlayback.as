@@ -1,9 +1,3 @@
-/**
- * VideoPlayback
- * Version: 1.0
- * Last modified on July 18, 2010
- **/
-
 package com.squidfingers.media {
 	
 	import flash.events.AsyncErrorEvent;

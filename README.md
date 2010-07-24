@@ -1,15 +1,15 @@
-Flash Media Players:  
+__Flash Media Players:__  
 Travis Beckham  
-squidfingers.com
+[squidfingers.com](http://squidfingers.com/)
 
-jQuery Plugin:  
+__jQuery Plugin:__  
 Alan Christopher Thomas  
-alanchristopherthomas.com
+[alanchristopherthomas.com](http://alanchristopherthomas.com/)
 
 Audio Player
 ============
 
-Version: 1.2  
+Version: 1.3  
 LangVersion: ActionScript 3.0  
 AppVersion CS4  
 PlayerVersion: Flash 10  
@@ -19,8 +19,16 @@ FlashVars:
 * __url:__ The url to an mp3. Required.
 * __autoplay:__ Automatically start to play the audio. Defaults to false.
 * __border:__ The hexadecimal color of the border. If null, a border will not be displayed. Optional.
+* __skin:__ The skin type of the player. Acceptable values are: default, and compact. If null, default will be used. Optional.
 
-Notes: The mp3 should be higher than 96 kbps to avoid a Flash bug where seeking causes Event.SOUND_COMPLETE to fire too early.
+Skin Sizes:
+
+* __default:__ 320 x 70
+* __compact:__ 260 x 30
+
+Notes:
+
+* The mp3 should be __higher than 96 kbps__ to avoid a Flash bug where seeking causes Event.SOUND_COMPLETE to fire too early.
 
 Video Player
 ============
@@ -39,6 +47,10 @@ FlashVars:
 * __border:__ The hexadecimal color of the border. If null, a border will not be displayed. Optional.
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 
+Notes:
+
+* __Minimum Video Size:__ 320 x 240
+
 YouTube Player
 ==============
 
@@ -53,6 +65,10 @@ FlashVars:
 * __autoplay:__ Automatically start to play the video. Defaults to false.
 * __border:__ The hexadecimal color of the border. If null, a border will not be displayed. Optional.
 * __quality:__ The suggested quality of the video. Acceptable values are: default, small, medium, large, and hd720. If null, default will be used. Optional.
+
+Notes:
+
+* __Minimum Video Size:__ 320 x 240
 
 jQuery Plugin
 =============
