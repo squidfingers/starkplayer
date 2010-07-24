@@ -39,8 +39,8 @@ FlashVars:
 * __border:__ The hexadecimal color of the border. If null, a border will not be displayed. Optional.
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 
-YouTube Video Player
-====================
+YouTube Player
+==============
 
 Version: 1.0  
 LangVersion: ActionScript 3.0  
