@@ -1,23 +1,24 @@
-/*****************************************************************************\
-*  Filename: jquery.mediaplayers.js                                           *
-*  Description: A jQuery plugin for the squidfingers Flash media players by   *
-*          Travis Beckham.                                                    *
-*  Project URL: http://github.com/squidfingers/Media-Players                  *
-*  Dependencies: SWFObject                                                    *
-*          (http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js   *
-*                                                                             *
-*  Author: Alan Christopher Thomas                                            *
-*  Website: http://alanchristopherthomas.com                                  *
-*  Email: alan.christopher.thomas@gmail.com                                   *
-*                                                                             *
-\*****************************************************************************/
+/*\
+*  Filename: jquery.mediaplayers.js
+*  Description: A jQuery plugin for the squidfingers Flash media players by
+*          Travis Beckham.
+*  Project URL: http://github.com/squidfingers/Media-Players
+*  Dependencies: SWFObject
+*          (http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js
+*
+*  Author: Alan Christopher Thomas
+*  Website: http://alanchristopherthomas.com
+*  Email: alan.christopher.thomas@gmail.com
+*
+\*/
 
 (function($) {
     // Set a global counter for mediaplayer ids
     $.mediaplayer_id_counter = 0;
 
-    // Extend jQuery with videoplayer plugin
     $.fn.extend({
+        // Extend jQuery with mediaplayer plugin
+
         mediaplayer: function(options) {
             // Define the plugin
 
@@ -52,36 +53,38 @@
             // Override the defaults with user settings
             var options = $.extend(defaults, options);
 
+            function get_absolute_url(url) {
+                // Get the absolute path of a url (cross-browser compatible)
+                var url = url.split('&').join('&amp;').split('<').join(
+                        '&lt;').split('"').join('&quot;');
+                var element = $('<div></div>').get(0);
+                element.innerHTML = '<a href="' + url + '">link</a>';
+                return element.firstChild.href;
+            }
+
             return this.each(function() {
                 // Apply plugin to each element
                 var o = $.extend({}, options);
                 var obj = $(this);
 
-                // Put children inside of a wrapper div
+                // Put element inside of a wrapper div
                 var wrapper = $('<div></div>').attr('id', 'mediaplayer-' +
                     $.mediaplayer_id_counter);
-                obj.children().each(function() {
-                    wrapper.append(this);
-                })
-                obj.append(wrapper);
+                obj.wrap(wrapper)
                 $.mediaplayer_id_counter ++;
 
                 // Check for video tag with src and poster
-                var videos = obj.find('video');
-                if (o.url == '' && videos.length > 0) {
-                    var video = videos.first();
-                    if (video.attr('poster'))
-                        o.poster = video.get(0).poster;
-                    if (o.poster == '' && video.attr('poster'))
-                        o.poster = video.attr('poster');
-                    if (video.attr('src'))
-                        o.url = video.get(0).src;
+                if (o.url == '' && obj.get(0).tagName == 'VIDEO') {
+                    if (obj.attr('poster'))
+                        o.poster = get_absolute_url(obj.attr('poster'));
+                    if (obj.attr('src'))
+                        o.url = get_absolute_url(obj.attr('src'));
                     else {
-                        var sources = video.find('source');
+                        var sources = obj.find('source');
                         if (sources.length > 0) {
                             var source = sources.first();
                             if (source.attr('src'))
-                                o.url = source.get(0).src;
+                                o.url = get_absolute_url(source.attr('src'));
                         }
                     }
                     if (o.type == '')
@@ -89,49 +92,41 @@
                 }
 
                 // Check for audio tag with src
-                var audios = obj.find('audio');
-                if (o.url == '' && audios.length > 0) {
-                    var audio = audios.first();
-                    if (audio.attr('src'))
-                        o.url = audio.get(0).src;
+                if (o.url == '' && obj.get(0).tagName == 'AUDIO') {
+                    if (obj.attr('src'))
+                        o.url = get_absolute_url(obj.attr('src'));
                     else {
-                        var sources = audio.find('source');
+                        var sources = obj.find('source');
                         if (sources.length > 0) {
                             var source = sources.first();
                             if (source.attr('src'))
-                                o.url = source.get(0).src;
+                                o.url = get_absolute_url(source.attr('src'));
                         }
                     }
                     if (o.type == '')
                         o.type = 'audio';
                 }
 
-                if (o.url == '') {
-                    // Check for 'a' tag with href and poster image
-                    var as = obj.find('a');
-                    if (as.length > 0) {
-                        var a = as.first();
-                        if (a.attr('href'))
-                            o.url = a.get(0).href;
-                        var imgs = a.find('img');
-                        if (imgs.length > 0) {
-                            var img = imgs.first();
-                            if (img.attr('src'))
-                                o.poster = img.attr('src');
-                            if (o.poster == '' && img.attr('src'))
-                                o.poster = img.get(0).src;
-                        }
+                // Check for 'a' tag with href and poster image
+                if (o.url == '' && obj.get(0).tagName == 'A') {
+                    if (obj.attr('href'))
+                        o.url = get_absolute_url(obj.attr('href'));
+                    var imgs = obj.find('img');
+                    if (imgs.length > 0) {
+                        var img = imgs.first();
+                        if (img.attr('src'))
+                            o.poster = get_absolute_url(img.attr('src'));
                     }
+                }
 
-                    if (o.type == '') {
-                        // Sniff out media type based on url file extension
-                        var ext = /[^\?\#]*\.(.*?)((\?|\#)+?.*)*$/i.exec(o.url)[1];
-                        if (ext == 'mp4' || ext == 'm4v' || ext == 'flv' ||
-                                ext == 'mpg' || ext == 'mpeg')
-                            o.type = 'video';
-                        else if (ext == 'mp3')
-                            o.type = 'audio';
-                    }
+                if (o.type == '') {
+                    // Sniff out media type based on url file extension
+                    var ext = /[^\?\#]*\.(.*?)((\?|\#)+?.*)*$/i.exec(o.url)[1];
+                    if (ext == 'mp4' || ext == 'm4v' || ext == 'flv' ||
+                            ext == 'mpg' || ext == 'mpeg')
+                        o.type = 'video';
+                    else if (ext == 'mp3')
+                        o.type = 'audio';
                 }
 
                 // If no width/height are specified, set them to match current
@@ -182,6 +177,7 @@
                         {id: wrapper.attr('id'), name: wrapper.attr('id')});
             });
         }
+
     });
 
 })(jQuery);
