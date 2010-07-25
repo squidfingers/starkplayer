@@ -428,11 +428,11 @@ package com.squidfingers.widgets {
 			var playerState = parseInt(Object(p_event).data);
 			switch (playerState) {
 				case VIDEO_UNSTARTED:
-					trace('Video Unstarted');
+					// Console.log('Video Unstarted');
 					// Video unstarted
 					break;
 				case VIDEO_COMPLETE:
-					trace('Video Complete');
+					// Console.log('Video Complete');
 					// Video complete
 					start_mc.visible = true;
 					spinner_mc.visible = false;
@@ -440,7 +440,7 @@ package com.squidfingers.widgets {
 					controller_mc.play_mc.icon_mc.gotoAndStop(1);
 					break;
 				case VIDEO_PLAYING:
-					trace('Video Playing');
+					// Console.log('Video Playing');
 					if (_seeking) return;// Ignore event if seeking
 					// Video playing
 					_playing = true;
@@ -450,7 +450,7 @@ package com.squidfingers.widgets {
 					controller_mc.play_mc.icon_mc.gotoAndStop(2);
 					break;
 				case VIDEO_PAUSED:
-					trace('Video Paused');
+					// Console.log('Video Paused');
 					if (_seeking) return;// Ignore event if seeking
 					// Video paused
 					_playing = false;
@@ -460,14 +460,14 @@ package com.squidfingers.widgets {
 					controller_mc.play_mc.icon_mc.gotoAndStop(1);
 					break;
 				case VIDEO_BUFFERING:
-					trace('Video Buffering');
+					// Console.log('Video Buffering');
 					// Video buffering
 					start_mc.visible = false;
 					spinner_mc.visible = true;
 					spinner_mc.play();
 					break;
 				case VIDEO_CUED:
-					trace('Video Cued');
+					// Console.log('Video Cued');
 					// Video cued
 					start_mc.visible = true;
 					spinner_mc.visible = false;
@@ -520,7 +520,14 @@ package com.squidfingers.widgets {
 			controller_mc.time_txt.text = TimeUtil.format(_player.getCurrentTime());
 		}
 		private function startClickHandler (p_event:MouseEvent):void {
-			if (_player.getPlayerState() != VIDEO_PLAYING) _player.playVideo();
+			if (_player.getPlayerState() != VIDEO_PLAYING) {
+				_player.playVideo();
+			}
+			if (_player.getPlayerState() == VIDEO_BUFFERING) {
+				_playing = true;
+				start_mc.visible = false;
+				controller_mc.play_mc.icon_mc.gotoAndStop(2);
+			}
 		}
 		private function playClickHandler (p_event:MouseEvent):void {
 			if (_playing) {
@@ -531,12 +538,12 @@ package com.squidfingers.widgets {
 					controller_mc.play_mc.icon_mc.gotoAndStop(1);
 				}
 			} else {
+				_player.playVideo();
 				if (_player.getPlayerState() == VIDEO_BUFFERING) {
 					_playing = true;
 					start_mc.visible = false;
 					controller_mc.play_mc.icon_mc.gotoAndStop(2);
 				}
-				_player.playVideo();
 			}
 		}
 		private function rewindClickHandler (p_event:MouseEvent):void {
