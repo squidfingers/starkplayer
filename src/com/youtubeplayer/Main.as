@@ -46,6 +46,7 @@ package com.youtubeplayer {
 			var autoPlay = root.loaderInfo.parameters.autoplay == 'true';
 			var border = root.loaderInfo.parameters.border;
 			var suggestedQuality = root.loaderInfo.parameters.quality;
+			var logoURL = root.loaderInfo.parameters.logo;
 			
 			// Process parameters
 			autoPlay = (autoPlay) ? autoPlay.toLowerCase() == 'true' : false;
@@ -66,7 +67,7 @@ package com.youtubeplayer {
 			}
 			
 			// Load video
-			youTubePlayer_mc.load(youTubeId, stage.stageWidth, stage.stageHeight, autoPlay, borderColor, suggestedQuality);
+			youTubePlayer_mc.load(youTubeId, stage.stageWidth, stage.stageHeight, autoPlay, borderColor, suggestedQuality, logoURL);
 		}
 		
 		// -------------------------------------------------------------------

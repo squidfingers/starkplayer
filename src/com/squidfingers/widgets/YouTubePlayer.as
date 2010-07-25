@@ -11,6 +11,7 @@ package com.squidfingers.widgets {
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
+	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
@@ -39,9 +40,11 @@ package com.squidfingers.widgets {
 		protected var _autoPlay:Boolean;
 		protected var _borderColor:Number;
 		protected var _suggestedQuality:String;
+		protected var _logoURL:String;
 		
 		protected var _player:Object;
-		protected var _loader:Loader;
+		protected var _apiLoader:Loader;
+		protected var _logoLoader:Loader;
 		
 		protected var _screenWidth:Number;
 		protected var _screenHeight:Number;
@@ -68,6 +71,7 @@ package com.squidfingers.widgets {
 		public var start_mc:MovieClip;
 		public var spinner_mc:MovieClip;
 		public var controller_mc:MovieClip;
+		public var logo_mc:MovieClip;
 		public var screen_mc:MovieClip;
 		public var bkgd_mc:MovieClip;
 		public var backdrop_mc:MovieClip;
@@ -77,15 +81,19 @@ package com.squidfingers.widgets {
 		// -------------------------------------------------------------------
 		
 		public function YouTubePlayer():void {
-			Security.allowDomain('www.youtube.com');
 			hideChildren();
+			try {
+				Security.allowDomain('www.youtube.com');
+			} catch (e:SecurityError) {
+				showError(e.message);
+			}
 		}
 		
 		// ===================================================================
 		// Public Methods
 		// -------------------------------------------------------------------
 		
-		public function load (p_youTubeId:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_autoPlay:Boolean = true, p_borderColor:Number = NaN, p_suggestedQuality:String = 'default'):void {
+		public function load (p_youTubeId:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_autoPlay:Boolean = true, p_borderColor:Number = NaN, p_suggestedQuality:String = 'default', p_logoURL:String = null):void {
 			
 			dispose();
 			
@@ -96,6 +104,7 @@ package com.squidfingers.widgets {
 			_autoPlay = p_autoPlay;
 			_borderColor = p_borderColor;
 			_suggestedQuality = p_suggestedQuality;
+			_logoURL = p_logoURL;
 			
 			// Validate video dimensions
 			if (_screenWidth < 320) _screenWidth = 320;
@@ -223,14 +232,28 @@ package com.squidfingers.widgets {
 			
 			// Check for errors
 			if (_youTubeId == null) {
-				error_mc.visible = true;
+				showError('YouTube ID Cannot be null.');
 				return;
 			}
 			
+			// Load logo image
+			if (_logoURL) {
+				_logoLoader = new Loader();
+				_logoLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, logoLoaderCompleteHandler, false, 0, true);
+				_logoLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, logoLoaderErrorHandler, false, 0, true);
+				_logoLoader.load(new URLRequest(_logoURL));
+			}
+			
 			// Load YouTube API
-			_loader = new Loader();
-			_loader.contentLoaderInfo.addEventListener(Event.INIT, loaderInitHandler, false, 0, true);
-			_loader.load(new URLRequest('http://www.youtube.com/apiplayer?version=3'));
+			_apiLoader = new Loader();
+			_apiLoader.contentLoaderInfo.addEventListener(Event.INIT, apiLoaderInitHandler, false, 0, true);
+			_apiLoader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, apiLoaderErrorHandler, false, 0, true);
+			try {
+				_apiLoader.load(new URLRequest('http://www.youtube.com/apiplayer?version=3'));
+			} catch (e:SecurityError) {
+				showError(e.message);
+				return;
+			}
 			
 			// Show spinner
 			spinner_mc.visible = true;
@@ -240,24 +263,35 @@ package com.squidfingers.widgets {
 			
 			hideChildren();
 			
-			// Destroy player
+			// Remove logo image
+			if (_logoLoader) {
+				_logoLoader.unload();
+				if (logo_mc.contains(_logoLoader)) {
+					logo_mc.removeChild(_logoLoader);
+				}
+				_logoLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE, logoLoaderCompleteHandler, false);
+				_logoLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, logoLoaderErrorHandler, false);
+			}
+			
+			// Remove player
 			if (_player) {
 				_player.stopVideo();
 				_player.destroy();
 				_player = null;
 			}
 			
-			// Destroy loader
-			if (_loader) {
-				_loader.contentLoaderInfo.removeEventListener(Event.INIT, loaderInitHandler, false);
+			// Remove api loader
+			if (_apiLoader) {
+				_apiLoader.contentLoaderInfo.removeEventListener(Event.INIT, apiLoaderInitHandler, false);
+				_apiLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, apiLoaderErrorHandler, false);
 			}
-			if (_loader && screen_mc.contains(_loader)) {
-				_loader.content.removeEventListener('onReady', videoReadyHandler, false);
-				_loader.content.removeEventListener('onError', videoErrorHandler, false);
-				_loader.content.removeEventListener('onStateChange', videoStateChangeHandler, false);
-				_loader.content.removeEventListener('onPlaybackQualityChange', videoPlaybackQualityChangeHandler, false);
+			if (_apiLoader && screen_mc.contains(_apiLoader)) {
+				_apiLoader.content.removeEventListener('onReady', videoReadyHandler, false);
+				_apiLoader.content.removeEventListener('onError', videoErrorHandler, false);
+				_apiLoader.content.removeEventListener('onStateChange', videoStateChangeHandler, false);
+				_apiLoader.content.removeEventListener('onPlaybackQualityChange', videoPlaybackQualityChangeHandler, false);
 			}
-			_loader = null;
+			_apiLoader = null;
 			
 			// Remove controller event handlers
 			if (screen_mc.hasEventListener(MouseEvent.CLICK)) {
@@ -311,20 +345,44 @@ package com.squidfingers.widgets {
 				m.x = t.x + h.x + Math.round((_volume / 100) * h.width);
 			}
 		}
+		private function showError (p_message:String):void {
+			//Console.log('ERROR:' + p_message);
+			trace('ERROR:' + p_message);
+			dispose();
+			error_mc.visible = true;
+		}
 		
 		// ===================================================================
 		// Event Handlers
 		// -------------------------------------------------------------------
 		
+		// Loader
+		
+		private function apiLoaderInitHandler (p_event:Event):void {
+			screen_mc.addChild(_apiLoader);
+			_apiLoader.content.addEventListener('onReady', videoReadyHandler, false, 0, true);
+			_apiLoader.content.addEventListener('onError', videoErrorHandler, false, 0, true);
+			_apiLoader.content.addEventListener('onStateChange', videoStateChangeHandler, false, 0, true);
+			_apiLoader.content.addEventListener('onPlaybackQualityChange', videoPlaybackQualityChangeHandler, false, 0, true);
+		}
+		private function apiLoaderErrorHandler (p_event:IOErrorEvent):void {
+			showError(p_event.text);
+		}
+		
+		// Logo
+		
+		private function logoLoaderCompleteHandler (p_event:Event):void {
+			logo_mc.visible = true;
+			logo_mc.addChild(_logoLoader);
+			logo_mc.x = _screenWidth - logo_mc.width - 10;
+			logo_mc.y = 10;
+		}
+		private function logoLoaderErrorHandler (p_event:IOErrorEvent):void {
+			trace('ERROR: Unable to load logo image.');
+		}
+		
 		// YouTube API
 		
-		private function loaderInitHandler (p_event:Event):void {
-			screen_mc.addChild(_loader);
-			_loader.content.addEventListener('onReady', videoReadyHandler, false, 0, true);
-			_loader.content.addEventListener('onError', videoErrorHandler, false, 0, true);
-			_loader.content.addEventListener('onStateChange', videoStateChangeHandler, false, 0, true);
-			_loader.content.addEventListener('onPlaybackQualityChange', videoPlaybackQualityChangeHandler, false, 0, true);
-		}
 		private function videoReadyHandler (p_event:Event):void {
 			// Event.data contains the event parameter, which is the player API ID
 			// Console.log('READY:', Object(p_event).data);
@@ -349,7 +407,7 @@ package com.squidfingers.widgets {
 			showController();
 			
 			// Load YouTube video
-			_player = _loader.content;
+			_player = _apiLoader.content;
 			_player.setSize(_screenWidth, _screenHeight);
 			if (_autoPlay) {
 				_player.loadVideoById(_youTubeId, 0, _suggestedQuality);
@@ -360,9 +418,7 @@ package com.squidfingers.widgets {
 		}
 		private function videoErrorHandler (p_event:Event):void {
 			// Event.data contains the event parameter, which is the error code
-			trace('ERROR:' + Object(p_event).data);
-			dispose();
-			error_mc.visible = true;
+			showError(Object(p_event).data);
 		}
 		private function videoStateChangeHandler (p_event:Event):void {
 			// Event.data contains the event parameter, which is the new player state
@@ -470,18 +526,18 @@ package com.squidfingers.widgets {
 				_player.playVideo();
 			}
 		}
-		//private function rewindClickHandler (p_event:MouseEvent):void {
-		//	_player.seekTo(0, false);
-		//}
-		//private function muteClickHandler (p_event:MouseEvent):void {
-		//	if (_player.isMuted()) {
-		//		_player.unMute();
-		//		controller_mc.mute_mc.icon_mc.gotoAndStop(1);
-		//	} else {
-		//		_player.mute();
-		//		controller_mc.mute_mc.icon_mc.gotoAndStop(2);
-		//	}
-		//}
+		private function rewindClickHandler (p_event:MouseEvent):void {
+			//_player.seekTo(0, false);
+		}
+		private function muteClickHandler (p_event:MouseEvent):void {
+			//if (_player.isMuted()) {
+			//	_player.unMute();
+			//	controller_mc.mute_mc.icon_mc.gotoAndStop(1);
+			//} else {
+			//	_player.mute();
+			//	controller_mc.mute_mc.icon_mc.gotoAndStop(2);
+			//}
+		}
 		private function streamEnterFrameHandler (p_event:Event):void {
 			var bLoaded = _player.getVideoBytesLoaded();
 			var bTotal = _player.getVideoBytesTotal();
@@ -600,6 +656,11 @@ package com.squidfingers.widgets {
 				screen_mc.x = Math.round((w - screen_mc.width) / 2);
 				screen_mc.y = Math.round((h - screen_mc.height) / 2);
 				
+				// Position logo
+				if (logo_mc.visible) {
+					logo_mc.x = screen_mc.x + screen_mc.width - logo_mc.width - 10;
+				}
+				
 				// Position controller
 				controller_mc.x = Math.round(w / 2);
 				controller_mc.y = h;
@@ -642,6 +703,11 @@ package com.squidfingers.widgets {
 				screen_mc.x = 0;
 				screen_mc.y = 0;
 				
+				// Reset logo
+				if (logo_mc.visible) {
+					logo_mc.x = _screenWidth - logo_mc.width - 10;
+				}
+				
 				// Reset controller
 				controller_mc.x = _screenCenterX;
 				controller_mc.y = _screenHeight;
@@ -659,7 +725,7 @@ package com.squidfingers.widgets {
 				_player.setPlaybackQuality(_suggestedQuality);
 			}
 		}
-		
+				
 		// -------------------------------------------------------------------
 	}
 }
