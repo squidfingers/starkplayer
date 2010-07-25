@@ -56,9 +56,9 @@ package com.squidfingers.widgets {
 		protected var _stageAlign:String;
 		protected var _hasBorder:Boolean;
 		
+		protected var _playing:Boolean;
 		protected var _seeking:Boolean;
 		protected var _seekTo:Number;
-		protected var _playingBeforeSeek:Boolean;
 		
 		protected var _counter:Number;
 		
@@ -274,6 +274,7 @@ package com.squidfingers.widgets {
 			}
 			
 			// Remove player
+			_playing = false;
 			if (_player) {
 				_player.stopVideo();
 				_player.destroy();
@@ -427,11 +428,11 @@ package com.squidfingers.widgets {
 			var playerState = parseInt(Object(p_event).data);
 			switch (playerState) {
 				case VIDEO_UNSTARTED:
-					// Console.log('Video Unstarted');
+					trace('Video Unstarted');
 					// Video unstarted
 					break;
 				case VIDEO_COMPLETE:
-					// Console.log('Video Complete');
+					trace('Video Complete');
 					// Video complete
 					start_mc.visible = true;
 					spinner_mc.visible = false;
@@ -439,32 +440,34 @@ package com.squidfingers.widgets {
 					controller_mc.play_mc.icon_mc.gotoAndStop(1);
 					break;
 				case VIDEO_PLAYING:
-					// Console.log('Video Playing');
+					trace('Video Playing');
 					if (_seeking) return;// Ignore event if seeking
 					// Video playing
+					_playing = true;
 					start_mc.visible = false;
 					spinner_mc.visible = false;
 					spinner_mc.stop();
 					controller_mc.play_mc.icon_mc.gotoAndStop(2);
 					break;
 				case VIDEO_PAUSED:
-					// Console.log('Video Paused');
+					trace('Video Paused');
 					if (_seeking) return;// Ignore event if seeking
 					// Video paused
+					_playing = false;
 					start_mc.visible = true;
 					spinner_mc.visible = false;
 					spinner_mc.stop();
 					controller_mc.play_mc.icon_mc.gotoAndStop(1);
 					break;
 				case VIDEO_BUFFERING:
-					// Console.log('Video Buffering');
+					trace('Video Buffering');
 					// Video buffering
 					start_mc.visible = false;
 					spinner_mc.visible = true;
 					spinner_mc.play();
 					break;
 				case VIDEO_CUED:
-					// Console.log('Video Cued');
+					trace('Video Cued');
 					// Video cued
 					start_mc.visible = true;
 					spinner_mc.visible = false;
@@ -482,7 +485,7 @@ package com.squidfingers.widgets {
 		
 		private function youTubeClickHandler (p_event:MouseEvent):void {
 			if (stage.displayState == StageDisplayState.NORMAL) {
-				if (_player.getPlayerState() == VIDEO_PLAYING) {
+				if (_playing) {
 					_player.pauseVideo();
 				}
 				navigateToURL(new URLRequest(_player.getVideoUrl()), '_blank');
@@ -520,9 +523,19 @@ package com.squidfingers.widgets {
 			if (_player.getPlayerState() != VIDEO_PLAYING) _player.playVideo();
 		}
 		private function playClickHandler (p_event:MouseEvent):void {
-			if (_player.getPlayerState() == VIDEO_PLAYING) {
+			if (_playing) {
 				_player.pauseVideo();
+				if (_player.getPlayerState() == VIDEO_BUFFERING) {
+					_playing = false;
+					start_mc.visible = true;
+					controller_mc.play_mc.icon_mc.gotoAndStop(1);
+				}
 			} else {
+				if (_player.getPlayerState() == VIDEO_BUFFERING) {
+					_playing = true;
+					start_mc.visible = false;
+					controller_mc.play_mc.icon_mc.gotoAndStop(2);
+				}
 				_player.playVideo();
 			}
 		}
@@ -562,7 +575,6 @@ package com.squidfingers.widgets {
 		private function streamMouseDownHandler (p_event:MouseEvent):void {
 			_seeking = true;
 			_seekTo = NaN;
-			_playingBeforeSeek = (_player.getPlayerState() == VIDEO_PLAYING);
 			// Remove event handlers
 			controller_mc.track_mc.addEventListener(Event.ENTER_FRAME, trackEnterFrameHandler, false, 0, true);
 			stage.addEventListener(MouseEvent.MOUSE_UP, streamMouseUpHandler, false, 0, true);
@@ -572,7 +584,7 @@ package com.squidfingers.widgets {
 			controller_mc.track_mc.removeEventListener(Event.ENTER_FRAME, trackEnterFrameHandler, false);
 			stage.addEventListener(MouseEvent.MOUSE_UP, streamMouseUpHandler, false);
 			// Play video if needed
-			if (_player.getPlayerState() != VIDEO_PLAYING && _playingBeforeSeek) {
+			if (_playing) {
 				_player.playVideo();
 			}
 			_seekTo = NaN;
