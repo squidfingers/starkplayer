@@ -150,7 +150,7 @@
                             ext == 'mpg' || ext == 'mpeg')
                         o.type = 'video';
                     else if (ext == 'mp3')
-                      o.type = 'audio';
+                        o.type = 'audio';
                 }
 
                 // Determine youtubeid
