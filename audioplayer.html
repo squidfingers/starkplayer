@@ -2,45 +2,31 @@
 <html lang="en-us">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Audio Player</title>
+	<title>Squidfingers Audio Player</title>
 	<style type="text/css">
 		
 		* {margin:0; padding:0;}
 		body {margin:50px 0 25px 50px; background-color:#fff;}
 		
 	</style>
-	<script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.mediaplayers.min.js"></script>
+	<script type="text/javascript">
 	
-		var flashVars = {
-			url:'media/audio.mp3', 
-			autoplay:'false', // default: false
-			border:'#666666', // default: null
-			skin:null, // default: null
-		};
-		
-		// Default skin size: 320x70
-		// Compact skin size: 260x30
-		
-		var params = { 
-			menu:'false',
-			bgcolor:'#ffffff'
-		};
-		
-		var attributes = {
-			id:'audioplayer', 
-			name:'audioplayer'
-		};
-		
-		swfobject.embedSWF('audioplayer.swf', 'audioplayer', '320', '70', '10.0.0', null, flashVars, params, attributes);
+		$(document).ready(function() {
+			$('.media').mediaplayer({
+				autoplay: 'false',
+				border: '#666666',
+				bgcolor: '#ffffff',
+				skin: 'compact'
+			});
+		});
 		
 	</script>
 </head>
 <body>
-	<div id="audioplayer">
-		<audio controls="controls" src="media/audio.mp3">
-			Your browser does not support audio.
-		</audio>
-	</div>
+	<audio class="media" src="media/audio.mp3" controls>
+	</audio>
 </body>
 </html>

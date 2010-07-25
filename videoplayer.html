@@ -2,44 +2,31 @@
 <html lang="en-us">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Video Player</title>
+	<title>Squidfingers Video Player</title>
 	<style type="text/css">
 		
 		* {margin:0; padding:0;}
 		body {margin:50px 0 25px 50px; background-color:#fff;}
 		
 	</style>
-	<script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.mediaplayers.min.js"></script>
+	<script type="text/javascript">
 	
-		var flashVars = {
-			url:'media/video.mp4', 
-			poster:'media/poster.jpg', // default: null
-			autoplay:'false', // default: false
-			buffertime:'10', // default: 10
-			border:'#000000', // default: null
-			logo:'media/logo.png' // default: null
-		};
-		
-		var params = {
-			allowFullScreen:'true', 
-			menu:'false'
-		};
-		
-		var attributes = {
-			id:'videoplayer', 
-			name:'videoplayer'
-		};
-		
-		swfobject.embedSWF('videoplayer.swf', 'videoplayer', '720', '480', '10.0.0', null, flashVars, params, attributes);
+		$(document).ready(function() {
+			$('.media').mediaplayer({
+				autoplay: 'false',
+				border: '#000000',
+				bgcolor: '#ffffff',
+				logo: 'media/logo.png'
+			});
+		});
 		
 	</script>
 </head>
 <body>
-	<div id="videoplayer">
-		<video src="media/video.mp4" width="720" height="480" controls="controls">
-			Your browser does not support video.
-		</video>
-	</div>
+	<video class="media" src="media/video.mp4" poster="media/poster.jpg" width="720" height="480" controls>
+    </video>
 </body>
 </html>
