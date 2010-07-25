@@ -40,6 +40,7 @@
                 bgcolor: '#ffffff',
                 logo: '',
                 quality: 'default',
+                skin: 'default',
                 videoplayer: 'videoplayer.swf',
                 audioplayer: 'audioplayer.swf',
                 youtubeplayer: 'youtubeplayer.swf'
@@ -163,13 +164,15 @@
 
                 // Set audio player dimensions
                 if (o.type == 'audio') {
-                    o.width = '320';
-                    o.height = '70';
+                    if (o.skin == 'compact') {
+                        o.width = '260';
+                        o.height = '30';
+                    }
+                    else if (o.skin == 'default') {
+                        o.width = '320';
+                        o.height = '70';
+                    }
                 }
-
-                alert(o.type);
-                alert(o.url);
-                alert(o.youtubeid);
 
                 // Set the parameters depending on the player type
                 if (o.type == 'video') {
@@ -192,7 +195,8 @@
                     var flash_vars = {
                         url: o.url,
                         autoplay: o.autoplay,
-                        border: o.border
+                        border: o.border,
+                        skin: o.skin
                     }
                     var params = {
                         menu: 'false',
