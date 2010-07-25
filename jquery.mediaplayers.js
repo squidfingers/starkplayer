@@ -157,6 +157,9 @@
                             o.url)[2];
 
                 // If no width/height are specified, set them to match current
+                if (o.type == 'youtube' && o.youtubeid !== '' &&
+                        obj.get(0).tagName == 'OBJECT')
+                    obj.css('display', 'block');
                 if (o.width == '')
                     o.width = obj.width();
                 if (o.height == '')
