@@ -22,10 +22,6 @@
         mediaplayer: function(options) {
             // Define the plugin
 
-            // Do nothing if there's no Flash support
-            if (parseInt(swfobject.getFlashPlayerVersion()['major']) < 10)
-                return;
-
             // Set some reasonable defaults
             var defaults = {
                 type: '',
@@ -58,10 +54,16 @@
                 return element.firstChild.href;
             }
 
+            // Apply plugin to each element
             return this.each(function() {
-                // Apply plugin to each element
                 var o = $.extend({}, options);
                 var obj = $(this);
+
+                // Do nothing if there's no Flash support
+                if (parseInt(swfobject.getFlashPlayerVersion()['major']) < 10) {
+                    obj.show();
+                    return;
+                }
 
                 // Put element inside of a wrapper div
                 var wrapper = $('<div></div>').attr('id', 'mediaplayer-' +
@@ -226,6 +228,8 @@
                     swfobject.embedSWF(player, wrapper.attr('id'),
                         o.width, o.height, '10.0.0', null, flash_vars, params,
                         {id: wrapper.attr('id'), name: wrapper.attr('id')});
+
+                obj.show();
             });
         }
 
