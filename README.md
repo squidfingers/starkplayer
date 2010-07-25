@@ -54,7 +54,7 @@ Notes:
 YouTube Player
 ==============
 
-Version: 1.0  
+Version: 1.1  
 LangVersion: ActionScript 3.0  
 AppVersion CS4  
 PlayerVersion: Flash 10  
