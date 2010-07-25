@@ -31,6 +31,7 @@
                 type: '',
                 url: '',
                 poster: '',
+                youtubeid: '',
                 width: '',
                 height: '',
                 autoplay: 'false',
@@ -38,17 +39,11 @@
                 border: '',
                 bgcolor: '#ffffff',
                 logo: '',
+                quality: 'default',
                 videoplayer: 'videoplayer.swf',
-                audioplayer: 'audioplayer.swf'
+                audioplayer: 'audioplayer.swf',
+                youtubeplayer: 'youtubeplayer.swf'
             }
-
-            /*
-             * Future youtube params:
-             * - id
-             * - autoplay false
-             * - border #000000
-             * - quality medium
-            */
 
             // Override the defaults with user settings
             var options = $.extend(defaults, options);
@@ -119,15 +114,46 @@
                     }
                 }
 
-                if (o.type == '') {
-                    // Sniff out media type based on url file extension
+                // Check for iframe (used in html5 youtube embed code)
+                if (o.url == '' && obj.get(0).tagName == 'IFRAME')
+                    if (obj.attr('src'))
+                        o.url = get_absolute_url(obj.attr('src'));
+                
+                // Check for object (used in standard youtube embed code)
+                if (o.url == '' && obj.get(0).tagName == 'OBJECT') {
+                    var obj_params = obj.children('param');
+                    obj_params.each(function() {
+                        var param = $(this);
+                        if (param.attr('name') == 'movie')
+                            o.url = param.attr('value');
+                    });
+                    if (o.url == '') {
+                        // Check for embeds
+                        var embeds = obj.find('embed');
+                        if (embeds.length > 0) {
+                            var embed = embeds.first();
+                            if (embed.attr('src'))
+                                o.url = embed.attr('src');
+                        }
+                    }
+                }
+
+                if (o.type == '' && o.url !== '') {
+                    // Sniff out media type based on url
                     var ext = /[^\?\#]*\.(.*?)((\?|\#)+?.*)*$/i.exec(o.url)[1];
-                    if (ext == 'mp4' || ext == 'm4v' || ext == 'flv' ||
+                    if (o.url.match(/^http\:\/\/(www\.){0,1}youtube\.com\//))
+                        o.type = 'youtube';
+                    else if (ext == 'mp4' || ext == 'm4v' || ext == 'flv' ||
                             ext == 'mpg' || ext == 'mpeg')
                         o.type = 'video';
                     else if (ext == 'mp3')
-                        o.type = 'audio';
+                      o.type = 'audio';
                 }
+
+                // Determine youtubeid
+                if (o.url !== '' && o.type == 'youtube')
+                    o.youtubeid = /.*(\/embed\/|\/v\/|[\?\&\#\!]v\=)([a-zA-Z0-9]*).*$/i.exec(
+                            o.url)[2];
 
                 // If no width/height are specified, set them to match current
                 if (o.width == '')
@@ -140,6 +166,10 @@
                     o.width = '320';
                     o.height = '70';
                 }
+
+                alert(o.type);
+                alert(o.url);
+                alert(o.youtubeid);
 
                 // Set the parameters depending on the player type
                 if (o.type == 'video') {
@@ -169,9 +199,23 @@
                         bgcolor: o.bgcolor
                     }
                 }
+                else if (o.type == 'youtube') {
+                    var player = o.youtubeplayer;
+                    var flash_vars = {
+                        id: o.youtubeid,
+                        autoplay: o.autoplay,
+                        border: o.border,
+                        quality: o.quality
+                    }
+                    var params = {
+                        allowFullScreen: 'true',
+                        menu: 'false'
+                    }
+                }
 
                 // Embed the player
-                if (o.type !== '')
+                if (o.type !== '' && (o.type !== 'youtube' ||
+                        (o.type == 'youtube' & o.youtubeid !== '')))
                     swfobject.embedSWF(player, wrapper.attr('id'),
                         o.width, o.height, '10.0.0', null, flash_vars, params,
                         {id: wrapper.attr('id'), name: wrapper.attr('id')});

@@ -94,13 +94,13 @@ Embedding Audio
 
 With one source:
 
-    <audio class="audio" src="audio/song.mp3" controls>
+    <audio class="media" src="audio/song.mp3" controls>
         No sound for you.
     </audio>
 
 With multiple sources (the first source found will be used in the Flash media player):
 
-    <audio class="audio" controls>
+    <audio class="media" controls>
         <source src="audio/song.mp3">
         <source src="audio/song.ogg">
         No sound for you.
@@ -110,7 +110,7 @@ With multiple sources (the first source found will be used in the Flash media pl
 
 The href of the link will be used as the audio source.
 
-    <a class="audio" href="audio/song.mp3">
+    <a class="media" href="audio/song.mp3">
         Download MP3
     </a>
 
@@ -120,7 +120,7 @@ Use jQuery selectors to convert your content to media players:
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.audio').mediaplayer({
+            $('.media').mediaplayer({
                 border: '#666666',
                 bgcolor: '#ffffff',
                 audioplayer: 'media-players/audioplayer.swf'
@@ -130,7 +130,7 @@ Use jQuery selectors to convert your content to media players:
 
 Parameters:
 
-* __type:__ The type of media player to use (either 'audio' or 'video'). By default, type will be set to 'audio' for HTML5 audio or links to urls that have audio file extensions.
+* __type:__ The type of media player to use (either 'audio', 'video', or 'youtube'). By default, type will be set to 'audio' for HTML5 audio or links to urls that have audio file extensions.
 * __url:__ The url to an mp3. Defaults to media sniffed out from alternate content.
 * __autoplay:__ Automatically start to play the audio. Defaults to false.
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
@@ -143,14 +143,14 @@ Embedding Video
 
 With one source:
 
-    <video class="video" src="videos/video.mp4" poster="images/poster.jpg"
-            width="640" height="480" controls>
+    <video class="media" src="videos/video.mp4" poster="images/poster.jpg"
+            width="640" height="385" controls>
         No video for you.
     </video>
 
 With multiple sources (the first source found will be used in the Flash media player):
 
-    <video class="video" poster="images/poster.jpg" width="640" height="480"
+    <video class="media" poster="images/poster.jpg" width="640" height="385"
             controls>
         <source src="videos/video.mp4">
         <source src="videos/video.ogg">
@@ -162,8 +162,8 @@ With multiple sources (the first source found will be used in the Flash media pl
 
 The href of the link will be used as the video source. If it contains a nested image, this will be the video poster image.
 
-    <a class="video" href="videos/video.mp4"
-            style="display: block; width: 640px; height: 480px;">
+    <a class="media" href="videos/video.mp4"
+            style="display: block; width: 640px; height: 385px;">
         <img src="images/poster.jpg" alt="No video for you.">
     </a>
 
@@ -173,7 +173,7 @@ Use jQuery selectors to convert your content to media players:
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.video').mediaplayer({
+            $('.media').mediaplayer({
                 border: '#000000',
                 logo: 'graphics/logo.png',
                 videoplayer: 'media-players/videoplayer.swf'
@@ -183,7 +183,7 @@ Use jQuery selectors to convert your content to media players:
 
 Parameters:
 
-* __type:__ The type of media player to use (either 'audio' or 'video'). By default, type will be set to 'video' for HTML5 video or links to urls that have video file extensions.
+* __type:__ The type of media player to use (either 'audio', 'video', or 'youtube'). By default, type will be set to 'video' for HTML5 video or links to urls that have video file extensions.
 * __url:__ The url to an mp4 or flv. Defaults to media sniffed out from alternate content.
 * __poster:__ The url to a jpg or png poster image. Defaults to poster image sniffed out from alternate content.
 * __width:__ The width of the media player. Defaults to the width of the content it replaces.
@@ -193,3 +193,50 @@ Parameters:
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 * __videoplayer:__ The url to videoplayer.swf. Defaults to the same directory as the HTML file.
+
+Embedding YouTube Video
+-----------------------
+
+### Using HTML5 YouTube Embed Code ###
+
+    <iframe class="media" width="640" height="385"
+            src="http://www.youtube.com/embed/[VIDEO_ID]"></iframe>
+
+### Using Links ###
+
+The href of the link will be used as the YouTube video source.
+
+    <a class="media" href="http://www.youtube.com/watch?v=[VIDEO_ID]"
+            style="display: block; width: 640px; height: 385px;">
+        Watch on YouTube
+    </a>
+
+### Using Standard YouTube Embed Code ###
+
+__Note:__ This method, though supported, is not recommended. The standard YouTube embed code is not valid HTML5.
+
+    <object class="media" width="480" height="385"><param name="movie" value="http://www.youtube.com/v/[VIDEO_ID]"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/[VIDEO_ID]" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object>
+
+### Converting To Media Players ###
+
+Use jQuery selectors to convert your content to media players:
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.media').mediaplayer({
+                border: '#000000',
+                quality: 'hd720',
+                youtubeplayer: 'media-players/youtubeplayer.swf'
+            });
+        });
+    </script>
+
+Parameters:
+
+* __type:__ The type of media player to use (either 'audio', 'video', or 'youtube'). By default, type will be set to 'youtube' for links or embed code with youtube urls.
+* __width:__ The width of the media player. Defaults to the width of the content it replaces.
+* __height:__ The height of the media player. Defaults to the height of the content it replaces.
+* __autoplay:__ Automatically start to play the video. Defaults to false.
+* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
+* __quality:__ The suggested quality of the video. Acceptable values are: default, small, medium, large, and hd720.
+* __youtubeplayer:__ The url to youtubeplayer.swf. Defaults to the same directory as the HTML file.
