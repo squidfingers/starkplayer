@@ -216,7 +216,15 @@ The href of the link will be used as the YouTube video source.
 
 __Note:__ This method, though supported, is not recommended. The standard YouTube embed code is not valid HTML5.
 
-    <object class="media" width="480" height="385"><param name="movie" value="http://www.youtube.com/v/[VIDEO_ID]"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/[VIDEO_ID]" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object>
+    <object class="media" width="480" height="385">
+        <param name="movie" value="http://www.youtube.com/v/[VIDEO_ID]">
+                    </param>
+        <param name="allowFullScreen" value="true"></param>
+        <param name="allowscriptaccess" value="always"></param>
+        <embed src="http://www.youtube.com/v/[VIDEO_ID]"
+                type="application/x-shockwave-flash" allowscriptaccess="always"
+                allowfullscreen="true" width="480" height="385"></embed>
+    </object>
 
 ### Converting To Media Players ###
 
