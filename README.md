@@ -65,6 +65,7 @@ FlashVars:
 * __autoplay:__ Automatically start to play the video. Defaults to false.
 * __border:__ The hexadecimal color of the border. If null, a border will not be displayed. Optional.
 * __quality:__ The suggested quality of the video. Acceptable values are: default, small, medium, large, and hd720. If null, default will be used. Optional.
+* __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 
 Notes:
 
