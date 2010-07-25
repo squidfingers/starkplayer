@@ -214,7 +214,8 @@
                         id: o.youtubeid,
                         autoplay: o.autoplay,
                         border: o.border,
-                        quality: o.quality
+                        quality: o.quality,
+                        logo: o.logo
                     }
                     var params = {
                         allowFullScreen: 'true',

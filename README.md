@@ -249,4 +249,5 @@ Parameters:
 * __autoplay:__ Automatically start to play the video. Defaults to false.
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
 * __quality:__ The suggested quality of the video. Acceptable values are: default, small, medium, large, and hd720.
+* __logo:__ The logo to be displayed over the top right corner of the video.
 * __youtubeplayer:__ The url to youtubeplayer.swf. Defaults to the same directory as the HTML file.
