@@ -36,7 +36,6 @@
                 bgcolor: '#ffffff',
                 logo: '',
                 quality: 'default',
-                skin: 'default',
                 videoplayer: 'videoplayer.swf',
                 audioplayer: 'audioplayer.swf',
                 youtubeplayer: 'youtubeplayer.swf'
@@ -169,14 +168,8 @@
 
                 // Set audio player dimensions
                 if (o.type == 'audio') {
-                    if (o.skin == 'compact') {
-                        o.width = '260';
-                        o.height = '30';
-                    }
-                    else if (o.skin == 'default') {
-                        o.width = '320';
-                        o.height = '70';
-                    }
+                    o.width = '260';
+                    o.height = '30';
                 }
 
                 // Set the parameters depending on the player type
@@ -200,8 +193,7 @@
                     var flash_vars = {
                         url: o.url,
                         autoplay: o.autoplay,
-                        border: o.border,
-                        skin: o.skin
+                        border: o.border
                     }
                     var params = {
                         menu: 'false',
