@@ -169,6 +169,7 @@ package com.squidfingers.media {
 						_channel.stop();
 						_channel.removeEventListener(Event.SOUND_COMPLETE, soundCompleteHandler, false);
 						_channel = _snd.play(_position);
+						_channel.soundTransform = _soundTransform;
 						_channel.addEventListener(Event.SOUND_COMPLETE, soundCompleteHandler, false, 0, true);
 					}
 					dispatchEvent(new AudioPlaybackEvent(AudioPlaybackEvent.SEEK));

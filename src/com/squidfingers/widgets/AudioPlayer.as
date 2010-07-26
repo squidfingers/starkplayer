@@ -208,9 +208,11 @@ package com.squidfingers.widgets {
 		}
 		private function trackEnterFrameHandler (p_event:Event):void {
 			if (_audio.length) {
-				var r = controller_mc.track_mc.mouseX / controller_mc.track_mc.width;
-				var t = Math.min(Math.max(r, 0), 1) * _audio.length;
-				_audio.seek(t);
+				var r = Math.min(Math.max(controller_mc.track_mc.mouseX / controller_mc.track_mc.width, 0), 1);
+				if (controller_mc.stream_mc.scaleX >= r) {
+					var s = _audio.length * r;
+					_audio.seek(s);
+				}
 			}
 		}
 		private function volumeToggleClickHandler (p_event:MouseEvent):void {
