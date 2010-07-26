@@ -445,9 +445,11 @@ package com.squidfingers.widgets {
 		}
 		private function trackEnterFrameHandler (p_event:Event):void {
 			if (_video.duration) {
-				var r = controller_mc.track_mc.mouseX / controller_mc.track_mc.width;
-				var t = Math.min(Math.max(r, 0), 1) * _video.duration;
-				_video.seek(t);
+				var r = Math.min(Math.max(controller_mc.track_mc.mouseX / controller_mc.track_mc.width, 0), 1);
+				if (controller_mc.stream_mc.scaleX >= r) {
+					var s = _video.duration * r;
+					_video.seek(s);
+				}
 			}
 		}
 		private function volumeToggleClickHandler (p_event:MouseEvent):void {
