@@ -72,7 +72,7 @@
 
                 // Check for video tag with src and poster
                 if (o.url == '' && obj.get(0).tagName == 'VIDEO') {
-                    if (obj.attr('poster'))
+                    if (o.poster == '' && obj.attr('poster'))
                         o.poster = get_absolute_url(obj.attr('poster'));
                     if (obj.attr('src'))
                         o.url = get_absolute_url(obj.attr('src'));
@@ -111,7 +111,7 @@
                     var imgs = obj.find('img');
                     if (imgs.length > 0) {
                         var img = imgs.first();
-                        if (img.attr('src'))
+                        if (o.poster == '' && img.attr('src'))
                             o.poster = get_absolute_url(img.attr('src'));
                     }
                 }
@@ -153,7 +153,7 @@
                 }
 
                 // Determine youtubeid
-                if (o.url !== '' && o.type == 'youtube')
+                if (o.youtubeid == '' && o.url !== '' && o.type == 'youtube')
                     o.youtubeid = /.*(\/embed\/|\/v\/|[\?\&\#\!]v\=)([a-zA-Z0-9]*).*$/i.exec(
                             o.url)[2];
 
@@ -168,8 +168,10 @@
 
                 // Set audio player dimensions
                 if (o.type == 'audio') {
-                    o.width = '260';
-                    o.height = '30';
+                    if (o.width == '')
+                        o.width = '260';
+                    if (o.height == '')
+                        o.height = '30';
                 }
 
                 // Set the parameters depending on the player type
