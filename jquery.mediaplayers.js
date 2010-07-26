@@ -16,11 +16,11 @@
     // Set a global counter for mediaplayer ids
     $.mediaplayer_id_counter = 0;
 
+    // Extend jQuery with mediaplayer plugin
     $.fn.extend({
-        // Extend jQuery with mediaplayer plugin
 
         mediaplayer: function(options) {
-            // Define the plugin
+            // Convert elements to media players
 
             // Set some reasonable defaults
             var defaults = {
@@ -130,8 +130,8 @@
                         if (param.attr('name') == 'movie')
                             o.url = param.attr('value');
                     });
+                    // Check for embeds
                     if (o.url == '') {
-                        // Check for embeds
                         var embeds = obj.find('embed');
                         if (embeds.length > 0) {
                             var embed = embeds.first();
@@ -141,8 +141,8 @@
                     }
                 }
 
+                // Sniff out media type based on url
                 if (o.type == '' && o.url !== '') {
-                    // Sniff out media type based on url
                     var ext = /[^\?\#]*\.(.*?)((\?|\#)+?.*)*$/i.exec(o.url)[1];
                     if (o.url.match(/^http\:\/\/(www\.){0,1}youtube\.com\//))
                         o.type = 'youtube';
