@@ -157,6 +157,14 @@
                     o.youtubeid = /.*(\/embed\/|\/v\/|[\?\&\#\!]v\=)([a-zA-Z0-9]*).*$/i.exec(
                             o.url)[2];
 
+                // Set audio player dimensions
+                if (o.type == 'audio') {
+                    if (o.width == '')
+                        o.width = '260';
+                    if (o.height == '')
+                        o.height = '30';
+                }
+
                 // If no width/height are specified, set them to match current
                 if (o.type == 'youtube' && o.youtubeid !== '' &&
                         obj.get(0).tagName == 'OBJECT')
@@ -165,14 +173,6 @@
                     o.width = obj.width();
                 if (o.height == '')
                     o.height = obj.height();
-
-                // Set audio player dimensions
-                if (o.type == 'audio') {
-                    if (o.width == '')
-                        o.width = '260';
-                    if (o.height == '')
-                        o.height = '30';
-                }
 
                 // Set the parameters depending on the player type
                 if (o.type == 'video') {
