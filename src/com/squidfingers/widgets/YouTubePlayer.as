@@ -599,10 +599,12 @@ package com.squidfingers.widgets {
 		}
 		private function trackEnterFrameHandler (p_event:Event):void {
 			if (_player.getDuration()) {
-				var r = controller_mc.track_mc.mouseX / controller_mc.track_mc.width;
-				var t = _player.getDuration() * Math.min(Math.max(r, 0), 1);
-				if (t != _seekTo) _player.seekTo(t, false);
-				_seekTo = t;
+				var r = Math.min(Math.max(controller_mc.track_mc.mouseX / controller_mc.track_mc.width, 0), 1);
+				if (controller_mc.stream_mc.scaleX >= r) {
+					var s = _player.getDuration() * r;
+					if (s != _seekTo) _player.seekTo(s, false);
+					_seekTo = s;
+				}
 				// Pause video while seeking
 				if (_player.getPlayerState() == VIDEO_PLAYING) {
 					_player.pauseVideo();
