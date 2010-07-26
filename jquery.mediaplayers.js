@@ -70,7 +70,7 @@
                 obj.wrap(wrapper)
                 $.mediaplayer_id_counter ++;
 
-                // Check for video tag with src and poster
+                // Check for video tag with src, poster, and dimensions
                 if (o.url == '' && obj.get(0).tagName == 'VIDEO') {
                     if (o.poster == '' && obj.attr('poster'))
                         o.poster = get_absolute_url(obj.attr('poster'));
@@ -84,6 +84,10 @@
                                 o.url = get_absolute_url(source.attr('src'));
                         }
                     }
+                    if (o.width == '' && obj.attr('width'))
+                        o.width = obj.attr('width');
+                    if (o.height == '' && obj.attr('height'))
+                        o.height = obj.attr('height');
                     if (o.type == '')
                         o.type = 'video';
                 }
@@ -166,13 +170,13 @@
                 }
 
                 // If no width/height are specified, set them to match current
-                if (o.type == 'youtube' && o.youtubeid !== '' &&
-                        obj.get(0).tagName == 'OBJECT')
-                    obj.css('display', 'block');
+                var obj_display = obj.css('display');
+                obj.css('display', 'block');
                 if (o.width == '')
                     o.width = obj.width();
                 if (o.height == '')
                     o.height = obj.height();
+                obj.css('display', obj_display);
 
                 // Set the parameters depending on the player type
                 if (o.type == 'video') {
