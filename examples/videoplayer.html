@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Video Starkplayer</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="../starkplayer/jquery.starkplayer.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.starkplayer').starkplayer({
+				autoplay: 'false',
+				buffertime: '10',
+				border: '#000000',
+				bgcolor: '#ffffff',
+				logo: 'media/logo.png',
+				videoplayer: '../starkplayer/videoplayer.swf'
+			});
+		});
+	</script>
+</head>
+<body>
+	<video class="starkplayer" src="media/video.mp4" poster="media/poster.jpg" width="720" height="480" controls>
+    </video>
+</body>
+</html>

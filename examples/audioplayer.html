@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Audio Starkplayer</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="../starkplayer/jquery.starkplayer.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.starkplayer').starkplayer({
+				autoplay: 'false',
+				border: '#666666',
+				bgcolor: '#ffffff',
+				audioplayer: '../starkplayer/audioplayer.swf'
+			});
+		});
+	</script>
+</head>
+<body>
+	<audio class="starkplayer" src="media/audio.mp3" controls>
+	</audio>
+</body>
+</html>
