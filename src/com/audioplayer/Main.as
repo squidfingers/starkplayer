@@ -13,7 +13,7 @@ package com.audioplayer {
 		// Children
 		// -------------------------------------------------------------------
 		
-		public var audioPlayers_mc:MovieClip;
+		public var audioPlayer_mc:MovieClip;
 		
 		// ===================================================================
 		// Constructor
@@ -45,21 +45,10 @@ package com.audioplayer {
 			var audioURL = root.loaderInfo.parameters.url;
 			var autoPlay = root.loaderInfo.parameters.autoplay;
 			var border = root.loaderInfo.parameters.border;
-			var skin = root.loaderInfo.parameters.skin;
 			
 			// Process parameters
 			autoPlay = (autoPlay) ? autoPlay.toLowerCase() == 'true' : false;
 			border = (border) ? border.toLowerCase() : null;
-			skin = (skin) ? skin.toLowerCase() : null;
-			
-			// Set skin
-			var player = audioPlayers_mc.audioPlayerDefault_mc;
-			if (audioPlayers_mc.totalFrames > 1) {
-				if (skin == 'compact') {
-					audioPlayers_mc.gotoAndStop(2);
-					player = audioPlayers_mc.audioPlayerCompact_mc;
-				}
-			}
 			
 			// Validate border
 			var borderColor = NaN;
@@ -75,7 +64,7 @@ package com.audioplayer {
 			}
 			
 			// Load audio
-			player.load(audioURL, autoPlay, borderColor);
+			audioPlayer_mc.load(audioURL, autoPlay, borderColor);
 		}
 		
 		// -------------------------------------------------------------------

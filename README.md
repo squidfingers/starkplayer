@@ -19,15 +19,10 @@ FlashVars:
 * __url:__ The url to an mp3. Required.
 * __autoplay:__ Automatically start to play the audio. Defaults to false.
 * __border:__ The hexadecimal color of the border. If null, a border will not be displayed. Optional.
-* __skin:__ The skin type of the player. Acceptable values are: default, and compact. If null, default will be used. Optional.
-
-Skin Sizes:
-
-* __default:__ 320 x 70
-* __compact:__ 260 x 30
 
 Notes:
 
+* __Stage Size:__ 260 x 30
 * The mp3 should be __higher than 96 kbps__ to avoid a Flash bug where seeking causes Event.SOUND_COMPLETE to fire too early.
 
 Video Player
