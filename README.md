@@ -44,7 +44,7 @@ FlashVars:
 
 Notes:
 
-* __Minimum Video Size:__ 320 x 240
+* __Minimum Stage Size:__ 320 x 240
 
 YouTube Player
 ==============
@@ -64,7 +64,7 @@ FlashVars:
 
 Notes:
 
-* __Minimum Video Size:__ 320 x 240
+* __Minimum Stage Size:__ 320 x 240
 
 jQuery Plugin
 =============
