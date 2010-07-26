@@ -84,6 +84,7 @@
                                 o.url = get_absolute_url(source.attr('src'));
                         }
                     }
+                    // Check for width/height
                     if (o.width == '' && obj.attr('width'))
                         o.width = obj.attr('width');
                     if (o.height == '' && obj.attr('height'))
@@ -121,9 +122,15 @@
                 }
 
                 // Check for iframe (used in html5 youtube embed code)
-                if (o.url == '' && obj.get(0).tagName == 'IFRAME')
+                if (o.url == '' && obj.get(0).tagName == 'IFRAME') {
                     if (obj.attr('src'))
                         o.url = get_absolute_url(obj.attr('src'));
+                    // Check for width/height
+                    if (o.width == '' && obj.attr('width'))
+                        o.width = obj.attr('width');
+                    if (o.height == '' && obj.attr('height'))
+                        o.height = obj.attr('height');
+                }
                 
                 // Check for object (used in standard youtube embed code)
                 if (o.url == '' && obj.get(0).tagName == 'OBJECT') {
@@ -142,6 +149,11 @@
                                 o.url = embed.attr('src');
                         }
                     }
+                    // Check for width/height
+                    if (o.width == '' && obj.attr('width'))
+                        o.width = obj.attr('width');
+                    if (o.height == '' && obj.attr('height'))
+                        o.height = obj.attr('height');
                 }
 
                 // Sniff out media type based on url
