@@ -158,7 +158,7 @@
 
                 // Determine youtubeid
                 if (o.youtubeid == '' && o.url !== '' && o.type == 'youtube')
-                    o.youtubeid = /.*(\/embed\/|\/v\/|[\?\&\#\!]v\=)([a-zA-Z0-9]*).*$/i.exec(
+                    o.youtubeid = /.*(\/embed\/|\/v\/|[\?\&\#\!]v\=)([a-zA-Z0-9\_]*).*$/i.exec(
                             o.url)[2];
 
                 // Set audio player dimensions
