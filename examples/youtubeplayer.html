@@ -5,21 +5,20 @@
 	<title>YouTube Starkplayer</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	<script type="text/javascript" src="../starkplayer/jquery.starkplayer.min.js"></script>
+	<script type="text/javascript" src="../jquery.starkplayer.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('.starkplayer').starkplayer({
+			$('iframe').starkplayer({
 				autoplay: 'false',
 				border: '#000000',
-				bgcolor: '#ffffff',
 				quality: 'medium',
 				logo: 'media/logo.png',
-				youtubeplayer: '../starkplayer/youtubeplayer.swf'
+				youtubeplayer: '../youtubeplayer.swf'
 			});
 		});
 	</script>
 </head>
 <body>
-	<iframe class="starkplayer" type="text/html" src="http://www.youtube.com/embed/CMNry4PE93Y" width="704" height="480" frameborder="0"></iframe>
+	<iframe src="http://www.youtube.com/embed/CMNry4PE93Y" width="704" height="480"></iframe>
 </body>
 </html>

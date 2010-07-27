@@ -5,22 +5,23 @@
 	<title>Video Starkplayer</title>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	<script type="text/javascript" src="../starkplayer/jquery.starkplayer.min.js"></script>
+	<script type="text/javascript" src="../jquery.starkplayer.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('.starkplayer').starkplayer({
+			$('video').starkplayer({
 				autoplay: 'false',
 				buffertime: '10',
 				border: '#000000',
 				bgcolor: '#ffffff',
 				logo: 'media/logo.png',
-				videoplayer: '../starkplayer/videoplayer.swf'
+				videoplayer: '../videoplayer.swf'
 			});
 		});
 	</script>
 </head>
 <body>
-	<video class="starkplayer" src="media/video.mp4" poster="media/poster.jpg" width="720" height="480" controls>
+	<video src="media/video.mp4" poster="media/poster.jpg" width="720" height="480" controls>
+        Video is unsupported.
     </video>
 </body>
 </html>

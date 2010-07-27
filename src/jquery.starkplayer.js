@@ -1,7 +1,6 @@
 /*\
 *  Filename: jquery.starkplayer.js
-*  Description: A jQuery plugin for starkplayer by
-*          Travis Beckham.
+*  Description: A jQuery plugin for Travis Beckham's starkplayer.
 *  Project URL: http://github.com/squidfingers/starkplayer
 *  Dependencies: SWFObject
 *          (http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js
@@ -20,7 +19,7 @@
     $.fn.extend({
 
         starkplayer: function(options) {
-            // Convert elements to media players
+            // Replace elements with starkplayer
 
             // Set some reasonable defaults
             var defaults = {
@@ -190,7 +189,7 @@
                     o.height = obj.height();
                 obj.css('display', obj_display);
 
-                // Set the parameters depending on the media player type
+                // Set the parameters depending on the media type
                 if (o.type == 'video') {
                     var player = o.videoplayer;
                     var flash_vars = {
