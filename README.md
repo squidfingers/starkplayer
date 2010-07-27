@@ -131,6 +131,7 @@ Parameters:
 * __url:__ The url to an mp3. Defaults to media sniffed out from alternate content.
 * __autoplay:__ Automatically start to play the audio. Defaults to false.
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
+* __bgcolor:__ The background color of the Flash player.
 * __audioplayer:__ The url to audioplayer.swf. Defaults to the same directory as the HTML file.
 
 Embedding Video
