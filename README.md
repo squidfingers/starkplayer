@@ -9,7 +9,7 @@ Alan Christopher Thomas
 Audio Starkplayer
 =================
 
-Version: 1.3  
+Version: 0.9  
 LangVersion: ActionScript 3.0  
 AppVersion CS4  
 PlayerVersion: Flash 10  
@@ -28,7 +28,7 @@ Notes:
 Video Starkplayer
 =================
 
-Version: 1.2  
+Version: 0.9  
 LangVersion: ActionScript 3.0  
 AppVersion CS4  
 PlayerVersion: Flash 10  
@@ -49,7 +49,7 @@ Notes:
 YouTube Starkplayer
 ===================
 
-Version: 1.1  
+Version: 0.9  
 LangVersion: ActionScript 3.0  
 AppVersion CS4  
 PlayerVersion: Flash 10  
