@@ -16,6 +16,7 @@ package com.starkplayer.widgets {
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import flash.system.Security;
+	//import flash.text.TextField;
 	import flash.ui.Mouse;
 	import fl.motion.Color;
 	
@@ -35,6 +36,8 @@ package com.starkplayer.widgets {
 		// ===================================================================
 		// Properties
 		// -------------------------------------------------------------------
+		
+		protected var _qualityLevels:Object = {'default':-1, 'small':0, 'medium':1, 'large':2, 'hd720':3};
 		
 		protected var _youTubeId:String;
 		protected var _autoPlay:Boolean;
@@ -76,6 +79,8 @@ package com.starkplayer.widgets {
 		public var bkgd_mc:MovieClip;
 		public var backdrop_mc:MovieClip;
 		
+		//public var debug_txt:TextField;
+		
 		// ===================================================================
 		// Constructor
 		// -------------------------------------------------------------------
@@ -93,7 +98,7 @@ package com.starkplayer.widgets {
 		// Public Methods
 		// -------------------------------------------------------------------
 		
-		public function load (p_youTubeId:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_autoPlay:Boolean = true, p_borderColor:Number = NaN, p_suggestedQuality:String = 'default', p_logoURL:String = null):void {
+		public function load (p_youTubeId:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_autoPlay:Boolean = true, p_borderColor:Number = NaN, p_suggestedQuality:String = null, p_logoURL:String = null):void {
 			
 			dispose();
 			
@@ -103,12 +108,13 @@ package com.starkplayer.widgets {
 			_screenHeight = p_screenHeight;
 			_autoPlay = p_autoPlay;
 			_borderColor = p_borderColor;
-			_suggestedQuality = p_suggestedQuality;
+			_suggestedQuality = p_suggestedQuality.toLowerCase();
 			_logoURL = p_logoURL;
 			
-			// Validate video dimensions
+			// Validate parameters
 			if (_screenWidth < 320) _screenWidth = 320;
 			if (_screenHeight < 240) _screenHeight = 240;
+			if (_suggestedQuality == null || _qualityLevels[_suggestedQuality] == undefined) _suggestedQuality = 'default';
 			
 			// Initialize volume properties
 			_volume = 90;
@@ -221,9 +227,10 @@ package com.starkplayer.widgets {
 			controller_mc.fullScreen_mc.hitArea_mc.visible = false;
 			
 			// Setup progress
-			controller_mc.track_mc.mouseEnabled = false;
+			controller_mc.track_mc.buttonMode = true;
+			controller_mc.track_mc.mouseEnabled = true;
 			controller_mc.track_mc.mouseChildren = false;
-			controller_mc.stream_mc.buttonMode = true;
+			controller_mc.stream_mc.mouseEnabled = false;
 			controller_mc.stream_mc.mouseChildren = false;
 			controller_mc.progress_mc.mouseEnabled = false;
 			controller_mc.progress_mc.mouseChildren = false;
@@ -304,8 +311,8 @@ package com.starkplayer.widgets {
 				controller_mc.volume_mc.toggle_mc.removeEventListener(MouseEvent.CLICK, volumeToggleClickHandler, false);
 				controller_mc.volume_mc.track_mc.removeEventListener(MouseEvent.MOUSE_DOWN, volumeTrackMouseDownHandler, false);
 				controller_mc.fullScreen_mc.removeEventListener(MouseEvent.CLICK, fullScreenClickHandler, false);
-				controller_mc.removeEventListener(Event.ENTER_FRAME, timeEnterFrameHandler, false);
-				controller_mc.stream_mc.removeEventListener(MouseEvent.MOUSE_DOWN, streamMouseDownHandler, false);
+				controller_mc.removeEventListener(Event.ENTER_FRAME, controllerEnterFrameHandler, false);
+				controller_mc.track_mc.removeEventListener(MouseEvent.MOUSE_DOWN, trackMouseDownHandler, false);
 				controller_mc.stream_mc.removeEventListener(Event.ENTER_FRAME, streamEnterFrameHandler, false);
 				controller_mc.progress_mc.removeEventListener(Event.ENTER_FRAME, progressEnterFrameHandler, false);
 				stage.removeEventListener(FullScreenEvent.FULL_SCREEN, fullScreenHandler, false);
@@ -318,6 +325,11 @@ package com.starkplayer.widgets {
 			if (hasEventListener(Event.ENTER_FRAME)) {
 				removeEventListener(Event.ENTER_FRAME, enterFrameHandler, false);
 			}
+			
+			// Debug
+			//if (debug_txt.hasEventListener(Event.ENTER_FRAME)) {
+			//	debug_txt.removeEventListener(Event.ENTER_FRAME, debugEnterFrameHandler, false);
+			//}
 		}
 		
 		// ===================================================================
@@ -391,14 +403,14 @@ package com.starkplayer.widgets {
 			// Attach controller event handlers
 			screen_mc.addEventListener(MouseEvent.CLICK, youTubeClickHandler, false, 0, true);
 			start_mc.addEventListener(MouseEvent.CLICK, startClickHandler, false, 0, true);
+			controller_mc.addEventListener(Event.ENTER_FRAME, controllerEnterFrameHandler, false, 0, true);
 			controller_mc.play_mc.addEventListener(MouseEvent.CLICK, playClickHandler, false, 0, true);
 			//controller_mc.rewind_mc.addEventListener(MouseEvent.CLICK, rewindClickHandler, false, 0, true);
 			//controller_mc.mute_mc.addEventListener(MouseEvent.CLICK, muteClickHandler, false, 0, true);
 			controller_mc.volume_mc.toggle_mc.addEventListener(MouseEvent.CLICK, volumeToggleClickHandler, false, 0, true);
 			controller_mc.volume_mc.track_mc.addEventListener(MouseEvent.MOUSE_DOWN, volumeTrackMouseDownHandler, false, 0, true);
 			controller_mc.fullScreen_mc.addEventListener(MouseEvent.CLICK, fullScreenClickHandler, false, 0, true);
-			controller_mc.addEventListener(Event.ENTER_FRAME, timeEnterFrameHandler, false, 0, true);
-			controller_mc.stream_mc.addEventListener(MouseEvent.MOUSE_DOWN, streamMouseDownHandler, false, 0, true);
+			controller_mc.track_mc.addEventListener(MouseEvent.MOUSE_DOWN, trackMouseDownHandler, false, 0, true);
 			controller_mc.stream_mc.addEventListener(Event.ENTER_FRAME, streamEnterFrameHandler, false, 0, true);
 			controller_mc.progress_mc.addEventListener(Event.ENTER_FRAME, progressEnterFrameHandler, false, 0, true);
 			stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenHandler, false, 0, true);
@@ -416,6 +428,9 @@ package com.starkplayer.widgets {
 				_player.cueVideoById(_youTubeId, 0, _suggestedQuality);
 			}
 			setVolume(_volume);
+			
+			// Debug
+			//debug_txt.addEventListener(Event.ENTER_FRAME, debugEnterFrameHandler, false, 0, true);
 		}
 		private function videoErrorHandler (p_event:Event):void {
 			// Event.data contains the event parameter, which is the error code
@@ -515,7 +530,7 @@ package com.starkplayer.widgets {
 				}
 			}
 		}
-		private function timeEnterFrameHandler (p_event:Event):void {
+		private function controllerEnterFrameHandler (p_event:Event):void {
 			controller_mc.duration_txt.text = TimeUtil.format(_player.getDuration());
 			controller_mc.time_txt.text = TimeUtil.format(_player.getCurrentTime());
 		}
@@ -559,12 +574,13 @@ package com.starkplayer.widgets {
 			//}
 		}
 		private function streamEnterFrameHandler (p_event:Event):void {
-			var bLoaded = _player.getVideoBytesLoaded();
-			var bTotal = _player.getVideoBytesTotal();
-			if (bTotal > 0) {
+			var bStart = _player.getVideoStartBytes();
+			var bLoaded = bStart + _player.getVideoBytesLoaded();
+			var bTotal = bStart + _player.getVideoBytesTotal();
+			if (_player.getVideoBytesTotal() > 0) {
 				if (bLoaded == bTotal && controller_mc.stream_mc.scaleX < 1) {
 					controller_mc.stream_mc.scaleX = 1;
-					controller_mc.stream_mc.removeEventListener(Event.ENTER_FRAME, streamEnterFrameHandler, false);
+					//controller_mc.stream_mc.removeEventListener(Event.ENTER_FRAME, streamEnterFrameHandler, false);
 				} else {
 					controller_mc.stream_mc.scaleX = bLoaded / bTotal;
 				}
@@ -572,24 +588,31 @@ package com.starkplayer.widgets {
 		}
 		private function progressEnterFrameHandler (p_event:Event):void {
 			if (_player.getDuration() > 0) {
-				// Note: substract 2 pixels to allow the progress marker shadow to extend beyond the track
-				var markerWidth = controller_mc.progressMarker_mc.width - 2;
-				controller_mc.progressMarker_mc.x = controller_mc.track_mc.x + (_player.getCurrentTime() / _player.getDuration() * (controller_mc.track_mc.width - markerWidth));
-				controller_mc.progress_mc.width = (controller_mc.progressMarker_mc.x - controller_mc.track_mc.x) + (markerWidth / 2);
-				//controller_mc.progress_mc.scaleX = _player.getCurrentTime() / _player.getDuration();
+				if ( ! _seeking) {
+					// Note: substract 2 pixels to allow the progress marker shadow to extend beyond the track
+					var markerWidth = controller_mc.progressMarker_mc.width - 2;
+					controller_mc.progressMarker_mc.x = controller_mc.track_mc.x + ((_player.getCurrentTime() / _player.getDuration()) * (controller_mc.track_mc.width - markerWidth));
+					controller_mc.progress_mc.width = (controller_mc.progressMarker_mc.x - controller_mc.track_mc.x) + (markerWidth / 2);
+					//controller_mc.progress_mc.scaleX = _player.getCurrentTime() / _player.getDuration();
+				}
 			}
 		}
-		private function streamMouseDownHandler (p_event:MouseEvent):void {
+		private function trackMouseDownHandler (p_event:MouseEvent):void {
+			// Set initial seek position
+			var r = Math.min(Math.max(controller_mc.track_mc.mouseX / controller_mc.track_mc.width, 0), 1);
+			var s = _player.getDuration() * r;
+			_seekTo = s;
 			_seeking = true;
-			_seekTo = NaN;
-			// Remove event handlers
-			controller_mc.track_mc.addEventListener(Event.ENTER_FRAME, trackEnterFrameHandler, false, 0, true);
-			stage.addEventListener(MouseEvent.MOUSE_UP, streamMouseUpHandler, false, 0, true);
-		}
-		private function streamMouseUpHandler (p_event:MouseEvent):void {
 			// Attach event handlers
+			controller_mc.track_mc.addEventListener(Event.ENTER_FRAME, trackEnterFrameHandler, false, 0, true);
+			stage.addEventListener(MouseEvent.MOUSE_UP, trackMouseUpHandler, false, 0, true);
+		}
+		private function trackMouseUpHandler (p_event:MouseEvent):void {
+			// Remove event handlers
 			controller_mc.track_mc.removeEventListener(Event.ENTER_FRAME, trackEnterFrameHandler, false);
-			stage.addEventListener(MouseEvent.MOUSE_UP, streamMouseUpHandler, false);
+			stage.removeEventListener(MouseEvent.MOUSE_UP, trackMouseUpHandler, false);
+			// Allow seeking to unbuffered video
+			_player.seekTo(_seekTo, true);
 			// Play video if needed
 			if (_playing) {
 				_player.playVideo();
@@ -600,11 +623,17 @@ package com.starkplayer.widgets {
 		private function trackEnterFrameHandler (p_event:Event):void {
 			if (_player.getDuration()) {
 				var r = Math.min(Math.max(controller_mc.track_mc.mouseX / controller_mc.track_mc.width, 0), 1);
-				if (controller_mc.stream_mc.scaleX >= r) {
+				//if (controller_mc.stream_mc.scaleX >= r) {
 					var s = _player.getDuration() * r;
 					if (s != _seekTo) _player.seekTo(s, false);
 					_seekTo = s;
-				}
+					// Update progress marker
+					var markerWidth = controller_mc.progressMarker_mc.width - 2;
+					var markerX = controller_mc.track_mc.x + controller_mc.track_mc.mouseX;
+					var trackLeft = controller_mc.track_mc.x;
+					var trackRight = controller_mc.track_mc.x + controller_mc.track_mc.width - markerWidth;
+					controller_mc.progressMarker_mc.x = Math.min(Math.max(markerX, trackLeft), trackRight);
+				//}
 				// Pause video while seeking
 				if (_player.getPlayerState() == VIDEO_PLAYING) {
 					_player.pauseVideo();
@@ -696,7 +725,9 @@ package com.starkplayer.widgets {
 				start_mc.y = spinner_mc.y = error_mc.y = Math.round(h / 2);
 				
 				// Set quality
-				_player.setPlaybackQuality('large');
+				if (_qualityLevels[_suggestedQuality] < _qualityLevels.large) {
+					_player.setPlaybackQuality('large');
+				}
 				
 			} else {
 				
@@ -745,6 +776,18 @@ package com.starkplayer.widgets {
 				// Reset quality
 				_player.setPlaybackQuality(_suggestedQuality);
 			}
+		}
+		
+		// Debug
+		
+		private function debugEnterFrameHandler (p_event:Event):void {
+			//var playerState = 'Player State: ' + _player.getPlayerState();
+			//var startBytes = 'Start Bytes: ' + _player.getVideoStartBytes();
+			//var bytesLoaded = 'Bytes Loaded: ' + _player.getVideoBytesLoaded();
+			//var bytesTotal = 'Bytes Total: ' + _player.getVideoBytesTotal();
+			//var duration = 'Duration: ' + _player.getDuration();
+			//var currentTime = 'Current Time: ' + _player.getCurrentTime();
+			//debug_txt.text = playerState +'\n'+ startBytes +'\n'+ bytesLoaded +'\n'+ bytesTotal +'\n'+ duration +'\n'+ currentTime;
 		}
 				
 		// -------------------------------------------------------------------

@@ -24,7 +24,7 @@ package com.youtubeplayer {
 			var cm = new ContextMenu();
 			cm.hideBuiltInItems();
 			cm.customItems.push(new ContextMenuItem('YouTube Starkplayer'));
-			cm.customItems.push(new ContextMenuItem('Version: 1.1'));
+			cm.customItems.push(new ContextMenuItem('Version: 0.9'));
 			contextMenu = cm;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false, 0, true);
