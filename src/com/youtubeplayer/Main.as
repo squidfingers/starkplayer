@@ -23,7 +23,7 @@ package com.youtubeplayer {
 			
 			var cm = new ContextMenu();
 			cm.hideBuiltInItems();
-			cm.customItems.push(new ContextMenuItem('Squidfingers YouTube Player'));
+			cm.customItems.push(new ContextMenuItem('YouTube Starkplayer'));
 			cm.customItems.push(new ContextMenuItem('Version: 1.1'));
 			contextMenu = cm;
 			

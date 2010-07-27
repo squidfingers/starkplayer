@@ -23,7 +23,7 @@ package com.videoplayer {
 			
 			var cm = new ContextMenu();
 			cm.hideBuiltInItems();
-			cm.customItems.push(new ContextMenuItem('Squidfingers Video Player'));
+			cm.customItems.push(new ContextMenuItem('Video Starkplayer'));
 			cm.customItems.push(new ContextMenuItem('Version: 1.2'));
 			contextMenu = cm;
 			
