@@ -78,7 +78,7 @@ The plugin is able to replace any element with starkplayer, but certain structur
 Installation
 ------------
 
-Include SWFObject and the jQuery plugin in the `<head>` section of your HTML document:
+Include SWFObject, jQuery, and the starkplayer jQuery plugin in the `<head>` section of your HTML document:
 
     <script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js" type="text/javascript"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
@@ -127,7 +127,7 @@ Use jQuery selectors to replace your content with starkplayer:
 
 Parameters:
 
-* __type:__ The type of media to display (either 'audio', 'video', or 'youtube'). By default, type will be set to 'audio' for HTML5 audio or links to urls that have audio file extensions.
+* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'audio' for HTML5 audio or links to urls that have audio file extensions.
 * __url:__ The url to an mp3. Defaults to media sniffed out from alternate content.
 * __autoplay:__ Automatically start to play the audio. Defaults to false.
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
@@ -180,7 +180,7 @@ Use jQuery selectors to replace your content with starkplayer:
 
 Parameters:
 
-* __type:__ The type of media to display (either 'audio', 'video', or 'youtube'). By default, type will be set to 'video' for HTML5 video or links to urls that have video file extensions.
+* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'video' for HTML5 video or links to urls that have video file extensions.
 * __url:__ The url to an mp4 or flv. Defaults to media sniffed out from alternate content.
 * __poster:__ The url to a jpg or png poster image. Defaults to poster image sniffed out from alternate content.
 * __width:__ The width of the player. Defaults to the width of the content it replaces.
@@ -237,7 +237,7 @@ Use jQuery selectors to replace your content with starkplayer:
 
 Parameters:
 
-* __type:__ The type of media to display (either 'audio', 'video', or 'youtube'). By default, type will be set to 'youtube' for links or embed code with youtube urls.
+* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'youtube' for links or embed code with youtube urls.
 * __width:__ The width of the player. Defaults to the width of the content it replaces.
 * __height:__ The height of the player. Defaults to the height of the content it replaces.
 * __autoplay:__ Automatically start to play the video. Defaults to false.
