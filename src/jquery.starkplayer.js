@@ -163,7 +163,8 @@
                     if (o.url.match(/^http\:\/\/(www\.){0,1}youtube\.com\//))
                         o.type = 'youtube';
                     else if (ext == 'mp4' || ext == 'm4v' || ext == 'flv' ||
-                            ext == 'mpg' || ext == 'mpeg' || ext == 'mov')
+                            ext == 'mpg' || ext == 'mpeg' || ext == 'mov' ||
+                            ext == '3gp')
                         o.type = 'video';
                     else if (ext == 'mp3')
                         o.type = 'audio';
