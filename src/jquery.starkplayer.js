@@ -139,15 +139,17 @@
                         if (param.attr('name') == 'movie')
                             o.url = param.attr('value');
                     });
-                    // Check for embeds
-                    if (o.url == '') {
-                        var embeds = obj.find('embed');
-                        if (embeds.length > 0) {
-                            var embed = embeds.first();
-                            if (embed.attr('src'))
-                                o.url = embed.attr('src');
-                        }
-                    }
+                    // Check for width/height
+                    if (o.width == '' && obj.attr('width'))
+                        o.width = obj.attr('width');
+                    if (o.height == '' && obj.attr('height'))
+                        o.height = obj.attr('height');
+                }
+
+                // Check for embed (used in standard youtube embed code)
+                if (o.url == '' && obj.get(0).tagName == 'EMBED') {
+                    if (obj.attr('src'))
+                        o.url = obj.attr('src');
                     // Check for width/height
                     if (o.width == '' && obj.attr('width'))
                         o.width = obj.attr('width');
