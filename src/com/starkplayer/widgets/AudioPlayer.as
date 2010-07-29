@@ -56,7 +56,7 @@ package com.starkplayer.widgets {
 			_borderColor = p_borderColor;
 			
 			// Initialize volume properties
-			_volume = 0.9;
+			_volume = 1;
 			_volumeRestore = _volume;
 			
 			// Setup border
@@ -106,15 +106,15 @@ package com.starkplayer.widgets {
 			controller_mc.volume_mc.toggle_mc.mouseChildren = false;
 			controller_mc.volume_mc.toggle_mc.hitArea = controller_mc.volume_mc.toggle_mc.hitArea_mc;
 			controller_mc.volume_mc.toggle_mc.hitArea_mc.visible = false;
-			controller_mc.volume_mc.track_mc.hitArea = controller_mc.volume_mc.track_mc.hitArea_mc;
-			controller_mc.volume_mc.track_mc.hitArea_mc.visible = false;
+			//controller_mc.volume_mc.track_mc.hitArea = controller_mc.volume_mc.track_mc.hitArea_mc;
+			//controller_mc.volume_mc.track_mc.hitArea_mc.visible = false;
 			controller_mc.volume_mc.track_mc.buttonMode = true;
 			controller_mc.volume_mc.track_mc.mouseChildren = false;
 			controller_mc.volume_mc.marker_mc.mouseEnabled = false;
 			controller_mc.volume_mc.marker_mc.mouseChildren = false;
 			
 			// Attach event handlers to controller buttons
-			controller_mc.addEventListener(Event.ENTER_FRAME, timeEnterFrameHandler, false, 0, true);
+			controller_mc.addEventListener(Event.ENTER_FRAME, controllerEnterFrameHandler, false, 0, true);
 			controller_mc.play_mc.addEventListener(MouseEvent.CLICK, playClickHandler, false, 0, true);
 			controller_mc.stream_mc.addEventListener(MouseEvent.MOUSE_DOWN, streamMouseDownHandler, false, 0, true);
 			controller_mc.stream_mc.addEventListener(Event.ENTER_FRAME, streamEnterFrameHandler, false, 0, true);
@@ -144,7 +144,7 @@ package com.starkplayer.widgets {
 			
 			// Remove event handlers on controller buttons
 			if (controller_mc && controller_mc.hasEventListener(Event.ENTER_FRAME)) {
-				controller_mc.removeEventListener(Event.ENTER_FRAME, timeEnterFrameHandler, false);
+				controller_mc.removeEventListener(Event.ENTER_FRAME, controllerEnterFrameHandler, false);
 				controller_mc.play_mc.removeEventListener(MouseEvent.CLICK, playClickHandler, false);
 				controller_mc.stream_mc.removeEventListener(MouseEvent.MOUSE_DOWN, streamMouseDownHandler, false);
 				controller_mc.stream_mc.removeEventListener(Event.ENTER_FRAME, streamEnterFrameHandler, false);
@@ -171,7 +171,7 @@ package com.starkplayer.widgets {
 		
 		// Controller
 		
-		private function timeEnterFrameHandler (p_event:Event):void {
+		private function controllerEnterFrameHandler (p_event:Event):void {
 			controller_mc.time_txt.text = TimeUtil.format(Math.round(_audio.position / 1000));
 			controller_mc.duration_txt.text = TimeUtil.format(Math.round(_audio.length / 1000));
 		}
@@ -232,8 +232,9 @@ package com.starkplayer.widgets {
 			stage.removeEventListener(MouseEvent.MOUSE_UP, volumeTrackMouseUpHandler, false);
 		}
 		private function volumeTrackEnterFrameHandler (p_event:Event):void {
-			var h = controller_mc.volume_mc.track_mc.hitArea_mc;
-			_audio.volume = Math.min(Math.max((h.mouseX / h.width), 0), 1);
+			//var h = controller_mc.volume_mc.track_mc.hitArea_mc;
+			var t = controller_mc.volume_mc.track_mc;
+			_audio.volume = Math.min(Math.max((t.mouseX / t.width), 0), 1);
 		}
 		
 		// Audio Playback
@@ -248,16 +249,20 @@ package com.starkplayer.widgets {
 			controller_mc.play_mc.icon_mc.gotoAndStop(1);
 		}
 		private function audioVolumeChangeHandler (p_event:AudioPlaybackEvent):void {
-			var t = controller_mc.volume_mc.track_mc;
-			var h = controller_mc.volume_mc.track_mc.hitArea_mc;
-			var m = controller_mc.volume_mc.marker_mc;
-			m.x = t.x + h.x + Math.round(_audio.volume * h.width);
+			//var t = controller_mc.volume_mc.track_mc;
+			//var h = controller_mc.volume_mc.track_mc.hitArea_mc;
+			//var m = controller_mc.volume_mc.marker_mc;
+			//m.x = t.x + h.x + Math.round(_audio.volume * h.width);
+			
+			// Note: substract 2 pixels to allow the volume marker shadow to extend beyond the track
+			var markerWidth = controller_mc.volume_mc.marker_mc.width - 2;
+			controller_mc.volume_mc.marker_mc.x = controller_mc.volume_mc.track_mc.x + Math.round(_audio.volume * (controller_mc.volume_mc.track_mc.width - markerWidth));
 			_volume = _audio.volume;
 		}
 		private function audioErrorHandler (p_event:AudioPlaybackErrorEvent):void {
+			trace('ERROR: ' + p_event.text);
 			dispose();
 			gotoAndStop(2);
-			trace('ERROR: ' + p_event.text);
 		}
 		
 		// -------------------------------------------------------------------
