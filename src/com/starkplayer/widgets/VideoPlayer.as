@@ -95,7 +95,7 @@ package com.starkplayer.widgets {
 			if (_screenHeight < 240) _screenHeight = 240;
 			
 			// Initialize volume properties
-			_volume = 0.9;
+			_volume = 1;
 			_volumeRestore = _volume;
 			
 			// Determine center of video
@@ -201,8 +201,8 @@ package com.starkplayer.widgets {
 			controller_mc.volume_mc.toggle_mc.mouseChildren = false;
 			controller_mc.volume_mc.toggle_mc.hitArea = controller_mc.volume_mc.toggle_mc.hitArea_mc;
 			controller_mc.volume_mc.toggle_mc.hitArea_mc.visible = false;
-			controller_mc.volume_mc.track_mc.hitArea = controller_mc.volume_mc.track_mc.hitArea_mc;
-			controller_mc.volume_mc.track_mc.hitArea_mc.visible = false;
+			//controller_mc.volume_mc.track_mc.hitArea = controller_mc.volume_mc.track_mc.hitArea_mc;
+			//controller_mc.volume_mc.track_mc.hitArea_mc.visible = false;
 			controller_mc.volume_mc.track_mc.buttonMode = true;
 			controller_mc.volume_mc.track_mc.mouseChildren = false;
 			controller_mc.volume_mc.marker_mc.mouseEnabled = false;
@@ -234,7 +234,7 @@ package com.starkplayer.widgets {
 			}
 			
 			// Attach event handlers to controller buttons
-			controller_mc.addEventListener(Event.ENTER_FRAME, timeEnterFrameHandler, false, 0, true);
+			controller_mc.addEventListener(Event.ENTER_FRAME, controllerEnterFrameHandler, false, 0, true);
 			controller_mc.play_mc.addEventListener(MouseEvent.CLICK, playClickHandler, false, 0, true);
 			//controller_mc.rewind_mc.addEventListener(MouseEvent.CLICK, rewindClickHandler, false, 0, true);
 			controller_mc.stream_mc.addEventListener(MouseEvent.MOUSE_DOWN, streamMouseDownHandler, false, 0, true);
@@ -308,7 +308,7 @@ package com.starkplayer.widgets {
 			
 			// Remove event handlers on controller buttons
 			if (controller_mc.hasEventListener(Event.ENTER_FRAME)) {
-				controller_mc.removeEventListener(Event.ENTER_FRAME, timeEnterFrameHandler, false);
+				controller_mc.removeEventListener(Event.ENTER_FRAME, controllerEnterFrameHandler, false);
 				controller_mc.play_mc.removeEventListener(MouseEvent.CLICK, playClickHandler, false);
 				//controller_mc.rewind_mc.removeEventListener(MouseEvent.CLICK, rewindClickHandler, false);
 				controller_mc.fullScreen_mc.removeEventListener(MouseEvent.CLICK, fullScreenClickHandler, false);
@@ -388,7 +388,7 @@ package com.starkplayer.widgets {
 			if (_counter == 0 && controller_mc.alpha < 1) {
 				controller_mc.alpha += 0.1;
 			} else {
-				if (_counter++ > 100) {
+				if (_counter++ > 80) {
 					if (controller_mc.alpha > 0) {
 						controller_mc.alpha -= 0.2;
 					} else {
@@ -402,7 +402,7 @@ package com.starkplayer.widgets {
 				}
 			}
 		}
-		private function timeEnterFrameHandler (p_event:Event):void {
+		private function controllerEnterFrameHandler (p_event:Event):void {
 			controller_mc.time_txt.text = TimeUtil.format(_video.time);
 		}
 		private function startClickHandler (p_event:MouseEvent):void {
@@ -469,8 +469,9 @@ package com.starkplayer.widgets {
 			stage.removeEventListener(MouseEvent.MOUSE_UP, volumeTrackMouseUpHandler, false);
 		}
 		private function volumeTrackEnterFrameHandler (p_event:Event):void {
-			var h = controller_mc.volume_mc.track_mc.hitArea_mc;
-			_video.volume = Math.min(Math.max((h.mouseX / h.width), 0), 1);
+			//var h = controller_mc.volume_mc.track_mc.hitArea_mc;
+			var t = controller_mc.volume_mc.track_mc;
+			_video.volume = Math.min(Math.max((t.mouseX / t.width), 0), 1);
 		}
 		
 		// Fullscreen
@@ -638,10 +639,14 @@ package com.starkplayer.widgets {
 			spinner_mc.stop();
 		}
 		private function videoVolumeChangeHandler (p_event:VideoPlaybackEvent):void {
-			var t = controller_mc.volume_mc.track_mc;
-			var h = controller_mc.volume_mc.track_mc.hitArea_mc;
-			var m = controller_mc.volume_mc.marker_mc;
-			m.x = t.x + h.x + Math.round(_video.volume * h.width);
+			//var t = controller_mc.volume_mc.track_mc;
+			//var h = controller_mc.volume_mc.track_mc.hitArea_mc;
+			//var m = controller_mc.volume_mc.marker_mc;
+			//m.x = t.x + h.x + Math.round(_video.volume * h.width);
+			
+			// Note: substract 2 pixels to allow the volume marker shadow to extend beyond the track
+			var markerWidth = controller_mc.volume_mc.marker_mc.width - 2;
+			controller_mc.volume_mc.marker_mc.x = controller_mc.volume_mc.track_mc.x + Math.round(_video.volume * (controller_mc.volume_mc.track_mc.width - markerWidth));
 			_volume = _video.volume;
 		}
 		private function videoMetaDataHandler (p_event:VideoPlaybackEvent):void {

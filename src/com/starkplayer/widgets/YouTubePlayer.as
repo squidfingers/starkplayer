@@ -117,7 +117,7 @@ package com.starkplayer.widgets {
 			if (_suggestedQuality == null || _qualityLevels[_suggestedQuality] == undefined) _suggestedQuality = 'default';
 			
 			// Initialize volume properties
-			_volume = 90;
+			_volume = 100;
 			_volumeRestore = _volume;
 			
 			// Determine center of video
@@ -213,8 +213,8 @@ package com.starkplayer.widgets {
 			controller_mc.volume_mc.toggle_mc.mouseChildren = false;
 			controller_mc.volume_mc.toggle_mc.hitArea = controller_mc.volume_mc.toggle_mc.hitArea_mc;
 			controller_mc.volume_mc.toggle_mc.hitArea_mc.visible = false;
-			controller_mc.volume_mc.track_mc.hitArea = controller_mc.volume_mc.track_mc.hitArea_mc;
-			controller_mc.volume_mc.track_mc.hitArea_mc.visible = false;
+			//controller_mc.volume_mc.track_mc.hitArea = controller_mc.volume_mc.track_mc.hitArea_mc;
+			//controller_mc.volume_mc.track_mc.hitArea_mc.visible = false;
 			controller_mc.volume_mc.track_mc.buttonMode = true;
 			controller_mc.volume_mc.track_mc.mouseChildren = false;
 			controller_mc.volume_mc.marker_mc.mouseEnabled = false;
@@ -352,10 +352,14 @@ package com.starkplayer.widgets {
 			if (_player) {
 				_volume = Math.min(Math.max(Math.round(p_volume), 0), 100);
 				_player.setVolume(_volume);
-				var t = controller_mc.volume_mc.track_mc;
-				var h = controller_mc.volume_mc.track_mc.hitArea_mc;
-				var m = controller_mc.volume_mc.marker_mc;
-				m.x = t.x + h.x + Math.round((_volume / 100) * h.width);
+				//var t = controller_mc.volume_mc.track_mc;
+				//var h = controller_mc.volume_mc.track_mc.hitArea_mc;
+				//var m = controller_mc.volume_mc.marker_mc;
+				//m.x = t.x + h.x + Math.round((_volume / 100) * h.width);
+				
+				// Note: substract 2 pixels to allow the volume marker shadow to extend beyond the track
+				var markerWidth = controller_mc.volume_mc.marker_mc.width - 2;
+				controller_mc.volume_mc.marker_mc.x = controller_mc.volume_mc.track_mc.x + Math.round((_volume / 100) * (controller_mc.volume_mc.track_mc.width - markerWidth));
 			}
 		}
 		private function showError (p_message:String):void {
@@ -657,8 +661,9 @@ package com.starkplayer.widgets {
 			stage.removeEventListener(MouseEvent.MOUSE_UP, volumeTrackMouseUpHandler, false);
 		}
 		private function volumeTrackEnterFrameHandler (p_event:Event):void {
-			var h = controller_mc.volume_mc.track_mc.hitArea_mc;
-			var v = (h.mouseX / h.width) * 100;
+			//var h = controller_mc.volume_mc.track_mc.hitArea_mc;
+			var t = controller_mc.volume_mc.track_mc;
+			var v = (t.mouseX / t.width) * 100;
 			setVolume(v);
 		}
 		
