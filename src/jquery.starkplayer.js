@@ -43,6 +43,86 @@
             // Override the defaults with user settings
             var options = $.extend(defaults, options);
 
+            // Check for IE7 and IE8 html5 handling
+            var crappy_browser = false;
+            $('*').each(function() {
+                if (this.tagName == '/AUDIO')
+                    crappy_browser = true;
+                if (this.tagName == '/VIDEO')
+                    crappy_browser = true;
+            });
+
+            // Convert audio, video, and source tags to divs
+            if (crappy_browser) {
+                var html5_fix_counter = 0;
+                $('audio').each(function() {
+                    var end_audio = false;
+                    var end_document = false;
+                    var elem = this.nextSibling;
+                    var div = $('<div></div>');
+                    while (!end_audio && !end_document) {
+                        var child = elem;
+                        if (child.tagName == 'SOURCE') {
+                            var source_span = $('<span></span>');
+                            $.each(child.attributes, function(i, attribute) {
+                                source_span.attr(attribute.name, attribute.value);
+                            });
+                            source_span.addClass('html5-source').insertAfter(child);
+                            $(child).remove();
+                            child = source_span.get(0);
+                        }
+                        if (child.tagName == '/AUDIO')
+                            end_audio = true;
+                        else if (!child)
+                            end_document = true;
+                        else
+                            $(child).clone().appendTo(div);
+                        elem = child.nextSibling;
+                        $(child).remove();
+                    }
+                    $.each(this.attributes, function(i, attribute) {
+                        $(div).attr(attribute.name, attribute.value);
+                    });
+                    div.addClass('html5-audio').addClass('html5-fix-'+html5_fix_counter).insertAfter(this);
+                    $(this).attr('rel', '.html5-fix-'+html5_fix_counter);
+                    html5_fix_counter ++;
+                    $(this).remove();
+                });
+                $('video').each(function() {
+                    var end_audio = false;
+                    var end_document = false;
+                    var elem = this.nextSibling;
+                    var div = $('<div></div>');
+                    while (!end_audio && !end_document) {
+                        var child = elem;
+                        if (child.tagName == 'SOURCE') {
+                            var source_span = $('<span></span>');
+                            $.each(child.attributes, function(i, attribute) {
+                                source_span.attr(attribute.name, attribute.value);
+                            });
+                            source_span.addClass('html5-source').insertAfter(child);
+                            $(child).remove();
+                            child = source_span.get(0);
+                        }
+                        if (child.tagName == '/VIDEO')
+                            end_audio = true;
+                        else if (!child)
+                            end_document = true;
+                        else
+                            $(child).clone().appendTo(div);
+                        elem = child.nextSibling;
+                        $(child).remove();
+                    }
+                    $.each(this.attributes, function(i, attribute) {
+                        $(div).attr(attribute.name, attribute.value);
+                    });
+                    div.addClass('html5-video').addClass('html5-fix-'+html5_fix_counter).insertAfter(this);
+                    $(this).attr('rel', '.html5-fix-'+html5_fix_counter);
+                    html5_fix_counter ++;
+                    $(this).remove();
+                });
+            }
+
             function get_absolute_url(url) {
                 // Get the absolute path of a url (cross-browser compatible)
                 var url = url.split('&').join('&amp;').split('<').join(
@@ -57,6 +137,10 @@
                 var o = $.extend({}, options);
                 var obj = $(this);
 
+                // Replace object with new div for ie
+                if (crappy_browser && (obj.get(0).tagName == 'AUDIO' || obj.get(0).tagName == 'VIDEO'))
+                    obj = $(obj.attr('rel'));
+
                 // Do nothing if there's no Flash support
                 if (parseInt(swfobject.getFlashPlayerVersion()['major']) < 10) {
                     obj.show();
@@ -69,14 +153,30 @@
                 obj.wrap(wrapper)
                 $.starkplayer_id_counter ++;
 
+                // Check for audio tag with src
+                if (o.url == '' && (obj.get(0).tagName == 'AUDIO' || obj.hasClass('html5-audio'))) {
+                    if (obj.attr('src'))
+                        o.url = get_absolute_url(obj.attr('src'));
+                    else {
+                        var sources = obj.find('source, .html5-source');
+                        if (sources.length > 0) {
+                            var source = sources.first();
+                            if (source.attr('src'))
+                                o.url = get_absolute_url(source.attr('src'));
+                        }
+                    }
+                    if (o.type == '')
+                        o.type = 'audio';
+                }
+
                 // Check for video tag with src, poster, and dimensions
-                if (o.url == '' && obj.get(0).tagName == 'VIDEO') {
+                if (o.url == '' && (obj.get(0).tagName == 'VIDEO' || obj.hasClass('html5-video'))) {
                     if (o.poster == '' && obj.attr('poster'))
                         o.poster = get_absolute_url(obj.attr('poster'));
                     if (obj.attr('src'))
                         o.url = get_absolute_url(obj.attr('src'));
                     else {
-                        var sources = obj.find('source');
+                        var sources = obj.find('source, .html5-source');
                         if (sources.length > 0) {
                             var source = sources.first();
                             if (source.attr('src'))
@@ -90,22 +190,6 @@
                         o.height = obj.attr('height');
                     if (o.type == '')
                         o.type = 'video';
-                }
-
-                // Check for audio tag with src
-                if (o.url == '' && obj.get(0).tagName == 'AUDIO') {
-                    if (obj.attr('src'))
-                        o.url = get_absolute_url(obj.attr('src'));
-                    else {
-                        var sources = obj.find('source');
-                        if (sources.length > 0) {
-                            var source = sources.first();
-                            if (source.attr('src'))
-                                o.url = get_absolute_url(source.attr('src'));
-                        }
-                    }
-                    if (o.type == '')
-                        o.type = 'audio';
                 }
 
                 // Check for 'a' tag with href and poster image
