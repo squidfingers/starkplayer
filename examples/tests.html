@@ -1,93 +1,101 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Starkplayer Tests</title>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script type="text/javascript" src="../jquery.starkplayer.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.media').starkplayer({
-                autoplay: 'false',
-                buffertime: '10',
-                border: '#000000',
-                bgcolor: '#ffffff',
-                logo: 'media/logo.png',
-                audioplayer: '../audioplayer.swf',
-                videoplayer: '../videoplayer.swf',
-                youtubeplayer: '../youtubeplayer.swf'
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Starkplayer Tests</title>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="../jquery.starkplayer.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.media').starkplayer({
+                    autoplay: 'false',
+                    buffertime: '10',
+                    border: '#000000',
+                    bgcolor: '#ffffff',
+                    logo: 'media/logo.png',
+                    audioplayer: '../audioplayer.swf',
+                    videoplayer: '../videoplayer.swf',
+                    youtubeplayer: '../youtubeplayer.swf'
+                });
             });
-        });
-	</script>
-</head>
-<body>
-    <h1>Tests</h1>
-    <h2>Audio</h2>
-    <h3>Using HTML5</h3>
-    <div>
-        <audio class="media" src="media/audio.mp3">
-            Audio is unsupported.
-        </audio>
-    </div>
-    <div>
-        <audio class="media">
-            <source src="media/audio.mp3">
-            Audio is unsupported.
-        </audio>
-    </div>
-    <h3>Using Links</h3>
-    <div>
-        <a class="media" href="media/audio.mp3">
-            Download MP3
-        </a>
-    </div>
-    <h2>Video</h2>
-    <h3>Using HTML5</h3>
-    <div>
-        <video class="media" src="media/video.mp4" poster="media/poster.jpg"
-                width="720" height="480" controls>
-            Video is unsupported.
-        </video>
-    </div>
-    <div>
-        <video class="media" poster="media/poster.jpg" width="720" height="480"
-                controls>
-            <source src="media/video.mp4">
-            Video is unsupported.
-        </video>
-    </div>
-    <h3>Using Links</h3>
-    <div>
-        <a class="media" href="media/video.mp4" style="width: 720px; height: 480px;">
-            <img src="media/poster.jpg" alt="Video is unsupported.">
-        </a>
-    </div>
-    <h2>YouTube</h2>
-    <h3>Using HTML5 Embed Code</h3>
-    <div>
-        <iframe class="media" width="640" height="385"
-            src="http://www.youtube.com/embed/_c6HsiixFS8"></iframe>
-    </div>
-    <h3>Using Links</h3>
-    <div>
-        <a class="media" href="http://www.youtube.com/watch?v=_c6HsiixFS8"
-                style="width: 640px; height: 385px;">
-            Watch on YouTube
-        </a>
-    </div>
-    <h3>Using Standard Embed Code</h3>
-    <div>
-        <object class="media" width="480" height="385">
-            <param name="movie"
-                value="http://www.youtube.com/v/_c6HsiixFS8&amp;hl=en_US&amp;fs=1">
-                </param>
-            <param name="allowFullScreen" value="true"></param>
-            <param name="allowscriptaccess" value="always"></param>
-            <embed src="http://www.youtube.com/v/_c6HsiixFS8&amp;hl=en_US&amp;fs=1"
-                type="application/x-shockwave-flash" allowscriptaccess="always"
-                allowfullscreen="true" width="480" height="385"></embed>
-        </object>
-    </div>
-</body>
+        </script>
+    </head>
+    <body>
+        <h1>Tests</h1>
+        <h2>Audio</h2>
+        <h3>Using HTML5</h3>
+        <div>
+            <audio class="media"
+                    src="http://starkplayer.com/media/samples/audio.mp3">
+                Audio is unsupported.
+            </audio>
+        </div>
+        <div>
+            <audio class="media">
+                <source src="http://starkplayer.com/media/samples/audio.mp3">
+                Audio is unsupported.
+            </audio>
+        </div>
+        <h3>Using Links</h3>
+        <div>
+            <a class="media"
+                    href="http://starkplayer.com/media/samples/audio.mp3">
+                Download MP3
+            </a>
+        </div>
+        <h2>Video</h2>
+        <h3>Using HTML5</h3>
+        <div>
+            <video class="media"
+                    src="http://starkplayer.com/media/samples/video.mp4"
+                    poster="http://starkplayer.com/media/samples/poster.jpg"
+                    width="720" height="480" controls>
+                Video is unsupported.
+            </video>
+        </div>
+        <div>
+            <video class="media"
+                    poster="http://starkplayer.com/media/samples/poster.jpg"
+                    width="720" height="480" controls>
+                <source src="http://starkplayer.com/media/samples/video.mp4">
+                Video is unsupported.
+            </video>
+        </div>
+        <h3>Using Links</h3>
+        <div>
+            <a class="media"
+                    href="http://starkplayer.com/media/samples/video.mp4"
+                    style="width: 720px; height: 480px;">
+                <img src="http://starkplayer.com/media/samples/poster.jpg"
+                        alt="Video is unsupported.">
+            </a>
+        </div>
+        <h2>YouTube</h2>
+        <h3>Using HTML5 Embed Code</h3>
+        <div>
+            <iframe class="media" width="640" height="385"
+                src="http://www.youtube.com/embed/_c6HsiixFS8"></iframe>
+        </div>
+        <h3>Using Links</h3>
+        <div>
+            <a class="media" href="http://www.youtube.com/watch?v=_c6HsiixFS8"
+                    style="width: 640px; height: 385px;">
+                Watch on YouTube
+            </a>
+        </div>
+        <h3>Using Standard Embed Code</h3>
+        <div>
+            <object class="media" width="480" height="385">
+                <param name="movie"
+                    value="http://www.youtube.com/v/_c6HsiixFS8&amp;hl=en_US&amp;fs=1">
+                    </param>
+                <param name="allowFullScreen" value="true"></param>
+                <param name="allowscriptaccess" value="always"></param>
+                <embed src="http://www.youtube.com/v/_c6HsiixFS8&amp;hl=en_US&amp;fs=1"
+                    type="application/x-shockwave-flash" allowscriptaccess="always"
+                    allowfullscreen="true" width="480" height="385"></embed>
+            </object>
+        </div>
+    </body>
 </html>
