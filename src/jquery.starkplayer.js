@@ -122,7 +122,7 @@
                 // Put element inside of a wrapper div
                 var wrapper = $('<div></div>').attr('id', 'starkplayer-' +
                     $.starkplayer_id_counter);
-                obj.wrap(wrapper)
+                obj.wrap(wrapper);
                 $.starkplayer_id_counter ++;
 
                 // Check for audio tag with src
