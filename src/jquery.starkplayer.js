@@ -79,13 +79,13 @@
 
             function leaf_node_to_span(element, class_name) {
                 // Convert an element with no children to a span
-                var span_elem = $('<span></span>');
+                var span = $('<span></span>');
                 $.each(element.attributes, function(i, attribute) {
-                    span_elem.attr(attribute.name, attribute.value);
+                    span.attr(attribute.name, attribute.value);
                 });
-                span_elem.addClass(class_name).insertAfter(element);
+                span.addClass(class_name).insertAfter(element);
                 $(element).remove();
-                return span_elem;
+                return span;
             }
 
             // Check for IE7 and IE8 html5 handling
