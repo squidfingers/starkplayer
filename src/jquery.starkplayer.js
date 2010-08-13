@@ -14,7 +14,6 @@
 (function($) {
     // Set global counters
     $.starkplayer_id_counter = 0;
-    $.html5_fix_counter = 0;
 
     // Extend jQuery with starkplayer plugin
     $.fn.extend({
@@ -73,10 +72,7 @@
                 $.each(element.attributes, function(i, attribute) {
                     $(div).attr(attribute.name, attribute.value);
                 });
-                div.addClass(class_name).addClass('html5-fix-' +
-                        $.html5_fix_counter).insertAfter(element);
-                $(element).attr('rel', '.html5-fix-'+$.html5_fix_counter);
-                $.html5_fix_counter ++;
+                div.addClass(class_name).insertAfter(element);
                 $(element).remove();
                 return div;
             }
@@ -101,28 +97,20 @@
                     crappy_browser = true;
             });
 
-            // Convert audio and video html5 to divs if necessary
-            if (crappy_browser) {
-                var html5_fix_counter = 0;
-                $('audio').each(function() {
-                    inner_html5_to_div(this, 'html5-audio', '/AUDIO',
-                            'html5-source');
-                });
-                $('video').each(function() {
-                    inner_html5_to_div(this, 'html5-video', '/VIDEO',
-                            'html5-source');
-                });
-            }
-
             // Apply plugin to each element
             return this.each(function() {
                 var o = $.extend({}, options);
                 var obj = $(this);
 
-                // Replace object with new div for ie
-                if (crappy_browser && (obj.get(0).tagName == 'AUDIO' ||
-                        obj.get(0).tagName == 'VIDEO'))
-                    obj = $(obj.attr('rel'));
+                // Convert audio and video html5 to divs if necessary
+                if (crappy_browser) {
+                    if (obj.get(0).tagName == 'AUDIO')
+                        obj = inner_html5_to_div(this, 'html5-audio', '/AUDIO',
+                                'html5-source');
+                    if (obj.get(0).tagName == 'VIDEO')
+                        obj = inner_html5_to_div(this, 'html5-video', '/VIDEO',
+                                'html5-source');
+                }
 
                 // Do nothing if there's no Flash support
                 if (parseInt(swfobject.getFlashPlayerVersion()['major']) <
