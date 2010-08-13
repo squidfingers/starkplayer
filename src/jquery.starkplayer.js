@@ -12,8 +12,9 @@
 \*/
 
 (function($) {
-    // Set a global counter for starkplayer ids
+    // Set global counters
     $.starkplayer_id_counter = 0;
+    $.html5_fix_counter = 0;
 
     // Extend jQuery with starkplayer plugin
     $.fn.extend({
@@ -43,86 +44,6 @@
             // Override the defaults with user settings
             var options = $.extend(defaults, options);
 
-            // Check for IE7 and IE8 html5 handling
-            var crappy_browser = false;
-            $('*').each(function() {
-                if (this.tagName == '/AUDIO')
-                    crappy_browser = true;
-                if (this.tagName == '/VIDEO')
-                    crappy_browser = true;
-            });
-
-            // Convert audio, video, and source tags to divs
-            if (crappy_browser) {
-                var html5_fix_counter = 0;
-                $('audio').each(function() {
-                    var end_audio = false;
-                    var end_document = false;
-                    var elem = this.nextSibling;
-                    var div = $('<div></div>');
-                    while (!end_audio && !end_document) {
-                        var child = elem;
-                        if (child.tagName == 'SOURCE') {
-                            var source_span = $('<span></span>');
-                            $.each(child.attributes, function(i, attribute) {
-                                source_span.attr(attribute.name, attribute.value);
-                            });
-                            source_span.addClass('html5-source').insertAfter(child);
-                            $(child).remove();
-                            child = source_span.get(0);
-                        }
-                        if (child.tagName == '/AUDIO')
-                            end_audio = true;
-                        else if (!child)
-                            end_document = true;
-                        else
-                            $(child).clone().appendTo(div);
-                        elem = child.nextSibling;
-                        $(child).remove();
-                    }
-                    $.each(this.attributes, function(i, attribute) {
-                        $(div).attr(attribute.name, attribute.value);
-                    });
-                    div.addClass('html5-audio').addClass('html5-fix-'+html5_fix_counter).insertAfter(this);
-                    $(this).attr('rel', '.html5-fix-'+html5_fix_counter);
-                    html5_fix_counter ++;
-                    $(this).remove();
-                });
-                $('video').each(function() {
-                    var end_audio = false;
-                    var end_document = false;
-                    var elem = this.nextSibling;
-                    var div = $('<div></div>');
-                    while (!end_audio && !end_document) {
-                        var child = elem;
-                        if (child.tagName == 'SOURCE') {
-                            var source_span = $('<span></span>');
-                            $.each(child.attributes, function(i, attribute) {
-                                source_span.attr(attribute.name, attribute.value);
-                            });
-                            source_span.addClass('html5-source').insertAfter(child);
-                            $(child).remove();
-                            child = source_span.get(0);
-                        }
-                        if (child.tagName == '/VIDEO')
-                            end_audio = true;
-                        else if (!child)
-                            end_document = true;
-                        else
-                            $(child).clone().appendTo(div);
-                        elem = child.nextSibling;
-                        $(child).remove();
-                    }
-                    $.each(this.attributes, function(i, attribute) {
-                        $(div).attr(attribute.name, attribute.value);
-                    });
-                    div.addClass('html5-video').addClass('html5-fix-'+html5_fix_counter).insertAfter(this);
-                    $(this).attr('rel', '.html5-fix-'+html5_fix_counter);
-                    html5_fix_counter ++;
-                    $(this).remove();
-                });
-            }
-
             function get_absolute_url(url) {
                 // Get the absolute path of a url (cross-browser compatible)
                 var url = url.split('&').join('&amp;').split('<').join(
@@ -132,17 +53,80 @@
                 return element.firstChild.href;
             }
 
+            function inner_html5_to_div(element, class_name, end_tag,
+                    source_class) {
+                // Convert a poorly parsed html5 element to a div
+                var open_tag = element.tagName;
+                var child = element.nextSibling;
+                var div = $('<div></div>');
+                while (child && child.tagName !== end_tag &&
+                        child.tagName !== open_tag) {
+                    if (child.tagName == 'SOURCE')
+                        child = leaf_node_to_span(child, source_class).get(0);
+                    $(child).clone().appendTo(div);
+                    var elem = child.nextSibling;
+                    $(child).remove();
+                    child = elem;
+                }
+                if (child && child.tagName == end_tag)
+                    $(child).remove();
+                $.each(element.attributes, function(i, attribute) {
+                    $(div).attr(attribute.name, attribute.value);
+                });
+                div.addClass(class_name).addClass('html5-fix-' +
+                        $.html5_fix_counter).insertAfter(element);
+                $(element).attr('rel', '.html5-fix-'+$.html5_fix_counter);
+                $.html5_fix_counter ++;
+                $(element).remove();
+                return div;
+            }
+
+            function leaf_node_to_span(element, class_name) {
+                // Convert an element with no children to a span
+                var span_elem = $('<span></span>');
+                $.each(element.attributes, function(i, attribute) {
+                    span_elem.attr(attribute.name, attribute.value);
+                });
+                span_elem.addClass(class_name).insertAfter(element);
+                $(element).remove();
+                return span_elem;
+            }
+
+            // Check for IE7 and IE8 html5 handling
+            var crappy_browser = false;
+            $('*').each(function() {
+                if (this.tagName == '/AUDIO')
+                    crappy_browser = true;
+                if (this.tagName == '/VIDEO')
+                    crappy_browser = true;
+            });
+
+            // Convert audio and video html5 to divs if necessary
+            if (crappy_browser) {
+                var html5_fix_counter = 0;
+                $('audio').each(function() {
+                    inner_html5_to_div(this, 'html5-audio', '/AUDIO',
+                            'html5-source');
+                });
+                $('video').each(function() {
+                    inner_html5_to_div(this, 'html5-video', '/VIDEO',
+                            'html5-source');
+                });
+            }
+
             // Apply plugin to each element
             return this.each(function() {
                 var o = $.extend({}, options);
                 var obj = $(this);
 
                 // Replace object with new div for ie
-                if (crappy_browser && (obj.get(0).tagName == 'AUDIO' || obj.get(0).tagName == 'VIDEO'))
+                if (crappy_browser && (obj.get(0).tagName == 'AUDIO' ||
+                        obj.get(0).tagName == 'VIDEO'))
                     obj = $(obj.attr('rel'));
 
                 // Do nothing if there's no Flash support
-                if (parseInt(swfobject.getFlashPlayerVersion()['major']) < 10) {
+                if (parseInt(swfobject.getFlashPlayerVersion()['major']) <
+                        10) {
                     obj.show();
                     return;
                 }
@@ -154,7 +138,8 @@
                 $.starkplayer_id_counter ++;
 
                 // Check for audio tag with src
-                if (o.url == '' && (obj.get(0).tagName == 'AUDIO' || obj.hasClass('html5-audio'))) {
+                if (o.url == '' && (obj.get(0).tagName == 'AUDIO' ||
+                            obj.hasClass('html5-audio'))) {
                     if (obj.attr('src'))
                         o.url = get_absolute_url(obj.attr('src'));
                     else {
@@ -170,7 +155,8 @@
                 }
 
                 // Check for video tag with src, poster, and dimensions
-                if (o.url == '' && (obj.get(0).tagName == 'VIDEO' || obj.hasClass('html5-video'))) {
+                if (o.url == '' && (obj.get(0).tagName == 'VIDEO' ||
+                            obj.hasClass('html5-video'))) {
                     if (o.poster == '' && obj.attr('poster'))
                         o.poster = get_absolute_url(obj.attr('poster'));
                     if (obj.attr('src'))
@@ -228,17 +214,20 @@
                         o.width = obj.attr('width');
                     if (o.height == '' && obj.attr('height'))
                         o.height = obj.attr('height');
-                }
-
-                // Check for embed (used in standard youtube embed code)
-                if (o.url == '' && obj.get(0).tagName == 'EMBED') {
-                    if (obj.attr('src'))
-                        o.url = obj.attr('src');
-                    // Check for width/height
-                    if (o.width == '' && obj.attr('width'))
-                        o.width = obj.attr('width');
-                    if (o.height == '' && obj.attr('height'))
-                        o.height = obj.attr('height');
+                    // Check for embed (used in standard youtube embed code)
+                    if (o.url == '') {
+                        var embeds = obj.children('embed');
+                        if (embeds.length > 0) {
+                            var embed = embeds.first();
+                            if (embed.attr('src'))
+                                o.url = embed.attr('src');
+                            // Check for width/height
+                            if (o.width == '' && embed.attr('width'))
+                                o.width = embed.attr('width');
+                            if (o.height == '' && embed.attr('height'))
+                                o.height = embed.attr('height');
+                        }
+                    }
                 }
 
                 // Sniff out media type based on url
