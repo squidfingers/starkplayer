@@ -299,9 +299,16 @@
                 // Embed the player
                 if (o.type !== '' && (o.type !== 'youtube' ||
                         (o.type == 'youtube' & o.youtubeid !== '')))
-                    swfobject.embedSWF(player, wrapper.attr('id'),
-                        o.width, o.height, '10.0.0', null, flash_vars, params,
-                        {id: wrapper.attr('id'), name: wrapper.attr('id')});
+                    if (obj.get(0).tagName == 'IFRAME')
+                        obj.load(function() {
+                            swfobject.embedSWF(player, wrapper.attr('id'),
+                                o.width, o.height, '10.0.0', null, flash_vars, params,
+                                {id: wrapper.attr('id'), name: wrapper.attr('id')});
+                        });
+                    else
+                        swfobject.embedSWF(player, wrapper.attr('id'),
+                            o.width, o.height, '10.0.0', null, flash_vars, params,
+                            {id: wrapper.attr('id'), name: wrapper.attr('id')});
 
                 obj.show();
             });

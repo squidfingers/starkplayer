@@ -211,7 +211,7 @@ The href of the link will be used as the YouTube video source.
 
 ### Using Standard YouTube Embed Code ###
 
-__Note:__ This method, though supported, is not recommended. The standard YouTube embed code is not valid HTML5.
+__Note:__ This method is not recommended. The standard YouTube embed code is not valid HTML5, and starkplayer does not support this code in IE 6 or below.
 
     <object class="media" width="480" height="385">
         <param name="movie" value="http://www.youtube.com/v/[VIDEO_ID]"></param>
