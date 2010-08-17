@@ -102,6 +102,13 @@
                 var o = $.extend({}, options);
                 var obj = $(this);
 
+                // Do nothing if there's no Flash support
+                if (parseInt(swfobject.getFlashPlayerVersion()['major']) <
+                        10) {
+                    obj.show();
+                    return;
+                }
+
                 // Convert audio and video html5 to divs if necessary
                 if (crappy_browser) {
                     if (obj.get(0).tagName == 'AUDIO')
@@ -110,13 +117,6 @@
                     if (obj.get(0).tagName == 'VIDEO')
                         obj = inner_html5_to_div(this, 'html5-video', '/VIDEO',
                                 'html5-source');
-                }
-
-                // Do nothing if there's no Flash support
-                if (parseInt(swfobject.getFlashPlayerVersion()['major']) <
-                        10) {
-                    obj.show();
-                    return;
                 }
 
                 // Put element inside of a wrapper div
