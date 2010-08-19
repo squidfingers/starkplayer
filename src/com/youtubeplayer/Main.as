@@ -70,6 +70,7 @@ package com.youtubeplayer {
 			}
 			
 			// Load video
+			youTubePlayer_mc.visible = true;
 			youTubePlayer_mc.load(youTubeId, videoWidth, videoHeight, autoPlay, borderColor, suggestedQuality, logoURL);
 		}
 		
@@ -80,22 +81,26 @@ package com.youtubeplayer {
 		private function addedToStageHandler (p_event:Event):void {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false);
 			
+			// Hide video until initialized
+			youTubePlayer_mc.visible = false;
+				
 			// Set stage alignment
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
 			// Avoid IE bug where stageWidth and stageHeight are zero
-			// http://jodieorourke.com/view.php?id=79&blog=news
-			if (stage.stageWidth == 0 && stage.stageHeight == 0) {
-				stage.addEventListener(Event.RESIZE, stageResizeHandler, false, 0, true);
+			if (stage.stageWidth == 0 || stage.stageHeight == 0) {
+				addEventListener(Event.ENTER_FRAME, enterFrameHandler, false, 0, true);
 			} else {
 				loadYouTubeVideo();
 			}
 		}
-		private function stageResizeHandler (p_event:Event):void {
-			stage.removeEventListener(Event.RESIZE, stageResizeHandler, false);
-			if ( ! youTubePlayer_mc.initialized && stage.stageWidth > 0 && stage.stageHeight > 0) {
-				loadYouTubeVideo();
+		private function enterFrameHandler (p_event:Event):void {
+			if (stage.stageWidth > 0 && stage.stageHeight > 0) {
+				removeEventListener(Event.ENTER_FRAME, enterFrameHandler, false);
+				if ( ! youTubePlayer_mc.visible) {
+					loadYouTubeVideo();
+				}
 			}
 		}
 		

@@ -71,6 +71,7 @@ package com.videoplayer {
 			}
 			
 			// Load video
+			videoPlayer_mc.visible = true;
 			videoPlayer_mc.load(videoURL, videoWidth, videoHeight, posterURL, autoPlay, bufferTime, borderColor, logoURL);
 		}
 		
@@ -81,22 +82,26 @@ package com.videoplayer {
 		private function addedToStageHandler (p_event:Event):void {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false);
 			
+			// Hide video until initialized
+			videoPlayer_mc.visible = false;
+			
 			// Set stage alignment
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
 			// Avoid IE bug where stageWidth and stageHeight are zero
-			// http://jodieorourke.com/view.php?id=79&blog=news
-			if (stage.stageWidth == 0 && stage.stageHeight == 0) {
-				stage.addEventListener(Event.RESIZE, stageResizeHandler, false, 0, true);
+			if (stage.stageWidth == 0 || stage.stageHeight == 0) {
+				addEventListener(Event.ENTER_FRAME, enterFrameHandler, false, 0, true);
 			} else {
 				loadVideo();
 			}
 		}
-		private function stageResizeHandler (p_event:Event):void {
-			stage.removeEventListener(Event.RESIZE, stageResizeHandler, false);
-			if ( ! videoPlayer_mc.initialized && stage.stageWidth > 0 && stage.stageHeight > 0) {
-				loadVideo();
+		private function enterFrameHandler (p_event:Event):void {
+			if (stage.stageWidth > 0 && stage.stageHeight > 0) {
+				removeEventListener(Event.ENTER_FRAME, enterFrameHandler, false);
+				if ( ! videoPlayer_mc.visible) {
+					loadVideo();
+				}
 			}
 		}
 		
