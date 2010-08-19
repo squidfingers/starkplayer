@@ -10,6 +10,12 @@ package com.videoplayer {
 	
 	public class Main extends MovieClip {
 		// ===================================================================
+		// Properties
+		// -------------------------------------------------------------------
+		
+		private var _frameCount:Number;
+		
+		// ===================================================================
 		// Children
 		// -------------------------------------------------------------------
 		
@@ -91,13 +97,14 @@ package com.videoplayer {
 			
 			// Avoid IE bug where stageWidth and stageHeight are zero
 			if (stage.stageWidth == 0 || stage.stageHeight == 0) {
+				_frameCount = 0;
 				addEventListener(Event.ENTER_FRAME, enterFrameHandler, false, 0, true);
 			} else {
 				loadVideo();
 			}
 		}
 		private function enterFrameHandler (p_event:Event):void {
-			if (stage.stageWidth > 0 && stage.stageHeight > 0) {
+			if (++_frameCount > 500 || (stage.stageWidth > 0 && stage.stageHeight > 0)) {
 				removeEventListener(Event.ENTER_FRAME, enterFrameHandler, false);
 				if ( ! videoPlayer_mc.visible) {
 					loadVideo();
