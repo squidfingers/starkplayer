@@ -258,6 +258,8 @@
                     var player = o.videoplayer;
                     var flash_vars = {
                         url: o.url,
+                        width: o.width,
+                        height: o.height,
                         poster: o.poster,
                         autoplay: o.autoplay,
                         buffertime: o.buffertime,
