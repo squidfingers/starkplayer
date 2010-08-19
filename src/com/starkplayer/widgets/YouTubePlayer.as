@@ -37,6 +37,8 @@ package com.starkplayer.widgets {
 		// Properties
 		// -------------------------------------------------------------------
 		
+		protected var _initialized:Boolean;
+		
 		protected var _qualityLevels:Object = {'default':-1, 'small':0, 'medium':1, 'large':2, 'hd720':3};
 		
 		protected var _youTubeId:String;
@@ -86,12 +88,21 @@ package com.starkplayer.widgets {
 		// -------------------------------------------------------------------
 		
 		public function YouTubePlayer():void {
+			_initialized = false;
 			hideChildren();
 			try {
 				Security.allowDomain('www.youtube.com');
 			} catch (e:SecurityError) {
 				showError(e.message);
 			}
+		}
+		
+		// ===================================================================
+		// Public Properties
+		// -------------------------------------------------------------------
+		
+		public function get initialized():Boolean {
+			return _initialized;
 		}
 		
 		// ===================================================================
@@ -265,9 +276,12 @@ package com.starkplayer.widgets {
 			// Show spinner
 			spinner_mc.visible = true;
 			spinner_mc.play();
+			
+			_initialized = true;
 		}
 		public function dispose():void {
 			
+			_initialized = false;
 			hideChildren();
 			
 			// Remove logo image
