@@ -31,18 +31,15 @@ package com.videoplayer {
 		}
 		
 		// ===================================================================
-		// Event Handlers
+		// Private Methods
 		// -------------------------------------------------------------------
 		
-		private function addedToStageHandler (p_event:Event):void {
-			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false);
-			
-			// Set stage alignment
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
+		private function loadVideo():void {
 			
 			// Get FlashVars
 			var videoURL = root.loaderInfo.parameters.url;
+			var videoWidth = root.loaderInfo.parameters.width;
+			var videoHeight = root.loaderInfo.parameters.height;
 			var posterURL = root.loaderInfo.parameters.poster;
 			var autoPlay = root.loaderInfo.parameters.autoplay;
 			var bufferTime = root.loaderInfo.parameters.buffertime;
@@ -50,9 +47,15 @@ package com.videoplayer {
 			var logoURL = root.loaderInfo.parameters.logo;
 			
 			// Process parameters
+			videoWidth = (videoWidth) ? parseInt(videoWidth) : 0;
+			videoHeight = (videoHeight) ? parseInt(videoHeight) : 0;
 			autoPlay = (autoPlay) ? autoPlay.toLowerCase() == 'true' : false;
 			border = (border) ? border.toLowerCase() : null;
 			bufferTime = (bufferTime) ? parseInt(bufferTime) : null;
+			
+			// Determine width/height
+			if ( ! videoWidth) videoWidth = stage.stageWidth;
+			if ( ! videoHeight) videoHeight = stage.stageHeight;
 			
 			// Validate border
 			var borderColor = NaN;
@@ -68,7 +71,33 @@ package com.videoplayer {
 			}
 			
 			// Load video
-			videoPlayer_mc.load(videoURL, stage.stageWidth, stage.stageHeight, posterURL, autoPlay, bufferTime, borderColor, logoURL);
+			videoPlayer_mc.load(videoURL, videoWidth, videoHeight, posterURL, autoPlay, bufferTime, borderColor, logoURL);
+		}
+		
+		// ===================================================================
+		// Event Handlers
+		// -------------------------------------------------------------------
+		
+		private function addedToStageHandler (p_event:Event):void {
+			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false);
+			
+			// Set stage alignment
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			
+			// Avoid IE bug where stageWidth and stageHeight are zero
+			// http://jodieorourke.com/view.php?id=79&blog=news
+			if (stage.stageWidth == 0 && stage.stageHeight == 0) {
+				stage.addEventListener(Event.RESIZE, stageResizeHandler, false, 0, true);
+			} else {
+				loadVideo();
+			}
+		}
+		private function stageResizeHandler (p_event:Event):void {
+			stage.removeEventListener(Event.RESIZE, stageResizeHandler, false);
+			if ( ! videoPlayer_mc.initialized && stage.stageWidth > 0 && stage.stageHeight > 0) {
+				loadVideo();
+			}
 		}
 		
 		// -------------------------------------------------------------------

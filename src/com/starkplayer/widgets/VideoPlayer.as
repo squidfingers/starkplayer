@@ -69,7 +69,16 @@ package com.starkplayer.widgets {
 		// -------------------------------------------------------------------
 		
 		public function VideoPlayer():void {
+			_initialized = false;
 			hideChildren();
+		}
+		
+		// ===================================================================
+		// Public Properties
+		// -------------------------------------------------------------------
+		
+		public function get initialized():Boolean {
+			return _initialized;
 		}
 		
 		// ===================================================================

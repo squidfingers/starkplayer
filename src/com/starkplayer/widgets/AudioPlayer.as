@@ -39,7 +39,16 @@ package com.starkplayer.widgets {
 		// -------------------------------------------------------------------
 		
 		public function AudioPlayer():void {
+			_initialized = false;
 			stop();
+		}
+		
+		// ===================================================================
+		// Public Properties
+		// -------------------------------------------------------------------
+		
+		public function get initialized():Boolean {
+			return _initialized;
 		}
 		
 		// ===================================================================
