@@ -119,6 +119,9 @@
                                 'html5-source');
                 }
 
+                // Hide the object temporarily
+                obj.hide();
+
                 // Put element inside of a wrapper div
                 var wrapper = $('<div></div>').attr('id', 'starkplayer-' +
                     $.starkplayer_id_counter);
@@ -301,20 +304,25 @@
                 // Embed the player
                 if (o.type !== '' && (o.type !== 'youtube' ||
                         (o.type == 'youtube' & o.youtubeid !== '')))
-                    if (obj.get(0).tagName == 'IFRAME')
+                    if (obj.get(0).tagName == 'IFRAME' && obj.get(0).document
+                            && obj.get(0).document.readyState !== 'complete') {
                         obj.load(function() {
                             swfobject.embedSWF(player, wrapper.attr('id'),
                                 o.width, o.height, '10.0.0', null, flash_vars,
                                 params, {id: wrapper.attr('id'),
                                 name: wrapper.attr('id')});
                         });
-                    else
+                        obj.show();
+                    }
+                    else {
                         swfobject.embedSWF(player, wrapper.attr('id'),
                             o.width, o.height, '10.0.0', null, flash_vars,
                             params, {id: wrapper.attr('id'),
                             name: wrapper.attr('id')});
-
-                obj.show();
+                        obj.show();
+                    }
+                else
+                    obj.show();
             });
         }
 
