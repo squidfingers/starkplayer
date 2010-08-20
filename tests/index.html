@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Starkplayer Tests</title>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript"
+            src="../src/jquery.starkplayer.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.media').starkplayer({
+                    autoplay: 'false',
+                    buffertime: '10',
+                    border: '#000000',
+                    bgcolor: '#ffffff',
+                    logo: 'http://starkplayer.com/media/samples/logo.png',
+                    audioplayer: '../audioplayer.swf',
+                    videoplayer: '../videoplayer.swf',
+                    youtubeplayer: '../youtubeplayer.swf'
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Starkplayer Tests</h1>
+        <ul>
+            <li>
+                <strong>Audio</strong>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <a href="audio/html5.html">HTML5</a>
+                    </li>
+                    <li>
+                        <a href="audio/links.html">Links</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <strong>Video</strong>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <a href="video/html5.html">HTML5</a>
+                    </li>
+                    <li>
+                        <a href="video/links.html">Links</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <strong>YouTube</strong>
+            </li>
+            <li>
+                <ul>
+                    <li>
+                        <a href="youtube/html5.html">HTML5</a>
+                    </li>
+                    <li>
+                        <a href="youtube/links.html">Links</a>
+                    </li>
+                    <li>
+                        <a href="youtube/standard.html">Standard</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </body>
+</html>

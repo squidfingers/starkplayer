@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Video Links | Starkplayer Tests</title>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript"
+            src="../../src/jquery.starkplayer.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.media').starkplayer({
+                    autoplay: 'false',
+                    buffertime: '10',
+                    border: '#000000',
+                    logo: 'http://starkplayer.com/media/samples/logo.png',
+                    videoplayer: '../../videoplayer.swf'
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Video Links</h1>
+        <h2>1.</h2>
+        <div>
+            <a class="media"
+                    href="http://starkplayer.com/media/samples/video.mp4"
+                    style="width: 720px; height: 480px;">
+                <img src="http://starkplayer.com/media/samples/poster.jpg"
+                        alt="Video is unsupported.">
+            </a>
+        </div>
+        <h2>2.</h2>
+        <div>
+            <a class="media"
+                    href="http://starkplayer.com/media/samples/video.mp4"
+                    style="width: 720px; height: 480px;">
+                Download MP4
+            </a>
+        </div>
+    </body>
+</html>

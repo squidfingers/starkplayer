@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Audio HTML5 | Starkplayer Tests</title>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript"
+            src="../../src/jquery.starkplayer.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.media').starkplayer({
+                    autoplay: 'false',
+                    border: '#000000',
+                    bgcolor: '#ffffff',
+                    audioplayer: '../../audioplayer.swf'
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Audio HTML5</h1>
+        <div>
+            <h2>1.</h2>
+            <audio class="media"
+                    src="http://starkplayer.com/media/samples/audio.mp3">
+                Audio is unsupported.
+            </audio>
+        </div>
+        <div>
+            <h2>2.</h2>
+            <audio class="media">
+                <source src="http://starkplayer.com/media/samples/audio.mp3">
+                Audio is unsupported.
+            </audio>
+        </div>     
+            <h2>3.</h2>
+        <div>
+            <audio class="media"
+                    src="http://starkplayer.com/media/samples/audio.mp3">
+                <p>
+                    <strong>Some nested HTML content.</strong>
+                </p>
+            </audio>
+            <audio class="media"
+                src="http://starkplayer.com/media/samples/audio.mp3"></audio>
+        </div>
+    </body>
+</html>

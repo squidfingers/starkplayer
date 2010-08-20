@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>YouTube Links | Starkplayer Tests</title>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript"
+            src="../../src/jquery.starkplayer.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.media').starkplayer({
+                    autoplay: 'false',
+                    border: '#000000',
+                    logo: 'http://starkplayer.com/media/samples/logo.png',
+                    youtubeplayer: '../../youtubeplayer.swf'
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>YouTube Links</h1>
+        <h2>1.</h2>
+        <div>
+            <a class="media" href="http://www.youtube.com/watch?v=_c6HsiixFS8"
+                    style="width: 640px; height: 385px;">
+                Watch on YouTube
+            </a>
+        </div>
+    </body>
+</html>

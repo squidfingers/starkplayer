@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>YouTube HTML5 | Starkplayer Tests</title>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+        <script type="text/javascript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript"
+            src="../../src/jquery.starkplayer.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.media').starkplayer({
+                    autoplay: 'false',
+                    border: '#000000',
+                    logo: 'http://starkplayer.com/media/samples/logo.png',
+                    youtubeplayer: '../../youtubeplayer.swf'
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <h1>YouTube HTML5</h1>
+        <h2>1.</h2>
+        <div>
+            <iframe class="media" width="640" height="385" frameborder="0"
+                src="http://www.youtube.com/embed/_c6HsiixFS8"></iframe>
+        </div>
+    </body>
+</html>
