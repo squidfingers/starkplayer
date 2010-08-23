@@ -85,60 +85,6 @@ Include SWFObject, jQuery, and the starkplayer jQuery plugin in the `<head>` sec
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
     <script src="starkplayer/jquery.starkplayer.min.js" type="text/javascript"></script>
 
-Replacing Any Content With Starkplayer
---------------------------------------
-
-### Example Content ###
-
-    <div id="media-content">
-        This is the alternate content that will be displayed if Flash is
-        unsupported.
-    </div>
-
-### Audio ###
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#media-content').starkplayer({
-                type: 'audio',
-                url: 'audio/song.mp3',
-                audioplayer: 'starkplayer/audioplayer.swf'
-            });
-        });
-    </script>
-
-### Video ###
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#media-content').starkplayer({
-                type: 'video',
-                url: 'videos/video.mp4',
-                poster: 'images/poster.jpg',
-                width: '640',
-                height: '385',
-                logo: 'graphics/logo.png',
-                videoplayer: 'starkplayer/videoplayer.swf'
-            });
-        });
-    </script>
-
-### YouTube ###
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.media').starkplayer({
-                type: 'youtube',
-                youtubeid: '[VIDEO_ID]',
-                width: '640',
-                height: '385',
-                quality: 'hd720',
-                logo: 'graphics/logo.png',
-                youtubeplayer: 'starkplayer/youtubeplayer.swf'
-            });
-        });
-    </script>
-
 Replacing HTML5 And Links With Starkplayer
 ------------------------------------------
 
@@ -247,6 +193,60 @@ The href of the link will be used as the YouTube video source.
             $('.media').starkplayer({
                 border: '#000000',
                 quality: 'hd720',
+                youtubeplayer: 'starkplayer/youtubeplayer.swf'
+            });
+        });
+    </script>
+
+Replacing Any Content With Starkplayer
+--------------------------------------
+
+### Example Content ###
+
+    <div id="media-content">
+        This is the alternate content that will be displayed if Flash is
+        unsupported.
+    </div>
+
+### Audio ###
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#media-content').starkplayer({
+                type: 'audio',
+                url: 'audio/song.mp3',
+                audioplayer: 'starkplayer/audioplayer.swf'
+            });
+        });
+    </script>
+
+### Video ###
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#media-content').starkplayer({
+                type: 'video',
+                url: 'videos/video.mp4',
+                poster: 'images/poster.jpg',
+                width: '640',
+                height: '385',
+                logo: 'graphics/logo.png',
+                videoplayer: 'starkplayer/videoplayer.swf'
+            });
+        });
+    </script>
+
+### YouTube ###
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.media').starkplayer({
+                type: 'youtube',
+                youtubeid: '[VIDEO_ID]',
+                width: '640',
+                height: '385',
+                quality: 'hd720',
+                logo: 'graphics/logo.png',
                 youtubeplayer: 'starkplayer/youtubeplayer.swf'
             });
         });
