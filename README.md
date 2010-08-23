@@ -107,15 +107,6 @@ Replacing Any Content With Starkplayer
         });
     </script>
 
-Parameters:
-
-* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'audio' for HTML5 audio or links to urls that have audio file extensions.
-* __url:__ The url to an mp3. Defaults to media sniffed out from alternate content.
-* __autoplay:__ Automatically start to play the audio. Defaults to false.
-* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
-* __bgcolor:__ The background color of the Flash player.
-* __audioplayer:__ The url to audioplayer.swf. Defaults to the same directory as the HTML file.
-
 ### Video ###
 
     <script type="text/javascript">
@@ -132,19 +123,6 @@ Parameters:
         });
     </script>
 
-Parameters:
-
-* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'video' for HTML5 video or links to urls that have video file extensions.
-* __url:__ The url to an mp4 or flv. Defaults to media sniffed out from alternate content.
-* __poster:__ The url to a jpg or png poster image. Defaults to poster image sniffed out from alternate content.
-* __width:__ The width of the player. Defaults to the width of the content it replaces.
-* __height:__ The height of the player. Defaults to the height of the content it replaces.
-* __autoplay:__ Automatically start to play the video. Defaults to false.
-* __buffertime:__ The number of seconds to buffer before the video will start to play. Defaults to 10.
-* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
-* __logo:__ The logo to be displayed over the top right corner of the video. Optional.
-* __videoplayer:__ The url to videoplayer.swf. Defaults to the same directory as the HTML file.
-
 ### YouTube ###
 
     <script type="text/javascript">
@@ -160,18 +138,6 @@ Parameters:
             });
         });
     </script>
-
-Parameters:
-
-* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'youtube' for links or embed code with youtube urls.
-* __youtubeid:__ The id of the YouTube video.
-* __width:__ The width of the player. Defaults to the width of the content it replaces.
-* __height:__ The height of the player. Defaults to the height of the content it replaces.
-* __autoplay:__ Automatically start to play the video. Defaults to false.
-* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
-* __quality:__ The suggested quality of the video. Acceptable values are: default, small, medium, large, and hd720.
-* __logo:__ The logo to be displayed over the top right corner of the video.
-* __youtubeplayer:__ The url to youtubeplayer.swf. Defaults to the same directory as the HTML file.
 
 Replacing HTML5 And Links With Starkplayer
 ------------------------------------------
@@ -286,10 +252,47 @@ The href of the link will be used as the YouTube video source.
         });
     </script>
 
+jQuery Plugin Parameters
+------------------------
+
+### Audio ###
+
+* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'audio' for HTML5 audio or links to urls that have audio file extensions.
+* __url:__ The url to an mp3. Defaults to media sniffed out from alternate content.
+* __autoplay:__ Automatically start to play the audio. Defaults to false.
+* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
+* __bgcolor:__ The background color of the Flash player.
+* __audioplayer:__ The url to audioplayer.swf. Defaults to the same directory as the HTML file.
+
+### Video ###
+
+* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'video' for HTML5 video or links to urls that have video file extensions.
+* __url:__ The url to an mp4 or flv. Defaults to media sniffed out from alternate content.
+* __poster:__ The url to a jpg or png poster image. Defaults to poster image sniffed out from alternate content.
+* __width:__ The width of the player. Defaults to the width of the content it replaces.
+* __height:__ The height of the player. Defaults to the height of the content it replaces.
+* __autoplay:__ Automatically start to play the video. Defaults to false.
+* __buffertime:__ The number of seconds to buffer before the video will start to play. Defaults to 10.
+* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
+* __logo:__ The logo to be displayed over the top right corner of the video. Optional.
+* __videoplayer:__ The url to videoplayer.swf. Defaults to the same directory as the HTML file.
+
+### YouTube ###
+
+* __type:__ The type of media to display ('audio', 'video', or 'youtube'). By default, type will be set to 'youtube' for links or embed code with youtube urls.
+* __youtubeid:__ The id of the YouTube video.
+* __width:__ The width of the player. Defaults to the width of the content it replaces.
+* __height:__ The height of the player. Defaults to the height of the content it replaces.
+* __autoplay:__ Automatically start to play the video. Defaults to false.
+* __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
+* __quality:__ The suggested quality of the video. Acceptable values are: default, small, medium, large, and hd720.
+* __logo:__ The logo to be displayed over the top right corner of the video.
+* __youtubeplayer:__ The url to youtubeplayer.swf. Defaults to the same directory as the HTML file.
+
 Gotchas
 =======
 
-The following items should be noted when using Starplayer.
+The following items should be noted when using starkplayer.
 
 * For audio, the mp3 should be __higher than 96 kbps__ to avoid a Flash bug where seeking causes Event.SOUND_COMPLETE to fire too early.
 * Embedding `<source>` tags in HTML5 is unsupported by Safari for Windows, and these sources will not be sniffed by the jQuery plugin. When needed, the `url` parameter can be passed to the jQuery plugin to support Safari for Windows users.
