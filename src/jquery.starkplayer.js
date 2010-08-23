@@ -89,12 +89,12 @@
             }
 
             // Check for IE7 and IE8 html5 handling
-            var crappy_browser = false;
+            var html5_degrade = false;
             $('*').each(function() {
                 if (this.tagName == '/AUDIO')
-                    crappy_browser = true;
+                    html5_degrade = true;
                 if (this.tagName == '/VIDEO')
-                    crappy_browser = true;
+                    html5_degrade = true;
             });
 
             // Apply plugin to each element
@@ -110,7 +110,7 @@
                 }
 
                 // Convert audio and video html5 to divs if necessary
-                if (crappy_browser) {
+                if (html5_degrade) {
                     if (obj.get(0).tagName == 'AUDIO')
                         obj = inner_html5_to_div(this, 'html5-audio', '/AUDIO',
                                 'html5-source');
@@ -190,35 +190,6 @@
                         o.width = obj.attr('width');
                     if (o.height == '' && obj.attr('height'))
                         o.height = obj.attr('height');
-                }
-                
-                // Check for object (used in standard youtube embed code)
-                if (o.url == '' && obj.get(0).tagName == 'OBJECT') {
-                    var obj_params = obj.children('param');
-                    obj_params.each(function() {
-                        var param = $(this);
-                        if (param.attr('name') == 'movie')
-                            o.url = param.attr('value');
-                    });
-                    // Check for width/height
-                    if (o.width == '' && obj.attr('width'))
-                        o.width = obj.attr('width');
-                    if (o.height == '' && obj.attr('height'))
-                        o.height = obj.attr('height');
-                    // Check for embed (used in standard youtube embed code)
-                    if (o.url == '') {
-                        var embeds = obj.children('embed');
-                        if (embeds.length > 0) {
-                            var embed = embeds.first();
-                            if (embed.attr('src'))
-                                o.url = embed.attr('src');
-                            // Check for width/height
-                            if (o.width == '' && embed.attr('width'))
-                                o.width = embed.attr('width');
-                            if (o.height == '' && embed.attr('height'))
-                                o.height = embed.attr('height');
-                        }
-                    }
                 }
 
                 // Sniff out media type based on url
@@ -302,18 +273,17 @@
                 }
 
                 // Embed the player
-                if (o.type !== '' && (o.type !== 'youtube' ||
-                        (o.type == 'youtube' & o.youtubeid !== '')))
+                if (o.type !== '' && (o.type !== 'youtube' && o.url !== '' ||
+                        (o.type == 'youtube' && o.youtubeid !== '')))
                     if (obj.get(0).tagName == 'IFRAME' && obj.get(0).document
-                            && obj.get(0).document.readyState !== 'complete') {
+                            && obj.get(0).document.readyState !== 'complete')
                         obj.load(function() {
                             swfobject.embedSWF(player, wrapper.attr('id'),
                                 o.width, o.height, '10.0.0', null, flash_vars,
                                 params, {id: wrapper.attr('id'),
                                 name: wrapper.attr('id')});
+                            obj.show();
                         });
-                        obj.show();
-                    }
                     else {
                         swfobject.embedSWF(player, wrapper.attr('id'),
                             o.width, o.height, '10.0.0', null, flash_vars,

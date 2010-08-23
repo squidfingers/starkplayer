@@ -201,7 +201,7 @@ Embedding YouTube Video
 
 ### Using HTML5 YouTube Embed Code ###
 
-    <iframe class="media" width="640" height="385"
+    <iframe class="media" width="640" height="385" frameborder="0"
             src="http://www.youtube.com/embed/[VIDEO_ID]"></iframe>
 
 ### Using Links ###
@@ -212,19 +212,6 @@ The href of the link will be used as the YouTube video source.
             style="display: block; width: 640px; height: 385px;">
         Watch on YouTube
     </a>
-
-### Using Standard YouTube Embed Code ###
-
-__Note:__ This method is not recommended. The standard YouTube embed code is not valid HTML5, and starkplayer does not support this code in IE 7 or below.
-
-    <object class="media" width="480" height="385">
-        <param name="movie" value="http://www.youtube.com/v/[VIDEO_ID]"></param>
-        <param name="allowFullScreen" value="true"></param>
-        <param name="allowscriptaccess" value="always"></param>
-        <embed src="http://www.youtube.com/v/[VIDEO_ID]"
-                type="application/x-shockwave-flash" allowscriptaccess="always"
-                allowfullscreen="true" width="480" height="385"></embed>
-    </object>
 
 ### Replacing With Starkplayer ###
 
