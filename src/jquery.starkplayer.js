@@ -318,9 +318,8 @@
                     obj.load(function() {
                         obj.trigger('starkplayer.ready');
                     });
-                else {
+                else
                     obj.trigger('starkplayer.ready');
-                }
             });
         }
 
