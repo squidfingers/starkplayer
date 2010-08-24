@@ -217,82 +217,102 @@
                     if (o.height == '')
                         o.height = '30';
                 }
+                
+                obj.bind('starkplayer.ready', function() {
+                    // Set up and embed the Flash object
+                    if (o.type !== '' && (o.type !== 'youtube' &&
+                            o.url !== '' || (o.type == 'youtube' &&
+                                o.youtubeid !== ''))) {
 
-                // If no width/height are specified, set them to match current
-                var obj_display = obj.css('display');
-                obj.css('display', 'block');
-                if (o.width == '')
-                    o.width = obj.width();
-                if (o.height == '')
-                    o.height = obj.height();
-                obj.css('display', obj_display);
+                        // If no width/height are specified, use the object's
+                        var obj_display = $(this).css('display');
+                        $(this).css('display', 'block');
+                        if (o.width == '' && (o.type == 'video' ||
+                                    o.type == 'youtube'))
+                            o.width = $(this).width();
+                        if (o.height == '' && (o.type == 'video' ||
+                                    o.type == 'youtube'))
+                            o.height = $(this).height();
+                        $(this).css('display', obj_display);
 
-                // Set the parameters depending on the media type
-                if (o.type == 'video') {
-                    var player = o.videoplayer;
-                    var flash_vars = {
-                        url: o.url,
-                        width: o.width,
-                        height: o.height,
-                        poster: o.poster,
-                        autoplay: o.autoplay,
-                        buffertime: o.buffertime,
-                        border: o.border,
-                        logo: o.logo
-                    }
-                    var params =  {
-                        allowFullScreen: 'true',
-                        menu: 'false'
-                    }
-                }
-                else if (o.type == 'audio') {
-                    var player = o.audioplayer;
-                    var flash_vars = {
-                        url: o.url,
-                        autoplay: o.autoplay,
-                        border: o.border
-                    }
-                    var params = {
-                        menu: 'false',
-                        bgcolor: o.bgcolor
-                    }
-                }
-                else if (o.type == 'youtube') {
-                    var player = o.youtubeplayer;
-                    var flash_vars = {
-                        id: o.youtubeid,
-                        autoplay: o.autoplay,
-                        border: o.border,
-                        quality: o.quality,
-                        logo: o.logo
-                    }
-                    var params = {
-                        allowFullScreen: 'true',
-                        menu: 'false'
-                    }
-                }
+                        // Set the parameters depending on the media type
+                        if (o.type == 'video') {
+                            var player = o.videoplayer;
+                            var flash_vars = {
+                                url: o.url,
+                                width: o.width,
+                                height: o.height,
+                                poster: o.poster,
+                                autoplay: o.autoplay,
+                                buffertime: o.buffertime,
+                                border: o.border,
+                                logo: o.logo
+                            }
+                            var params =  {
+                                allowFullScreen: 'true',
+                                menu: 'false'
+                            }
+                        }
+                        else if (o.type == 'audio') {
+                            var player = o.audioplayer;
+                            var flash_vars = {
+                                url: o.url,
+                                autoplay: o.autoplay,
+                                border: o.border
+                            }
+                            var params = {
+                                menu: 'false',
+                                bgcolor: o.bgcolor
+                            }
+                        }
+                        else if (o.type == 'youtube') {
+                            var player = o.youtubeplayer;
+                            var flash_vars = {
+                                id: o.youtubeid,
+                                autoplay: o.autoplay,
+                                border: o.border,
+                                quality: o.quality,
+                                logo: o.logo
+                            }
+                            var params = {
+                                allowFullScreen: 'true',
+                                menu: 'false'
+                            }
+                        }
 
-                // Embed the player
-                if (o.type !== '' && (o.type !== 'youtube' && o.url !== '' ||
-                        (o.type == 'youtube' && o.youtubeid !== '')))
-                    if (obj.get(0).tagName == 'IFRAME' && obj.get(0).document
-                            && obj.get(0).document.readyState !== 'complete')
-                        obj.load(function() {
-                            swfobject.embedSWF(player, wrapper.attr('id'),
-                                o.width, o.height, '10.0.0', null, flash_vars,
-                                params, {id: wrapper.attr('id'),
-                                name: wrapper.attr('id')});
-                            obj.show();
-                        });
-                    else {
+                        // Embed the player
                         swfobject.embedSWF(player, wrapper.attr('id'),
                             o.width, o.height, '10.0.0', null, flash_vars,
                             params, {id: wrapper.attr('id'),
                             name: wrapper.attr('id')});
-                        obj.show();
+                        $(this).show();
                     }
-                else
-                    obj.show();
+                    else
+                        $(this).show();
+                });
+
+                // Fire the embed event when ready
+                if (o.type == 'video' && o.poster !== '' && (o.width == '' ||
+                            o.height == '')) {
+                    var image = $('<img></img>').attr('src', o.poster);
+                    image.load(function() {
+                        if (o.width == '')
+                            o.width = this.width;
+                        if (o.height == '')
+                            o.height = this.height;
+                        obj.trigger('starkplayer.ready');
+                    });
+                }
+                else if (o.type == 'youtube' &&
+                        obj.get(0).tagName == 'IFRAME' &&
+                        obj.get(0).document &&
+                        obj.get(0).document.readyState !== 'complete')
+                    obj.load(function() {
+                        obj.trigger('starkplayer.ready');
+                    });
+                else {
+                    obj.trigger('starkplayer.ready');
+                }
             });
         }
 
