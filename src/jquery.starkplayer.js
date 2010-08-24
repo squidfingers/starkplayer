@@ -297,9 +297,9 @@
                     var image = $('<img></img>').attr('src', o.poster);
                     if (image.get(0).complete) {
                         if (o.width == '')
-                            o.width = this.width;
+                            o.width = image.get(0).width;
                         if (o.height == '')
-                            o.height = this.height;
+                            o.height = image.get(0).height;
                         obj.trigger('starkplayer.ready');
                     }
                     else
