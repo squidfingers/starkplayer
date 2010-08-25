@@ -295,4 +295,3 @@ Gotchas
 The following items should be noted when using starkplayer.
 
 * For audio, the mp3 should be __higher than 96 kbps__ to avoid a Flash bug where seeking causes Event.SOUND_COMPLETE to fire too early.
-* Embedding `<source>` tags in HTML5 is unsupported by Safari for Windows, and these sources will not be sniffed by the jQuery plugin. When needed, the `url` parameter can be passed to the jQuery plugin to support Safari for Windows users.
