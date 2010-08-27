@@ -596,10 +596,15 @@ package com.starkplayer.widgets {
 		private function posterLoaderCompleteHandler (p_event:Event):void {
 			screen_mc.poster_mc.visible = true;
 			screen_mc.poster_mc.addChild(_posterLoader);
-			screen_mc.poster_mc.x = 0;
-			screen_mc.poster_mc.y = 0;
-			screen_mc.poster_mc.width = _screenWidth;
-			screen_mc.poster_mc.height = _screenHeight;
+			
+			// Maintain image proportions
+			var xsc = _screenWidth / screen_mc.poster_mc.width;
+			var ysc = _screenHeight / screen_mc.poster_mc.height;
+			var sc = (xsc > ysc) ? ysc : xsc;
+			screen_mc.poster_mc.width = Math.ceil(screen_mc.poster_mc.width * sc);
+			screen_mc.poster_mc.height = Math.ceil(screen_mc.poster_mc.height * sc);
+			screen_mc.poster_mc.x = Math.round(_screenCenterX - (screen_mc.poster_mc.width / 2));
+			screen_mc.poster_mc.y = Math.round(_screenCenterY - (screen_mc.poster_mc.height / 2));
 		}
 		private function posterLoaderErrorHandler (p_event:IOErrorEvent):void {
 			trace('ERROR: Unable to load poster image.');
@@ -660,6 +665,15 @@ package com.starkplayer.widgets {
 		}
 		private function videoMetaDataHandler (p_event:VideoPlaybackEvent):void {
 			controller_mc.duration_txt.text = TimeUtil.format(_video.duration);
+			
+			// Maintain video proportions
+			var xsc = _screenWidth / _video.width;
+			var ysc = _screenHeight / _video.height;
+			var sc = (xsc > ysc) ? ysc : xsc;
+			screen_mc.video.width = Math.ceil(_video.width * sc);
+			screen_mc.video.height = Math.ceil(_video.height * sc);
+			screen_mc.video.x = Math.round(_screenCenterX - (screen_mc.video.width / 2));
+			screen_mc.video.y = Math.round(_screenCenterY - (screen_mc.video.height / 2));
 		}
 		private function videoErrorHandler (p_event:VideoPlaybackErrorEvent):void {
 			trace('ERROR: ' + p_event.text);
