@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en-us">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>YouTube Starkplayer</title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	<script type="text/javascript" src="../jquery.starkplayer.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('iframe').starkplayer({
-				autoplay: 'false',
-				border: '#000000',
-				quality: 'medium',
-				youtubeplayer: '../youtubeplayer.swf'
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>YouTube Starkplayer</title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script type="text/javascript" src="../jquery.starkplayer.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('iframe').starkplayer({
+					autoplay: 'false',
+					border: '#000000',
+					quality: 'medium',
+					youtubeplayer: '../youtubeplayer.swf'
+				});
 			});
-		});
-	</script>
-</head>
-<body>
-	<iframe src="http://www.youtube.com/embed/_c6HsiixFS8" width="480" height="360"></iframe>
-</body>
+		</script>
+	</head>
+	<body>
+		<iframe src="http://www.youtube.com/embed/_c6HsiixFS8" width="480" height="360"></iframe>
+	</body>
 </html>
