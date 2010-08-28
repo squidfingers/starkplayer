@@ -22,6 +22,14 @@ package com.starkplayer.widgets {
 		
 	public class VideoPlayer extends MovieClip {
 		// ===================================================================
+		// Constants
+		// -------------------------------------------------------------------
+		
+		public const SCALE_MODE_LETTERBOX:String = 'letterbox';
+		public const SCALE_MODE_STRETCH:String = 'stretch';
+		//public const SCALE_MODE_ZOOM:String = 'zoom';
+		
+		// ===================================================================
 		// Properties
 		// -------------------------------------------------------------------
 		
@@ -31,6 +39,7 @@ package com.starkplayer.widgets {
 		protected var _posterURL:String;
 		protected var _autoPlay:Boolean;
 		protected var _bufferTime:Number;
+		protected var _scaleMode:String;
 		protected var _borderColor:Number;
 		protected var _logoURL:String;
 		
@@ -85,7 +94,7 @@ package com.starkplayer.widgets {
 		// Public Methods
 		// -------------------------------------------------------------------
 		
-		public function load (p_videoURL:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_posterURL:String = null, p_autoPlay:Boolean = false, p_bufferTime:Number = 10, p_borderColor:Number = NaN, p_logoURL:String = null):void {
+		public function load (p_videoURL:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_posterURL:String = null, p_autoPlay:Boolean = false, p_bufferTime:Number = 10, p_scaleMode:String = null, p_borderColor:Number = NaN, p_logoURL:String = null):void {
 			
 			if (_initialized) dispose();
 			
@@ -96,12 +105,19 @@ package com.starkplayer.widgets {
 			_posterURL = p_posterURL;
 			_autoPlay = p_autoPlay;
 			_bufferTime = p_bufferTime;
+			_scaleMode = p_scaleMode;
 			_borderColor = p_borderColor;
 			_logoURL = p_logoURL;
 			
 			// Validate video dimensions
 			if (_screenWidth < 320) _screenWidth = 320;
 			if (_screenHeight < 240) _screenHeight = 240;
+			
+			// Validate scale mode
+			if (_scaleMode) _scaleMode = _scaleMode.toLowerCase();
+			if (_scaleMode != SCALE_MODE_LETTERBOX && _scaleMode != SCALE_MODE_STRETCH) {// && _scaleMode != SCALE_MODE_ZOOM
+				_scaleMode = SCALE_MODE_LETTERBOX;
+			}
 			
 			// Initialize volume properties
 			_volume = 1;
@@ -383,6 +399,39 @@ package com.starkplayer.widgets {
 				addEventListener(Event.ENTER_FRAME, enterFrameHandler, false, 0, true);
 			}
 		}
+		private function scale (p_target:Object, p_width:Number, p_height:Number):void {
+			var xsc, ysc, sc;
+			switch (_scaleMode) {
+				case SCALE_MODE_LETTERBOX:
+					xsc = _screenWidth / p_width;
+					ysc = _screenHeight / p_height;
+					sc = (xsc > ysc) ? ysc : xsc;
+					p_target.width = Math.ceil(p_width * sc);
+					p_target.height = Math.ceil(p_height * sc);
+					p_target.x = Math.round(_screenCenterX - (p_target.width / 2));
+					p_target.y = Math.round(_screenCenterY - (p_target.height / 2));
+				break;
+				case SCALE_MODE_STRETCH:
+					p_target.width = _screenWidth;
+					p_target.height = _screenHeight;
+					p_target.x = 0;
+					p_target.y = 0;
+				break;
+				//case SCALE_MODE_ZOOM:
+				//	xsc = p_width / p_height;
+				//	ysc = p_height / p_width;
+				//	if ((_screenWidth / _screenHeight) >= xsc) {
+				//		p_target.width = _screenWidth;
+				//		p_target.height = ysc * _screenWidth;
+				//	} else {
+				//		p_target.width = xsc * _screenHeight;
+				//		p_target.height = _screenHeight;
+				//	}
+				//	p_target.x = Math.round(_screenCenterX - (p_target.width / 2));
+				//	p_target.y = Math.round(_screenCenterY - (p_target.height / 2));
+				//break;
+			}
+		}
 		
 		// ===================================================================
 		// Event Handlers
@@ -596,15 +645,7 @@ package com.starkplayer.widgets {
 		private function posterLoaderCompleteHandler (p_event:Event):void {
 			screen_mc.poster_mc.visible = true;
 			screen_mc.poster_mc.addChild(_posterLoader);
-			
-			// Maintain image proportions
-			var xsc = _screenWidth / screen_mc.poster_mc.width;
-			var ysc = _screenHeight / screen_mc.poster_mc.height;
-			var sc = (xsc > ysc) ? ysc : xsc;
-			screen_mc.poster_mc.width = Math.ceil(screen_mc.poster_mc.width * sc);
-			screen_mc.poster_mc.height = Math.ceil(screen_mc.poster_mc.height * sc);
-			screen_mc.poster_mc.x = Math.round(_screenCenterX - (screen_mc.poster_mc.width / 2));
-			screen_mc.poster_mc.y = Math.round(_screenCenterY - (screen_mc.poster_mc.height / 2));
+			scale(screen_mc.poster_mc, screen_mc.poster_mc.width, screen_mc.poster_mc.height);
 		}
 		private function posterLoaderErrorHandler (p_event:IOErrorEvent):void {
 			trace('ERROR: Unable to load poster image.');
@@ -665,15 +706,7 @@ package com.starkplayer.widgets {
 		}
 		private function videoMetaDataHandler (p_event:VideoPlaybackEvent):void {
 			controller_mc.duration_txt.text = TimeUtil.format(_video.duration);
-			
-			// Maintain video proportions
-			var xsc = _screenWidth / _video.width;
-			var ysc = _screenHeight / _video.height;
-			var sc = (xsc > ysc) ? ysc : xsc;
-			screen_mc.video.width = Math.ceil(_video.width * sc);
-			screen_mc.video.height = Math.ceil(_video.height * sc);
-			screen_mc.video.x = Math.round(_screenCenterX - (screen_mc.video.width / 2));
-			screen_mc.video.y = Math.round(_screenCenterY - (screen_mc.video.height / 2));
+			scale(screen_mc.video, _video.width, _video.height);
 		}
 		private function videoErrorHandler (p_event:VideoPlaybackErrorEvent):void {
 			trace('ERROR: ' + p_event.text);

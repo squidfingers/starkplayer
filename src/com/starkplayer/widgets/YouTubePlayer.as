@@ -119,12 +119,13 @@ package com.starkplayer.widgets {
 			_screenHeight = p_screenHeight;
 			_autoPlay = p_autoPlay;
 			_borderColor = p_borderColor;
-			_suggestedQuality = p_suggestedQuality.toLowerCase();
+			_suggestedQuality = p_suggestedQuality;
 			_logoURL = p_logoURL;
 			
 			// Validate parameters
 			if (_screenWidth < 320) _screenWidth = 320;
 			if (_screenHeight < 240) _screenHeight = 240;
+			if (_suggestedQuality) _suggestedQuality = _suggestedQuality.toLowerCase();
 			if (_suggestedQuality == null || _qualityLevels[_suggestedQuality] == undefined) _suggestedQuality = 'default';
 			
 			// Initialize volume properties

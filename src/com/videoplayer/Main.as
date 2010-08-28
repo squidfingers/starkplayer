@@ -49,6 +49,7 @@ package com.videoplayer {
 			var posterURL = root.loaderInfo.parameters.poster;
 			var autoPlay = root.loaderInfo.parameters.autoplay;
 			var bufferTime = root.loaderInfo.parameters.buffertime;
+			var scaleMode = root.loaderInfo.parameters.scalemode;
 			var border = root.loaderInfo.parameters.border;
 			var logoURL = root.loaderInfo.parameters.logo;
 			
@@ -56,8 +57,9 @@ package com.videoplayer {
 			videoWidth = (videoWidth) ? parseInt(videoWidth) : 0;
 			videoHeight = (videoHeight) ? parseInt(videoHeight) : 0;
 			autoPlay = (autoPlay) ? autoPlay.toLowerCase() == 'true' : false;
-			border = (border) ? border.toLowerCase() : null;
 			bufferTime = (bufferTime) ? parseInt(bufferTime) : null;
+			scaleMode = (scaleMode) ? scaleMode.toLowerCase() : null;
+			border = (border) ? border.toLowerCase() : null;
 			
 			// Determine width/height
 			if ( ! videoWidth) videoWidth = stage.stageWidth;
@@ -78,7 +80,7 @@ package com.videoplayer {
 			
 			// Load video
 			videoPlayer_mc.visible = true;
-			videoPlayer_mc.load(videoURL, videoWidth, videoHeight, posterURL, autoPlay, bufferTime, borderColor, logoURL);
+			videoPlayer_mc.load(videoURL, videoWidth, videoHeight, posterURL, autoPlay, bufferTime, scaleMode, borderColor, logoURL);
 		}
 		
 		// ===================================================================
