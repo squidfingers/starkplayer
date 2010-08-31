@@ -25,9 +25,9 @@ package com.starkplayer.widgets {
 		// Constants
 		// -------------------------------------------------------------------
 		
-		public const SCALE_MODE_LETTERBOX:String = 'letterbox';
-		public const SCALE_MODE_STRETCH:String = 'stretch';
-		//public const SCALE_MODE_ZOOM:String = 'zoom';
+		public const ASPECT_RATIO_MAINTAIN:String = 'maintain';
+		public const ASPECT_RATIO_STRETCH:String = 'stretch';
+		//public const ASPECT_RATIO_ZOOM:String = 'zoom';
 		
 		// ===================================================================
 		// Properties
@@ -39,7 +39,7 @@ package com.starkplayer.widgets {
 		protected var _posterURL:String;
 		protected var _autoPlay:Boolean;
 		protected var _bufferTime:Number;
-		protected var _scaleMode:String;
+		protected var _aspectRatio:String;
 		protected var _borderColor:Number;
 		protected var _logoURL:String;
 		
@@ -94,7 +94,7 @@ package com.starkplayer.widgets {
 		// Public Methods
 		// -------------------------------------------------------------------
 		
-		public function load (p_videoURL:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_posterURL:String = null, p_autoPlay:Boolean = false, p_bufferTime:Number = 10, p_scaleMode:String = null, p_borderColor:Number = NaN, p_logoURL:String = null):void {
+		public function load (p_videoURL:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_posterURL:String = null, p_autoPlay:Boolean = false, p_bufferTime:Number = 10, p_aspectRatio:String = null, p_borderColor:Number = NaN, p_logoURL:String = null):void {
 			
 			if (_initialized) dispose();
 			
@@ -105,7 +105,7 @@ package com.starkplayer.widgets {
 			_posterURL = p_posterURL;
 			_autoPlay = p_autoPlay;
 			_bufferTime = p_bufferTime;
-			_scaleMode = p_scaleMode;
+			_aspectRatio = p_aspectRatio;
 			_borderColor = p_borderColor;
 			_logoURL = p_logoURL;
 			
@@ -113,10 +113,10 @@ package com.starkplayer.widgets {
 			if (_screenWidth < 320) _screenWidth = 320;
 			if (_screenHeight < 240) _screenHeight = 240;
 			
-			// Validate scale mode
-			if (_scaleMode) _scaleMode = _scaleMode.toLowerCase();
-			if (_scaleMode != SCALE_MODE_LETTERBOX && _scaleMode != SCALE_MODE_STRETCH) {// && _scaleMode != SCALE_MODE_ZOOM
-				_scaleMode = SCALE_MODE_LETTERBOX;
+			// Validate aspect ratio
+			if (_aspectRatio) _aspectRatio = _aspectRatio.toLowerCase();
+			if (_aspectRatio != ASPECT_RATIO_MAINTAIN && _aspectRatio != ASPECT_RATIO_STRETCH) {// && _aspectRatio != ASPECT_RATIO_ZOOM
+				_aspectRatio = ASPECT_RATIO_MAINTAIN;
 			}
 			
 			// Initialize volume properties
@@ -401,8 +401,8 @@ package com.starkplayer.widgets {
 		}
 		private function scale (p_target:Object, p_width:Number, p_height:Number):void {
 			var xsc, ysc, sc;
-			switch (_scaleMode) {
-				case SCALE_MODE_LETTERBOX:
+			switch (_aspectRatio) {
+				case ASPECT_RATIO_MAINTAIN:
 					xsc = _screenWidth / p_width;
 					ysc = _screenHeight / p_height;
 					sc = (xsc > ysc) ? ysc : xsc;
@@ -411,13 +411,13 @@ package com.starkplayer.widgets {
 					p_target.x = Math.round(_screenCenterX - (p_target.width / 2));
 					p_target.y = Math.round(_screenCenterY - (p_target.height / 2));
 				break;
-				case SCALE_MODE_STRETCH:
+				case ASPECT_RATIO_STRETCH:
 					p_target.width = _screenWidth;
 					p_target.height = _screenHeight;
 					p_target.x = 0;
 					p_target.y = 0;
 				break;
-				//case SCALE_MODE_ZOOM:
+				//case ASPECT_RATIO_ZOOM:
 				//	xsc = p_width / p_height;
 				//	ysc = p_height / p_width;
 				//	if ((_screenWidth / _screenHeight) >= xsc) {

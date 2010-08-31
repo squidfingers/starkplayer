@@ -40,7 +40,7 @@ FlashVars:
 * __poster:__ The url to a jpg or png poster image. Optional.
 * __autoplay:__ Automatically start to play the video. Defaults to false.
 * __buffertime:__ The number of seconds to buffer before the video will start to play. Defaults to 10.
-* __scalemode:__ Adjusts the aspect ratio of the video and poster image. Acceptable values are: letterbox and stretch. Defaults to letterbox.
+* __aspectratio:__ Adjust the aspect ratio of the video and poster image. Acceptable values are: maintain and stretch. Defaults to maintain.
 * __border:__ The hexadecimal color of the border. If null, a border will not be displayed. Optional.
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 
