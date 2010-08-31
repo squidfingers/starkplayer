@@ -276,6 +276,7 @@ jQuery Plugin Parameters
 * __buffertime:__ The number of seconds to buffer before the video will start to play. Defaults to 10.
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
+* __aspectratio:__ Adjust the aspect ratio of the video and poster image. Acceptable values are: 'maintain' and 'stretch'. Defaults to 'maintain'.
 * __videoplayer:__ The url to videoplayer.swf. Defaults to the same directory as the HTML file.
 
 ### YouTube ###

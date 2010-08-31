@@ -35,6 +35,7 @@
                 bgcolor: '#ffffff',
                 logo: '',
                 quality: 'default',
+                aspectratio: 'maintain',
                 videoplayer: 'videoplayer.swf',
                 audioplayer: 'audioplayer.swf',
                 youtubeplayer: 'youtubeplayer.swf'
@@ -246,7 +247,8 @@
                                 autoplay: o.autoplay,
                                 buffertime: o.buffertime,
                                 border: o.border,
-                                logo: o.logo
+                                logo: o.logo,
+                                aspectratio: o.aspectratio
                             }
                             var params =  {
                                 allowFullScreen: 'true',
