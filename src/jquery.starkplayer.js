@@ -13,7 +13,9 @@
 
 (function($) {
     // Set global counters
-    $.starkplayer_id_counter = 0;
+    $.starkplayer = {
+        counter: 0
+    }
 
     // Extend jQuery with starkplayer plugin
     $.fn.extend({
@@ -125,9 +127,9 @@
 
                 // Put element inside of a wrapper div
                 var wrapper = $('<div></div>').attr('id', 'starkplayer-' +
-                    $.starkplayer_id_counter);
+                    $.starkplayer.counter);
                 obj.wrap(wrapper);
-                $.starkplayer_id_counter ++;
+                $.starkplayer.counter ++;
 
                 // Check for audio tag with src
                 if (o.url == '' && (obj.get(0).tagName == 'AUDIO' ||
