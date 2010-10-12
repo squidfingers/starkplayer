@@ -111,7 +111,7 @@ package com.starkplayer.widgets {
 			
 			// Validate video dimensions
 			if (_screenWidth < 320) _screenWidth = 320;
-			if (_screenHeight < 240) _screenHeight = 240;
+			if (_screenHeight < 180) _screenHeight = 180;
 			
 			// Validate aspect ratio
 			if (_aspectRatio) _aspectRatio = _aspectRatio.toLowerCase();

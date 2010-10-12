@@ -124,7 +124,7 @@ package com.starkplayer.widgets {
 			
 			// Validate parameters
 			if (_screenWidth < 320) _screenWidth = 320;
-			if (_screenHeight < 240) _screenHeight = 240;
+			if (_screenHeight < 180) _screenHeight = 180;
 			if (_suggestedQuality) _suggestedQuality = _suggestedQuality.toLowerCase();
 			if (_suggestedQuality == null || _qualityLevels[_suggestedQuality] == undefined) _suggestedQuality = 'default';
 			
