@@ -46,7 +46,7 @@ FlashVars:
 
 Notes:
 
-* __Minimum Stage Size:__ 320 x 240
+* __Minimum Stage Size:__ 320 x 180
 
 YouTube Starkplayer
 ===================
@@ -68,7 +68,7 @@ FlashVars:
 
 Notes:
 
-* __Minimum Stage Size:__ 320 x 240
+* __Minimum Stage Size:__ 320 x 180
 
 jQuery Plugin
 =============
