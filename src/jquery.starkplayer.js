@@ -297,20 +297,20 @@
 
                 // Fire the embed event when ready
                 if (o.type == 'video' && o.poster !== '' && (o.width == '' ||
-                            o.height == '')) {
+                            o.height == '' || o.width < 0 || o.height < 0)) {
                     var image = $('<img></img>').attr('src', o.poster);
-                    if (image.get(0).complete) {
-                        if (o.width == '')
+                    if (image.get(0).complete && image.get(0).width > 0) {
+                        if (o.width == '' || o.width < 0)
                             o.width = image.get(0).width;
-                        if (o.height == '')
+                        if (o.height == '' || o.height < 0)
                             o.height = image.get(0).height;
                         obj.trigger('starkplayer.ready');
                     }
                     else
                         image.load(function() {
-                            if (o.width == '')
+                            if (o.width == '' || o.width < 0)
                                 o.width = this.width;
-                            if (o.height == '')
+                            if (o.height == '' || o.height < 0)
                                 o.height = this.height;
                             obj.trigger('starkplayer.ready');
                         });
