@@ -13,6 +13,7 @@ package com.starkplayer.widgets {
 	import flash.events.FullScreenEvent;
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import flash.net.navigateToURL;
 	import flash.net.URLRequest;
 	import flash.system.Security;
@@ -55,6 +56,10 @@ package com.starkplayer.widgets {
 		protected var _screenHeight:Number;
 		protected var _screenCenterX:Number;
 		protected var _screenCenterY:Number;
+		
+		protected var _origX:Number;
+		protected var _origY:Number;
+		
 		protected var _volume:Number;
 		protected var _volumeRestore:Number;
 		protected var _stageScaleMode:String;
@@ -136,9 +141,9 @@ package com.starkplayer.widgets {
 			_screenCenterX = Math.round(_screenWidth / 2);
 			_screenCenterY = Math.round(_screenHeight / 2);
 			
-			// Setup self
-			x = 0;
-			y = 0;
+			// Capture original position
+			_origX = x;
+			_origY = y;
 			
 			// Setup screen and background
 			bkgd_mc.x = screen_mc.x = 0;
@@ -709,6 +714,12 @@ package com.starkplayer.widgets {
 					border_mc.visible = false;
 				}
 				
+				// Position self
+				var pt = new Point(x,y);
+				pt = MovieClip(parent).localToGlobal(pt);
+				x = -pt.x;
+				y = -pt.y;
+				
 				// Hide background
 				bkgd_mc.visible = false;
 				
@@ -762,6 +773,10 @@ package com.starkplayer.widgets {
 				if (_hasBorder) {
 					border_mc.visible = true;
 				}
+				
+				// Reset self
+				x = _origX;
+				y = _origY;
 				
 				// Reset background
 				bkgd_mc.visible = true;
