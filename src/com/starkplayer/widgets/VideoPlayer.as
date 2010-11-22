@@ -14,6 +14,7 @@ package com.starkplayer.widgets {
 	import flash.events.FullScreenEvent;
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
+	import flash.geom.Point;
 	import flash.media.Video;
 	import flash.net.URLRequest;
 	import flash.text.TextField;
@@ -57,6 +58,9 @@ package com.starkplayer.widgets {
 		protected var _screenHeight:Number;
 		protected var _screenCenterX:Number;
 		protected var _screenCenterY:Number;
+		
+		protected var _origX:Number;
+		protected var _origY:Number;
 		
 		protected var _counter:Number;
 		
@@ -127,9 +131,9 @@ package com.starkplayer.widgets {
 			_screenCenterX = Math.round(_screenWidth / 2);
 			_screenCenterY = Math.round(_screenHeight / 2);
 			
-			// Setup self
-			x = 0;
-			y = 0;
+			// Capture original position
+			_origX = x;
+			_origY = y;
 			
 			// Setup screen
 			screen_mc.x = 0;
@@ -559,6 +563,12 @@ package com.starkplayer.widgets {
 					border_mc.visible = false;
 				}
 				
+				// Position self
+				var pt = new Point(x,y);
+				pt = MovieClip(parent).localToGlobal(pt);
+				x = -pt.x;
+				y = -pt.y;
+				
 				// Position backdrop
 				backdrop_mc.visible = true;
 				backdrop_mc.x = 0;
@@ -607,6 +617,10 @@ package com.starkplayer.widgets {
 				if (_hasBorder) {
 					border_mc.visible = true;
 				}
+				
+				// Reset self
+				x = _origX;
+				y = _origY;
 				
 				// Reset backdrop
 				backdrop_mc.visible = false;
