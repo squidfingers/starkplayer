@@ -3,12 +3,20 @@ package com.audioplayer {
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
-	
+	import flash.net.navigateToURL;
+	import flash.net.URLRequest;
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 	
 	public class Main extends MovieClip {
+		// ===================================================================
+		// Properties
+		// -------------------------------------------------------------------
+		
+		private var _github:ContextMenuItem;
+		
 		// ===================================================================
 		// Children
 		// -------------------------------------------------------------------
@@ -21,10 +29,14 @@ package com.audioplayer {
 		
 		public function Main():void {
 			
+			_github = new ContextMenuItem('Github...');
+	        _github.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, githubHandler);
+	
 			var cm = new ContextMenu();
 			cm.hideBuiltInItems();
 			cm.customItems.push(new ContextMenuItem('Audio Starkplayer'));
 			cm.customItems.push(new ContextMenuItem('Version: 0.9'));
+			cm.customItems.push(_github);
 			contextMenu = cm;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false, 0, true);
@@ -65,6 +77,9 @@ package com.audioplayer {
 			
 			// Load audio
 			audioPlayer_mc.load(audioURL, autoPlay, borderColor);
+		}
+		private function githubHandler (p_event:ContextMenuEvent):void {
+			navigateToURL(new URLRequest('https://github.com/squidfingers/starkplayer'), '_blank');
 		}
 		
 		// -------------------------------------------------------------------
