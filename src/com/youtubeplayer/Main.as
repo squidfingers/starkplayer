@@ -46,7 +46,7 @@ package com.youtubeplayer {
 			var youTubeId = root.loaderInfo.parameters.id;
 			var videoWidth = root.loaderInfo.parameters.width;
 			var videoHeight = root.loaderInfo.parameters.height;
-			var autoPlay = root.loaderInfo.parameters.autoplay == 'true';
+			var autoPlay = root.loaderInfo.parameters.autoplay;
 			var border = root.loaderInfo.parameters.border;
 			var suggestedQuality = root.loaderInfo.parameters.quality;
 			var logoURL = root.loaderInfo.parameters.logo;
