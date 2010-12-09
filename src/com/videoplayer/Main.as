@@ -3,8 +3,10 @@ package com.videoplayer {
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
-	
+	import flash.net.navigateToURL;
+	import flash.net.URLRequest;
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 	
@@ -14,6 +16,7 @@ package com.videoplayer {
 		// -------------------------------------------------------------------
 		
 		private var _frameCount:Number;
+		private var _github:ContextMenuItem;
 		
 		// ===================================================================
 		// Children
@@ -27,10 +30,14 @@ package com.videoplayer {
 		
 		public function Main():void {
 			
+			_github = new ContextMenuItem('Github...');
+	        _github.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, githubHandler);
+	
 			var cm = new ContextMenu();
 			cm.hideBuiltInItems();
 			cm.customItems.push(new ContextMenuItem('Video Starkplayer'));
 			cm.customItems.push(new ContextMenuItem('Version: 0.9'));
+			cm.customItems.push(_github);
 			contextMenu = cm;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false, 0, true);
@@ -112,6 +119,9 @@ package com.videoplayer {
 					loadVideo();
 				}
 			}
+		}
+		private function githubHandler (p_event:ContextMenuEvent):void {
+			navigateToURL(new URLRequest('https://github.com/squidfingers/starkplayer'), '_blank');
 		}
 		
 		// -------------------------------------------------------------------

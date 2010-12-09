@@ -3,8 +3,10 @@ package com.youtubeplayer {
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
-	
+	import flash.net.navigateToURL;
+	import flash.net.URLRequest;
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 	
@@ -14,6 +16,7 @@ package com.youtubeplayer {
 		// -------------------------------------------------------------------
 		
 		private var _frameCount:Number;
+		private var _github:ContextMenuItem;
 		
 		// ===================================================================
 		// Children
@@ -27,10 +30,14 @@ package com.youtubeplayer {
 		
 		public function Main():void {
 			
+			_github = new ContextMenuItem('Github...');
+	        _github.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, githubHandler);
+	
 			var cm = new ContextMenu();
 			cm.hideBuiltInItems();
 			cm.customItems.push(new ContextMenuItem('YouTube Starkplayer'));
 			cm.customItems.push(new ContextMenuItem('Version: 0.9'));
+			cm.customItems.push(_github);
 			contextMenu = cm;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler, false, 0, true);
@@ -46,7 +53,7 @@ package com.youtubeplayer {
 			var youTubeId = root.loaderInfo.parameters.id;
 			var videoWidth = root.loaderInfo.parameters.width;
 			var videoHeight = root.loaderInfo.parameters.height;
-			var autoPlay = root.loaderInfo.parameters.autoplay == 'true';
+			var autoPlay = root.loaderInfo.parameters.autoplay;
 			var border = root.loaderInfo.parameters.border;
 			var suggestedQuality = root.loaderInfo.parameters.quality;
 			var logoURL = root.loaderInfo.parameters.logo;
@@ -109,6 +116,9 @@ package com.youtubeplayer {
 					loadYouTubeVideo();
 				}
 			}
+		}
+		private function githubHandler (p_event:ContextMenuEvent):void {
+			navigateToURL(new URLRequest('https://github.com/squidfingers/starkplayer'), '_blank');
 		}
 		
 		// -------------------------------------------------------------------
