@@ -40,7 +40,14 @@
                 aspectratio: 'maintain',
                 videoplayer: 'videoplayer.swf',
                 audioplayer: 'audioplayer.swf',
-                youtubeplayer: 'youtubeplayer.swf'
+                youtubeplayer: 'youtubeplayer.swf',
+                embed_callback: function(wrapper, movie, params, flash_vars,
+                        width, height) {
+                    swfobject.embedSWF(movie, wrapper.attr('id'),
+                        width, height, '10.0.0', null, flash_vars,
+                        params, {id: wrapper.attr('id'),
+                        name: wrapper.attr('id')});
+                }
             }
 
             // Override the defaults with user settings
@@ -105,13 +112,6 @@
                 var o = $.extend({}, options);
                 var obj = $(this);
 
-                // Do nothing if there's no Flash support
-                if (parseInt(swfobject.getFlashPlayerVersion()['major']) <
-                        10) {
-                    obj.show();
-                    return;
-                }
-
                 // Convert audio and video html5 to divs if necessary
                 if (html5_degrade) {
                     if (obj.get(0).tagName == 'AUDIO')
@@ -128,7 +128,9 @@
                 // Put element inside of a wrapper div
                 var wrapper = $('<div></div>').attr('id', 'starkplayer-' +
                     $.starkplayer.counter);
-                obj.wrap(wrapper);
+                wrapper.insertAfter(obj);
+                obj.detach();
+                wrapper.append(obj);
                 $.starkplayer.counter ++;
 
                 // Check for audio tag with src
@@ -285,10 +287,8 @@
                         }
 
                         // Embed the player
-                        swfobject.embedSWF(player, wrapper.attr('id'),
-                            o.width, o.height, '10.0.0', null, flash_vars,
-                            params, {id: wrapper.attr('id'),
-                            name: wrapper.attr('id')});
+                        o.embed_callback(wrapper, player, params, flash_vars,
+                                o.width, o.height);
                         $(this).show();
                     }
                     else
