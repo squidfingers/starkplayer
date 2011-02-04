@@ -317,6 +317,7 @@ jQuery Plugin Parameters
 * __quality:__ The suggested quality of the video. Acceptable values are: default, small, medium, large, and hd720.
 * __logo:__ The logo to be displayed over the top right corner of the video.
 * __youtubeplayer:__ The url to youtubeplayer.swf. Defaults to the same directory as the HTML file.
+* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed six parameters: `wrapper`, `movie`, `params`, `flash_vars`, `width`, and `height`.
 
 Gotchas
 =======
