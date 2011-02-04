@@ -73,7 +73,7 @@ Notes:
 jQuery Plugin
 =============
 
-Depends on SWFObject ([http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js](http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js))
+Depends on SWFObject ([http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js](http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js)) for the default embed callback. [See `embed_callback` for using an alternative method.]
 
 The jQuery plugin replaces HTML alternate content with starkplayer. When Flash is unsupported, the alternate content will be displayed instead (degrading gracefully to HTML5-only platforms).
 
@@ -166,6 +166,18 @@ The href of the link will be used as the video source. If it contains a nested i
             $('.media').starkplayer({
                 border: '#000000',
                 logo: 'graphics/logo.png',
+                videoplayer: 'starkplayer/videoplayer.swf'
+            });
+        });
+    </script>
+
+#### Using an alternative embed callback ####
+
+By default, Starkplayer uses SWFObject to embed the player. Alternatively, you can specify your own embed callback for embedding the Flash object. Below is an example callback using the [jQuery SWFObject Plugin](http://jquery.thewikies.com/swfobject/).
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.media').starkplayer({
                 videoplayer: 'starkplayer/videoplayer.swf',
                 embed_callback: function(wrapper, movie, params, flash_vars,
                         width, height) {
