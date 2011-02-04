@@ -173,7 +173,7 @@ The href of the link will be used as the video source. If it contains a nested i
 
 #### Using an alternative embed callback ####
 
-By default, Starkplayer uses SWFObject to embed the player. Alternatively, you can specify your own embed callback for embedding the Flash object. Below is an example callback using the [jQuery SWFObject Plugin](http://jquery.thewikies.com/swfobject/).
+By default, Starkplayer uses SWFObject to embed the player. Alternatively, you can specify your own embed callback. Below is an example callback using the [jQuery SWFObject Plugin](http://jquery.thewikies.com/swfobject/).
 
     <script type="text/javascript">
         $(document).ready(function() {
