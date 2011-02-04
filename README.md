@@ -166,7 +166,20 @@ The href of the link will be used as the video source. If it contains a nested i
             $('.media').starkplayer({
                 border: '#000000',
                 logo: 'graphics/logo.png',
-                videoplayer: 'starkplayer/videoplayer.swf'
+                videoplayer: 'starkplayer/videoplayer.swf',
+                embed_callback: function(wrapper, movie, params, flash_vars,
+                        width, height) {
+                    // Example callback using jQuery SWFObject Plugin
+                    $.extend(params, {
+                        swf: movie,
+                        id: wrapper.attr('id'),
+                        width: width,
+                        height: height,
+                        hasVersion: 10,
+                        flashvars: flash_vars
+                    });
+                    wrapper.flash(params);
+                }
             });
         });
     </script>
@@ -264,6 +277,7 @@ jQuery Plugin Parameters
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
 * __bgcolor:__ The background color of the Flash player.
 * __audioplayer:__ The url to audioplayer.swf. Defaults to the same directory as the HTML file.
+* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed six parameters: `wrapper`, `movie`, `params`, `flash_vars`, `width`, and `height`.
 
 ### Video ###
 
@@ -278,6 +292,7 @@ jQuery Plugin Parameters
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 * __aspectratio:__ Adjust the aspect ratio of the video and poster image. Acceptable values are: 'maintain' and 'stretch'. Defaults to 'maintain'.
 * __videoplayer:__ The url to videoplayer.swf. Defaults to the same directory as the HTML file.
+* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed six parameters: `wrapper`, `movie`, `params`, `flash_vars`, `width`, and `height`.
 
 ### YouTube ###
 
