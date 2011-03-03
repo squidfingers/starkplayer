@@ -173,24 +173,25 @@ The href of the link will be used as the video source. If it contains a nested i
 
 #### Using an alternative embed callback ####
 
-By default, Starkplayer uses SWFObject to embed the player. Alternatively, you can specify your own embed callback. Below is an example callback using the [jQuery SWFObject Plugin](http://jquery.thewikies.com/swfobject/).
+By default, Starkplayer uses SWFObject to embed the player. Alternatively, you can specify your own embed callback. Below is an example of what the default SWFObject callback looks like.
 
     <script type="text/javascript">
         $(document).ready(function() {
             $('.media').starkplayer({
                 videoplayer: 'starkplayer/videoplayer.swf',
-                embed_callback: function(wrapper, movie, params, flash_vars,
-                        width, height) {
-                    // Example callback using jQuery SWFObject Plugin
-                    $.extend(params, {
-                        swf: movie,
-                        id: wrapper.attr('id'),
-                        width: width,
-                        height: height,
-                        hasVersion: 10,
-                        flashvars: flash_vars
-                    });
-                    wrapper.flash(params);
+                embed_callback: function(obj, element, movie, params,
+                        flash_vars, width, height) {
+                    // Example callback using SWFObject
+                    element.insertAfter(obj);
+                    swfobject.embedSWF(movie, element.attr('id'),
+                        width, height, '10.0.0', null, flash_vars,
+                        params, {id: element.attr('id'),
+                        name: element.attr('id')}, function(e) {
+                            if (e.success)
+                                obj.remove();
+                            else
+                                element.remove();
+                        });
                 }
             });
         });
@@ -289,7 +290,7 @@ jQuery Plugin Parameters
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
 * __bgcolor:__ The background color of the Flash player.
 * __audioplayer:__ The url to audioplayer.swf. Defaults to the same directory as the HTML file.
-* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed six parameters: `wrapper`, `movie`, `params`, `flash_vars`, `width`, and `height`.
+* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed seven parameters: `obj`, `element`, `movie`, `params`, `flash_vars`, `width`, and `height`.
 
 ### Video ###
 
@@ -304,7 +305,7 @@ jQuery Plugin Parameters
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 * __aspectratio:__ Adjust the aspect ratio of the video and poster image. Acceptable values are: 'maintain' and 'stretch'. Defaults to 'maintain'.
 * __videoplayer:__ The url to videoplayer.swf. Defaults to the same directory as the HTML file.
-* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed six parameters: `wrapper`, `movie`, `params`, `flash_vars`, `width`, and `height`.
+* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed seven parameters: `obj`, `element`, `movie`, `params`, `flash_vars`, `width`, and `height`.
 
 ### YouTube ###
 
@@ -317,7 +318,7 @@ jQuery Plugin Parameters
 * __quality:__ The suggested quality of the video. Acceptable values are: default, small, medium, large, and hd720.
 * __logo:__ The logo to be displayed over the top right corner of the video.
 * __youtubeplayer:__ The url to youtubeplayer.swf. Defaults to the same directory as the HTML file.
-* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed six parameters: `wrapper`, `movie`, `params`, `flash_vars`, `width`, and `height`.
+* __embed_callback:__ A callback to embed the Flash object. By default, Starkplayer users SWFObject to embed the player, but this functionality can be overriden by providing a new embed callback. The callback will be passed seven parameters: `obj`, `element`, `movie`, `params`, `flash_vars`, `width`, and `height`.
 
 Gotchas
 =======

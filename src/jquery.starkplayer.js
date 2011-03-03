@@ -41,12 +41,18 @@
                 videoplayer: 'videoplayer.swf',
                 audioplayer: 'audioplayer.swf',
                 youtubeplayer: 'youtubeplayer.swf',
-                embed_callback: function(wrapper, movie, params, flash_vars,
-                        width, height) {
-                    swfobject.embedSWF(movie, wrapper.attr('id'),
+                embed_callback: function(obj, element, movie, params,
+                        flash_vars, width, height) {
+                    element.insertAfter(obj);
+                    swfobject.embedSWF(movie, element.attr('id'),
                         width, height, '10.0.0', null, flash_vars,
-                        params, {id: wrapper.attr('id'),
-                        name: wrapper.attr('id')});
+                        params, {id: element.attr('id'),
+                        name: element.attr('id')}, function(e) {
+                            if (e.success)
+                                obj.remove();
+                            else
+                                element.remove();
+                        });
                 }
             }
 
@@ -125,12 +131,9 @@
                 // Hide the object temporarily
                 obj.hide();
 
-                // Put element inside of a wrapper div
-                var wrapper = $('<div></div>').attr('id', 'starkplayer-' +
+                // Create Starkplayer Flash video element
+                var element = $('<div></div>').attr('id', 'starkplayer-' +
                     $.starkplayer.counter);
-                wrapper.insertAfter(obj);
-                obj.detach();
-                wrapper.append(obj);
                 $.starkplayer.counter ++;
 
                 // Check for audio tag with src
@@ -287,8 +290,8 @@
                         }
 
                         // Embed the player
-                        o.embed_callback(wrapper, player, params, flash_vars,
-                                o.width, o.height);
+                        o.embed_callback(obj, element, player, params,
+                                flash_vars, o.width, o.height);
                         $(this).show();
                     }
                     else
