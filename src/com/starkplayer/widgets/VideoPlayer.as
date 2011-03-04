@@ -40,6 +40,7 @@ package com.starkplayer.widgets {
 		protected var _posterURL:String;
 		protected var _autoPlay:Boolean;
 		protected var _bufferTime:Number;
+		protected var _smoothing:Boolean;
 		protected var _aspectRatio:String;
 		protected var _borderColor:Number;
 		protected var _logoURL:String;
@@ -98,7 +99,7 @@ package com.starkplayer.widgets {
 		// Public Methods
 		// -------------------------------------------------------------------
 		
-		public function load (p_videoURL:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_posterURL:String = null, p_autoPlay:Boolean = false, p_bufferTime:Number = 10, p_aspectRatio:String = null, p_borderColor:Number = NaN, p_logoURL:String = null):void {
+		public function load (p_videoURL:String, p_screenWidth:Number = 320, p_screenHeight:Number = 240, p_posterURL:String = null, p_autoPlay:Boolean = false, p_bufferTime:Number = 10, p_smoothing:Boolean = false, p_aspectRatio:String = null, p_borderColor:Number = NaN, p_logoURL:String = null):void {
 			
 			if (_initialized) dispose();
 			
@@ -109,6 +110,7 @@ package com.starkplayer.widgets {
 			_posterURL = p_posterURL;
 			_autoPlay = p_autoPlay;
 			_bufferTime = p_bufferTime;
+			_smoothing = p_smoothing;
 			_aspectRatio = p_aspectRatio;
 			_borderColor = p_borderColor;
 			_logoURL = p_logoURL;
@@ -298,6 +300,7 @@ package com.starkplayer.widgets {
 			_video.addEventListener(VideoPlaybackEvent.META_DATA, videoMetaDataHandler, false, 0, true);
 			_video.addEventListener(VideoPlaybackErrorEvent.ERROR, videoErrorHandler, false, 0, true);
 			_video.volume = _volume;
+			_video.smoothing = _smoothing;
 			
 			// Either play the video, or show the start button...
 			if (_autoPlay) {
