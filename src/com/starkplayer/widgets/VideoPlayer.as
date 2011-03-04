@@ -662,6 +662,12 @@ package com.starkplayer.widgets {
 		private function posterLoaderCompleteHandler (p_event:Event):void {
 			screen_mc.poster_mc.visible = true;
 			screen_mc.poster_mc.addChild(_posterLoader);
+			// TO DO: smooth poster image
+			//if (_smoothing) {
+			//	var bitmap = Bitmap(e.target.content);
+			//	bitmap.smoothing = true;
+			//	screen_mc.poster_mc.addChild(bitmap);
+			//}
 			scale(screen_mc.poster_mc, screen_mc.poster_mc.width, screen_mc.poster_mc.height);
 		}
 		private function posterLoaderErrorHandler (p_event:IOErrorEvent):void {
