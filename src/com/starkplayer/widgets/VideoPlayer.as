@@ -5,6 +5,7 @@ package com.starkplayer.widgets {
 	import com.starkplayer.media.VideoPlaybackErrorEvent;
 	import com.starkplayer.utils.TimeUtil;
 	
+	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
@@ -321,8 +322,10 @@ package com.starkplayer.widgets {
 			// Remove poster image
 			if (_posterLoader) {
 				_posterLoader.unload();
-				if (screen_mc.poster_mc.contains(_posterLoader)) {
-					screen_mc.poster_mc.removeChild(_posterLoader);
+				if (screen_mc.poster_mc.numChildren > 0) {
+					screen_mc.poster_mc.removeChildAt(0);
+				} else {
+					_posterLoader.close();
 				}
 				_posterLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE, posterLoaderCompleteHandler, false);
 				_posterLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, posterLoaderErrorHandler, false);
@@ -331,8 +334,10 @@ package com.starkplayer.widgets {
 			// Remove logo image
 			if (_logoLoader) {
 				_logoLoader.unload();
-				if (logo_mc.contains(_logoLoader)) {
-					logo_mc.removeChild(_logoLoader);
+				if (logo_mc.numChildren > 0) {
+					logo_mc.removeChildAt(0);
+				} else {
+					_logoLoader.close();
 				}
 				_logoLoader.contentLoaderInfo.removeEventListener(Event.COMPLETE, logoLoaderCompleteHandler, false);
 				_logoLoader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, logoLoaderErrorHandler, false);
@@ -653,7 +658,7 @@ package com.starkplayer.widgets {
 				start_mc.y = spinner_mc.y = error_mc.y = _screenCenterY;
 				
 				// Reset video smoothing
-				_video.smoothing = false;
+				_video.smoothing = _smoothing;
 			}
 		}
 		
@@ -661,13 +666,13 @@ package com.starkplayer.widgets {
 		
 		private function posterLoaderCompleteHandler (p_event:Event):void {
 			screen_mc.poster_mc.visible = true;
-			screen_mc.poster_mc.addChild(_posterLoader);
-			// TO DO: smooth poster image
-			//if (_smoothing) {
-			//	var bitmap = Bitmap(e.target.content);
-			//	bitmap.smoothing = true;
-			//	screen_mc.poster_mc.addChild(bitmap);
-			//}
+			if (_smoothing) {
+				var bmp = Bitmap(_posterLoader.content);
+				bmp.smoothing = true;
+				screen_mc.poster_mc.addChild(bmp);
+			} else {
+				screen_mc.poster_mc.addChild(_posterLoader.content);
+			}
 			scale(screen_mc.poster_mc, screen_mc.poster_mc.width, screen_mc.poster_mc.height);
 		}
 		private function posterLoaderErrorHandler (p_event:IOErrorEvent):void {
@@ -678,7 +683,7 @@ package com.starkplayer.widgets {
 		
 		private function logoLoaderCompleteHandler (p_event:Event):void {
 			logo_mc.visible = true;
-			logo_mc.addChild(_logoLoader);
+			logo_mc.addChild(_logoLoader.content);
 			logo_mc.x = _screenWidth - logo_mc.width - 10;
 			logo_mc.y = 10;
 		}
