@@ -309,6 +309,7 @@ jQuery Plugin Parameters
 * __height:__ The height of the player. Defaults to the height of the content it replaces.
 * __autoplay:__ Automatically start to play the video. Defaults to false.
 * __buffertime:__ The number of seconds to buffer before the video will start to play. Defaults to 10.
+* __smoothing:__ Smooth the video and poster image. Defaults to false.
 * __border:__ The hexadecimal color of the border. If omitted, a border will not be displayed.
 * __logo:__ The logo to be displayed over the top right corner of the video. Optional.
 * __aspectratio:__ Adjust the aspect ratio of the video and poster image. Acceptable values are: 'maintain' and 'stretch'. Defaults to 'maintain'.

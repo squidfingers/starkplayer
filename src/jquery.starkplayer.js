@@ -33,6 +33,7 @@
                 height: '',
                 autoplay: 'false',
                 buffertime: '10',
+                smoothing: 'false',
                 border: '',
                 bgcolor: '#ffffff',
                 logo: '',
@@ -253,6 +254,7 @@
                                 poster: o.poster,
                                 autoplay: o.autoplay,
                                 buffertime: o.buffertime,
+                                smoothing: o.smoothing,
                                 border: o.border,
                                 logo: o.logo,
                                 aspectratio: o.aspectratio
