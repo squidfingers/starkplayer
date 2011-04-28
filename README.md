@@ -88,7 +88,7 @@ The jQuery plugin replaces HTML alternate content with starkplayer. When Flash i
 Installation
 ------------
 
-Include SWFObject, jQuery, and the starkplayer jQuery plugin in the `<head>` section of your HTML document:
+Include SWFObject, jQuery, and the starkplayer jQuery plugin in the `<head>` section of your HTML document. It is important for this code to appear BEFORE any html5 `video` or `audio` elements in your code, unless you have already included Modernizr, HTML5 Shim, etc.:
 
     <script src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js" type="text/javascript"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
